@@ -13,6 +13,7 @@ extern "C"
 #include "libswscale/swscale.h"
 	//SDL
 #include "sdl/SDL.h"
+#undef main //SDL_main.h is included automatically from SDL.h, so you always get the nasty #define.
 #include "sdl/SDL_thread.h"
 
 };
@@ -26,7 +27,7 @@ int main(int argc, char* argv[])
     if(argc<2)
     {
         fprintf(stderr,"parameters are not enough\n");
-        exit(1);
+        return -1;
     }
 	char *filepath=argv[1];
 	av_register_all();

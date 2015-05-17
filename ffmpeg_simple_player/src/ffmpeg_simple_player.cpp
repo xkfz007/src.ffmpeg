@@ -9,11 +9,13 @@ extern "C"
 {
 #include "libavcodec/avcodec.h"
 #include "libavformat/avformat.h"
-    //新版里的图像转换结构需要引入的头文件
+//this file is needed for the image conversion in the new version of ffmpeg
 #include "libswscale/swscale.h"
-    //SDL
+//SDL
 #include "sdl/SDL.h"
-#undef main //SDL_main.h is included automatically from SDL.h, so you always get the nasty #define.
+//There is a "#define main SDL_main" in SDL_main.h and 
+//SDL_main.h is included automatically from SDL.h, so you always get the nasty #define.
+#undef main 
 #include "sdl/SDL_thread.h"
 
 };
@@ -26,7 +28,7 @@ int main(int argc, char* argv[])
     AVCodec			*pCodec;
     if(argc<2)
     {
-        fprintf(stderr,"parameters are not enough\n");
+        fprintf(stderr,"parameter is not enough\n");
         return -1;
     }
     char *filepath=argv[1];
@@ -34,7 +36,7 @@ int main(int argc, char* argv[])
     avformat_network_init();
     pFormatCtx = avformat_alloc_context();
     if(avformat_open_input(&pFormatCtx,filepath,NULL,NULL)!=0){
-        printf("无法打开文件\n");
+        printf("Can't open the input file\n");
         return -1;
     }
     if(av_find_stream_info(pFormatCtx)<0)
@@ -94,11 +96,12 @@ int main(int argc, char* argv[])
 
     AVPacket *packet=(AVPacket *)malloc(sizeof(AVPacket));
     av_new_packet(packet, y_size);
-    //输出一下信息-----------------------------
+    //output the file info
     printf("-----------------File Info-----------------------\n");
     av_dump_format(pFormatCtx,0,filepath,0);
     printf("-------------------------------------------------\n");
-    //------------------------------
+
+    //read frame and show it
     while(av_read_frame(pFormatCtx, packet)>=0)
     {
         if(packet->stream_index==videoindex)

@@ -81,6 +81,7 @@
     <ClCompile Include="tutorial01.cpp" />
     <ClCompile Include="tutorial02.cpp" />
     <ClCompile Include="tutorial03.cpp" />
+    <ClCompile Include="tutorial04.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

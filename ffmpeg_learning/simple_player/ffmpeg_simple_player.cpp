@@ -10,7 +10,7 @@ extern "C"
 #include "libavcodec/avcodec.h"
 #include "libavformat/avformat.h"
 #include "libswscale/swscale.h"
-//SDL
+	//SDL
 #include "SDL2/SDL.h"
 #undef main
 };
@@ -33,14 +33,14 @@ int sfp_refresh_thread(void *opaque){
 
 int main(int argc, char* argv[])
 {
-    AVFormatContext	*pFormatCtx;
-    int				i, videoindex;
-    AVCodecContext	*pCodecCtx;
-    AVCodec			*pCodec;
+	AVFormatContext	*pFormatCtx;
+	int				i, videoindex;
+	AVCodecContext	*pCodecCtx;
+	AVCodec			*pCodec;
 	AVFrame	*pFrame,*pFrameYUV;
 	uint8_t *out_buffer;
 	AVPacket *packet;
-	int ret, got_picture;
+	int ret, frameFinished;
 
 	//------------SDL----------------
 	int screen_w,screen_h;
@@ -51,12 +51,12 @@ int main(int argc, char* argv[])
 	SDL_Thread *video_tid;
 	SDL_Event event;
 	struct SwsContext *img_convert_ctx;
-    if(argc<2)
-    {
-        fprintf(stderr,"parameter is not enough\n");
-        return -1;
-    }
-    char *filepath=argv[1];
+	if(argc<2)
+	{
+		fprintf(stderr,"parameter is not enough\n");
+		return -1;
+	}
+	char *filepath=argv[1];
 	av_register_all();
 	avformat_network_init();
 	pFormatCtx = avformat_alloc_context();
@@ -70,11 +70,12 @@ int main(int argc, char* argv[])
 		return -1;
 	}
 	videoindex=-1;
-	for(i=0; i<pFormatCtx->nb_streams; i++) 
+	for(i=0; i<pFormatCtx->nb_streams; i++) {
 		if(pFormatCtx->streams[i]->codec->codec_type==AVMEDIA_TYPE_VIDEO){
 			videoindex=i;
 			break;
 		}
+	}
 	if(videoindex==-1){
 		printf("Didn't find a video stream.\n");
 		return -1;
@@ -98,10 +99,10 @@ int main(int argc, char* argv[])
 	printf("---------------- File Information ---------------\n");
 	av_dump_format(pFormatCtx,0,filepath,0);
 	printf("-------------------------------------------------\n");
-	
+
 	img_convert_ctx = sws_getContext(pCodecCtx->width, pCodecCtx->height, pCodecCtx->pix_fmt, 
 		pCodecCtx->width, pCodecCtx->height, PIX_FMT_YUV420P, SWS_BICUBIC, NULL, NULL, NULL); 
-	
+
 
 	if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER)) {  
 		printf( "Could not initialize SDL - %s\n", SDL_GetError()); 
@@ -129,41 +130,38 @@ int main(int argc, char* argv[])
 
 	packet=(AVPacket *)av_malloc(sizeof(AVPacket));
 
-	video_tid = SDL_CreateThread(sfp_refresh_thread,NULL,NULL);
+	//video_tid = SDL_CreateThread(sfp_refresh_thread,NULL,NULL);
 	//------------SDL End------------
 	//Event Loop
-	
-	for (;;) {
+
+	while(av_read_frame(pFormatCtx,packet)>=0){
 		//Wait
-		SDL_WaitEvent(&event);
-		if(event.type==SFM_REFRESH_EVENT){
-			//------------------------------
-			if(av_read_frame(pFormatCtx, packet)>=0){
-				if(packet->stream_index==videoindex){
-					ret = avcodec_decode_video2(pCodecCtx, pFrame, &got_picture, packet);
-					if(ret < 0){
-						printf("Decode Error.\n");
-						return -1;
-					}
-					if(got_picture){
-						sws_scale(img_convert_ctx, (const uint8_t* const*)pFrame->data, pFrame->linesize, 0, pCodecCtx->height, pFrameYUV->data, pFrameYUV->linesize);
-						//SDL---------------------------
-						SDL_UpdateTexture( sdlTexture, NULL, pFrameYUV->data[0], pFrameYUV->linesize[0] );  
-						SDL_RenderClear( sdlRenderer );  
-						//SDL_RenderCopy( sdlRenderer, sdlTexture, &sdlRect, &sdlRect );  
-						SDL_RenderCopy( sdlRenderer, sdlTexture, NULL, NULL);  
-						SDL_RenderPresent( sdlRenderer );  
-						//SDL End-----------------------
-					}
-				}
-				av_free_packet(packet);
-			}else{
-				//Exit Thread
-				thread_exit=1;
-				break;
+		if(packet->stream_index==videoindex){
+			ret = avcodec_decode_video2(pCodecCtx, pFrame, &frameFinished, packet);
+			if(ret < 0){
+				printf("Decode Error.\n");
+				return -1;
 			}
-		}else if(event.type==SDL_QUIT){
-			thread_exit=1;
+			if(frameFinished){
+				sws_scale(img_convert_ctx, (const uint8_t* const*)pFrame->data, pFrame->linesize, 0, pCodecCtx->height, pFrameYUV->data, pFrameYUV->linesize);
+				//SDL---------------------------
+				SDL_UpdateTexture( sdlTexture, NULL, pFrameYUV->data[0], pFrameYUV->linesize[0] );  
+				SDL_RenderClear( sdlRenderer );  
+				//SDL_RenderCopy( sdlRenderer, sdlTexture, &sdlRect, &sdlRect );  
+				SDL_RenderCopy( sdlRenderer, sdlTexture, NULL, NULL);  
+				SDL_RenderPresent( sdlRenderer );  
+				//SDL End-----------------------
+			}
+		}
+		av_free_packet(packet);
+
+		SDL_PollEvent(&event);
+		switch(event.type) {
+		case SDL_QUIT:
+			SDL_Quit();
+			exit(0);
+			break;
+		default:
 			break;
 		}
 

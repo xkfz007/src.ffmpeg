@@ -1,1 +1,0 @@
-if you want to run the program the dll files under src/dll/ should be put into the exe directory.

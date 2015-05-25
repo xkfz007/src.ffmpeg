@@ -1,5 +1,4 @@
 //ffmpeg simple player
-//from http://blog.csdn.net/leixiaohua1020/article/details/8652605
 //
 #include <stdio.h>
 //#include <tchar.h>
@@ -17,19 +16,6 @@ extern "C"
 
 //Refresh Event
 #define SFM_REFRESH_EVENT  (SDL_USEREVENT + 1)
-
-int thread_exit=0;
-
-int sfp_refresh_thread(void *opaque){
-	while (thread_exit==0) {
-		SDL_Event event;
-		event.type = SFM_REFRESH_EVENT;
-		SDL_PushEvent(&event);
-		SDL_Delay(40);
-	}
-	return 0;
-}
-
 
 int main(int argc, char* argv[])
 {

@@ -15,11 +15,17 @@
 //
 // to play the video.
 
-#include <ffmpeg/avcodec.h>
-#include <ffmpeg/avformat.h>
-#include <ffmpeg/swscale.h>
-#include <SDL.h>
-#include <SDL_thread.h>
+extern "C"{
+#include "libavcodec/avcodec.h"
+#include "libavformat/avformat.h"
+#include "libswscale/swscale.h"
+#include "libavutil/avstring.h"
+#include "libavutil/time.h"
+#include "libavutil/mathematics.h"
+
+#include "SDL/SDL.h"
+#include "SDL/SDL_thread.h"
+};
 #ifdef __MINGW32__
 #undef main /* Prevents SDL from overriding main() */
 #endif
@@ -888,7 +894,7 @@ void stream_seek(VideoState *is, int64_t pos, int rel) {
     is->seek_req = 1;
   }
 }
-int main(int argc, char *argv[]) {
+int main_tutorial08(int argc, char *argv[]) {
 
   SDL_Event       event;
   double          pos;

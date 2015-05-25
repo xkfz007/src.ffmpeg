@@ -24,6 +24,7 @@ extern "C"{
 #include "libavcodec/avcodec.h"
 #include "libavformat/avformat.h"
 #include "libswscale/swscale.h"
+#include "libavutil/avstring.h"
 
 #include "SDL/SDL.h"
 #include "SDL/SDL_thread.h"
@@ -75,7 +76,7 @@ typedef struct VideoState {
   AVStream        *audio_st;
   AVCodecContext  *audio_ctx;
   PacketQueue     audioq;
-  uint8_t         audio_buf[(AVCODEC_MAX_AUDIO_FRAME_SIZE * 3) / 2];
+  uint8_t         audio_buf[(MAX_AUDIO_FRAME_SIZE * 3) / 2];
   unsigned int    audio_buf_size;
   unsigned int    audio_buf_index;
   AVFrame         audio_frame;
@@ -104,20 +105,20 @@ SDL_mutex       *screen_mutex;
 
 /* Since we only have one decoding thread, the Big Struct
    can be global in case we need it. */
-VideoState *global_video_state;
+static VideoState *global_video_state;
 
-void packet_queue_init(PacketQueue *q) {
+static void packet_queue_init(PacketQueue *q) {
   memset(q, 0, sizeof(PacketQueue));
   q->mutex = SDL_CreateMutex();
   q->cond = SDL_CreateCond();
 }
-int packet_queue_put(PacketQueue *q, AVPacket *pkt) {
+static int packet_queue_put(PacketQueue *q, AVPacket *pkt) {
 
   AVPacketList *pkt1;
   if(av_dup_packet(pkt) < 0) {
     return -1;
   }
-  pkt1 = av_malloc(sizeof(AVPacketList));
+  pkt1 = (AVPacketList*)av_malloc(sizeof(AVPacketList));
   if (!pkt1)
     return -1;
   pkt1->pkt = *pkt;
@@ -173,7 +174,7 @@ static int packet_queue_get(PacketQueue *q, AVPacket *pkt, int block)
   return ret;
 }
 
-int audio_decode_frame(VideoState *is, uint8_t *audio_buf, int buf_size) {
+static int audio_decode_frame(VideoState *is, uint8_t *audio_buf, int buf_size) {
 
   int len1, data_size = 0;
   AVPacket *pkt = &is->audio_pkt;
@@ -221,7 +222,7 @@ int audio_decode_frame(VideoState *is, uint8_t *audio_buf, int buf_size) {
   }
 }
 
-void audio_callback(void *userdata, Uint8 *stream, int len) {
+static void audio_callback(void *userdata, Uint8 *stream, int len) {
 
   VideoState *is = (VideoState *)userdata;
   int len1, audio_size;
@@ -262,7 +263,7 @@ static void schedule_refresh(VideoState *is, int delay) {
   SDL_AddTimer(delay, sdl_refresh_timer_cb, is);
 }
 
-void video_display(VideoState *is) {
+static void video_display(VideoState *is) {
 
   SDL_Rect rect;
   VideoPicture *vp;
@@ -283,10 +284,10 @@ void video_display(VideoState *is) {
 	(float)is->video_ctx->height;
     }
     h = screen->h;
-    w = ((int)rint(h * aspect_ratio)) & -3;
+    w = ((int)(h * aspect_ratio)) & -3;
     if(w > screen->w) {
       w = screen->w;
-      h = ((int)rint(w / aspect_ratio)) & -3;
+      h = ((int)(w / aspect_ratio)) & -3;
     }
     x = (screen->w - w) / 2;
     y = (screen->h - h) / 2;
@@ -302,7 +303,7 @@ void video_display(VideoState *is) {
   }
 }
 
-void video_refresh_timer(void *userdata) {
+static void video_refresh_timer(void *userdata) {
 
   VideoState *is = (VideoState *)userdata;
   VideoPicture *vp;
@@ -338,7 +339,7 @@ void video_refresh_timer(void *userdata) {
   }
 }
       
-void alloc_picture(void *userdata) {
+static void alloc_picture(void *userdata) {
 
   VideoState *is = (VideoState *)userdata;
   VideoPicture *vp;
@@ -362,7 +363,7 @@ void alloc_picture(void *userdata) {
 
 }
 
-int queue_picture(VideoState *is, AVFrame *pFrame) {
+static int queue_picture(VideoState *is, AVFrame *pFrame) {
 
   VideoPicture *vp;
   int dst_pix_fmt;
@@ -429,7 +430,7 @@ int queue_picture(VideoState *is, AVFrame *pFrame) {
   return 0;
 }
 
-int video_thread(void *arg) {
+static int video_thread(void *arg) {
   VideoState *is = (VideoState *)arg;
   AVPacket pkt1, *packet = &pkt1;
   int frameFinished;
@@ -456,7 +457,7 @@ int video_thread(void *arg) {
   return 0;
 }
 
-int stream_component_open(VideoState *is, int stream_index) {
+static int stream_component_open(VideoState *is, int stream_index) {
 
   AVFormatContext *pFormatCtx = is->pFormatCtx;
   AVCodecContext *codecCtx = NULL;
@@ -528,7 +529,7 @@ int stream_component_open(VideoState *is, int stream_index) {
   }
 }
 
-int decode_thread(void *arg) {
+static int decode_thread(void *arg) {
 
   VideoState *is = (VideoState *)arg;
   AVFormatContext *pFormatCtx;
@@ -630,7 +631,7 @@ int main_tutorail04(int argc, char *argv[]) {
 
   VideoState      *is;
 
-  is = av_mallocz(sizeof(VideoState));
+  is = (VideoState*)av_mallocz(sizeof(VideoState));
 
   if(argc < 2) {
     fprintf(stderr, "Usage: test <file>\n");

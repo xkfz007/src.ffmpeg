@@ -1,5 +1,5 @@
 
-#include "./libavformat/avformat.h"
+#include "libavformat/avformat.h"
 
 #if defined(CONFIG_WIN32)
 #include <sys/types.h>
@@ -13,8 +13,8 @@
 #include <time.h>
 
 #include <math.h>
-#include <SDL.h>
-#include <SDL_thread.h>
+#include "SDL/SDL.h"
+#include "SDL/SDL_thread.h"
 
 #ifdef CONFIG_WIN32
 #undef main // We don't want SDL to override our main()
@@ -80,7 +80,7 @@ typedef struct VideoState
 } VideoState;
 
 static AVInputFormat *file_iformat;
-static const char *input_filename;
+//static const char *input_filename;
 static VideoState *cur_stream;
 
 static SDL_Surface *screen;
@@ -717,11 +717,18 @@ void event_loop(void) // handle an event sent by the GUI
 
 int main(int argc, char **argv)
 {
+    const char *input_filename;
     int flags = SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER;
 
+    if(argc<2){
+        fprintf(stdout,"parameters are not enough!\n");
+        return -1;
+    }
+
+    input_filename=argv[1];
     av_register_all();
 
-    input_filename = "d:/yuv/clocktxt_320.avi";
+    //input_filename = "d:/yuv/clocktxt_320.avi";
 //    input_filename = "d:/yuv/clocktxt.avi";
 
     if (SDL_Init(flags))

@@ -43,8 +43,8 @@
 
 #include "config_w32_add.h"
 
-#include "SDL.h"
-#include "SDL_thread.h"
+#include "SDL/SDL.h"
+#include "SDL/SDL_thread.h"
 
 #ifdef __MINGW32__
 #undef main /* We don't want SDL to override our main() */
@@ -54,7 +54,7 @@
 #undef main /* We don't want SDL to override our main() */
 #endif
 
-#include <unistd.h>
+//#include <unistd.h>
 #include <assert.h>
 
 const char program_name[] = "FFplay";

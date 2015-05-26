@@ -18,10 +18,10 @@
  */
 #define HAVE_AV_CONFIG_H
 #include <limits.h>
-#include "./libavformat/avformat.h"
+#include "libavformat/avformat.h"
 //#include "framehook.h"
 //#include "dsputil.h"
-#include "./libavcodec/opt.h"
+#include "libavcodec/opt.h"
 
 #ifndef CONFIG_WIN32
 //#include <unistd.h>

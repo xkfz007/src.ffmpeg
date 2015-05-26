@@ -17,12 +17,12 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 #define HAVE_AV_CONFIG_H
-#include "./libavformat/avformat.h"
+#include "libavformat/avformat.h"
 
 #include "cmdutils.h"
 
-#include <SDL.h>
-#include <SDL_thread.h>
+#include <SDL/SDL.h>
+#include <SDL/SDL_thread.h>
 
 #ifdef CONFIG_WIN32
 #undef main /* We don't want SDL to override our main() */

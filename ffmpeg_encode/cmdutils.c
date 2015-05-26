@@ -17,8 +17,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 #define HAVE_AV_CONFIG_H
-#include "./libavformat/avformat.h"
-#include "./libavutil/common.h"
+#include "libavformat/avformat.h"
+#include "libavutil/common.h"
 
 #include "cmdutils.h"
 

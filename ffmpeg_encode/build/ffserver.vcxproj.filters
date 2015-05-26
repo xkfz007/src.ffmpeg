@@ -3,4 +3,7 @@
   <ItemGroup>
     <ClCompile Include="..\ffserver.c" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\ffserver.h" />
+  </ItemGroup>
 </Project>

@@ -16,27 +16,30 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
-#if 0
 
 #define HAVE_AV_CONFIG_H
-#include "./libavformat/avformat.h"
+#include "libavformat/avformat.h"
 
 #include <stdarg.h>
+#ifndef CONFIG_WIN32
 //#include <unistd.h>
 #include <fcntl.h>
 #include <sys/ioctl.h>
 #include <sys/poll.h>
 #include <errno.h>
 #include <sys/time.h>
+#include <signal.h>
+#endif
 #undef time //needed because HAVE_AV_CONFIG_H is defined on top
 #include <time.h>
+#ifdef CONFIG_OS2
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <sys/wait.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <netdb.h>
-#include <signal.h>
+#endif
 #ifdef CONFIG_HAVE_DLFCN
 #include <dlfcn.h>
 #endif
@@ -4599,4 +4602,3 @@ int main(int argc, char **argv)
 
     return 0;
 }
-#endif

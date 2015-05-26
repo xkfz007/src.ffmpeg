@@ -189,11 +189,9 @@ void avcodec_register_all(void)
 #ifdef CONFIG_SONIC_LS_ENCODER
     register_avcodec(&sonic_ls_encoder);
 #endif //CONFIG_SONIC_LS_ENCODER
-#ifdef CONFIG_X264
 #ifdef CONFIG_X264_ENCODER
     register_avcodec(&x264_encoder);
 #endif //CONFIG_X264_ENCODER
-#endif
 #ifdef CONFIG_LIBGSM
     register_avcodec(&libgsm_encoder);
 #endif //CONFIG_LIBGSM

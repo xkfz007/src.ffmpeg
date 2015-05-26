@@ -21,6 +21,10 @@
 #include "libavformat/avformat.h"
 
 #include <stdarg.h>
+#ifdef CONFIG_WIN32
+#include <WinSock2.h>
+typedef unsigned int pid_t;
+#endif
 #ifndef CONFIG_WIN32
 //#include <unistd.h>
 #include <fcntl.h>

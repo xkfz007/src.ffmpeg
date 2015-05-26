@@ -22,7 +22,7 @@
  * @file h261.c
  * h261codec.
  */
-#include "../config.h"
+#include "config.h"
 #include "../libavutil/common.h"
 #include "dsputil.h"
 #include "avcodec.h"

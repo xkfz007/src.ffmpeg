@@ -23,7 +23,7 @@
  * @file ffv1.c
  * FF Video Codec 1 (an experimental lossless codec)
  */
-#include "../config.h"
+#include "config.h"
 #include "../libavutil/common.h"
 #include "bitstream.h"
 #include "avcodec.h"

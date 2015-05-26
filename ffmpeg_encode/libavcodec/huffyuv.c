@@ -25,7 +25,7 @@
  * @file huffyuv.c
  * huffyuv codec for libavcodec.
  */
-#include "../config.h"
+#include "config.h"
 #include "../libavutil/common.h"
 #include "bitstream.h"
 #include "avcodec.h"

@@ -55,6 +55,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)\obj\%(RelativeDir)\</ObjectFileName>
+      <AdditionalIncludeDirectories>..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -80,6 +81,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\cmdutils.c" />
     <ClCompile Include="..\libavcodec\4xm_codec.c" />
     <ClCompile Include="..\libavcodec\8bps.c" />
     <ClCompile Include="..\libavcodec\aasc.c" />
@@ -275,6 +277,9 @@
     <ClCompile Include="..\libavutil\rational.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\berrno.h" />
+    <ClInclude Include="..\cmdutils.h" />
+    <ClInclude Include="..\config.h" />
     <ClInclude Include="..\libavcodec\ac3.h" />
     <ClInclude Include="..\libavcodec\ac3tab.h" />
     <ClInclude Include="..\libavcodec\avcodec.h" />

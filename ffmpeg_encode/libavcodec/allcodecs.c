@@ -22,7 +22,7 @@
  * Utils for libavcodec.
  */
 
-#include "../config.h"
+#include "config.h"
 #include "avcodec.h"
 
 /* If you do not call this function, then you can select exactly which

@@ -19,7 +19,7 @@
 #pragma warning (disable:4018 4244 4101 4090 4024 3631 4028)
 
 #include <malloc.h>
-#include "../config.h"
+#include "config.h"
 #include "avcodec.h"
 #include "../libavutil/common.h"
 #include "dsputil.h"

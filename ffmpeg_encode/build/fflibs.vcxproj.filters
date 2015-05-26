@@ -591,6 +591,7 @@
     <ClCompile Include="..\libavutil\rational.c">
       <Filter>libavutil</Filter>
     </ClCompile>
+    <ClCompile Include="..\cmdutils.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\libavcodec\ac3.h">
@@ -797,5 +798,8 @@
     <ClInclude Include="..\libavutil\rational.h">
       <Filter>libavutil</Filter>
     </ClInclude>
+    <ClInclude Include="..\berrno.h" />
+    <ClInclude Include="..\cmdutils.h" />
+    <ClInclude Include="..\config.h" />
   </ItemGroup>
 </Project>

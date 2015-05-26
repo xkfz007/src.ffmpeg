@@ -39,7 +39,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "../config.h"
+#include "config.h"
 #include "../libavutil/common.h"
 #include "bitstream.h"
 #include "avcodec.h"

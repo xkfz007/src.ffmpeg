@@ -24,7 +24,7 @@
  * @file mpegvideo.c
  * The simplest mpeg encoder (well, it was the simplest!).
  */
-#include "../config.h"
+#include "config.h"
 #include "../libavutil/common.h"
 #include "../libavutil/bswap.h"
 #include "avcodec.h"

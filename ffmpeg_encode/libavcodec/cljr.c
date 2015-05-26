@@ -22,7 +22,7 @@
  * @file cljr.c
  * Cirrus Logic AccuPak codec.
  */
-#include "../config.h"
+#include "config.h"
 #include "avcodec.h"
 #include "mpegvideo.h"
 

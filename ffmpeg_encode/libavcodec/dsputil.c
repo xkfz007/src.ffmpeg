@@ -24,7 +24,7 @@
  * @file dsputil.c
  * DSP utils
  */
-#include "../config.h"
+#include "config.h"
 #include "avcodec.h"
 #include "dsputil.h"
 #include "mpegvideo.h"

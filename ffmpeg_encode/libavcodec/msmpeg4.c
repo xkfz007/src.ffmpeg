@@ -24,7 +24,7 @@
  * @file msmpeg4.c
  * MSMPEG4 backend for ffmpeg encoder and decoder.
  */
-#include "../config.h"
+#include "config.h"
 #include "avcodec.h"
 #include "dsputil.h"
 #include "mpegvideo.h"

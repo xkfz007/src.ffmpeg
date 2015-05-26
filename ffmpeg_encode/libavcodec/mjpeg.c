@@ -30,7 +30,7 @@
 
 //#define DEBUG
 #include <assert.h>
-#include "../config.h"
+#include "config.h"
 #include "../libavutil/common.h"
 #include "../libavutil/bswap.h"
 

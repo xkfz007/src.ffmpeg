@@ -3,4 +3,7 @@
   <ItemGroup>
     <ClCompile Include="..\ffmpeg.c" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\ffmpeg.h" />
+  </ItemGroup>
 </Project>

@@ -3874,6 +3874,12 @@
     <ClCompile Include="..\compat\msvcrt\snprintf.c">
       <Filter>compat</Filter>
     </ClCompile>
+    <ClCompile Include="..\libavcodec\bitstream.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavcodec\mathtables.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\libavcodec\a64colors.h">
@@ -4627,9 +4633,6 @@
       <Filter>libavcodec</Filter>
     </ClInclude>
     <ClInclude Include="..\libavcodec\tableprint.h">
-      <Filter>libavcodec</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libavcodec\tableprint_vlc.h">
       <Filter>libavcodec</Filter>
     </ClInclude>
     <ClInclude Include="..\libavcodec\tak.h">

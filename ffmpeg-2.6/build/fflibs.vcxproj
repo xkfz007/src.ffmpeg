@@ -92,6 +92,7 @@
     <ClCompile Include="..\libavcodec\bink.c" />
     <ClCompile Include="..\libavcodec\binkaudio.c" />
     <ClCompile Include="..\libavcodec\bintext.c" />
+    <ClCompile Include="..\libavcodec\bitstream.c" />
     <ClCompile Include="..\libavcodec\bitstream_filter.c" />
     <ClCompile Include="..\libavcodec\bmp.c" />
     <ClCompile Include="..\libavcodec\bmpenc.c" />
@@ -321,6 +322,7 @@
     <ClCompile Include="..\libavcodec\lzw.c" />
     <ClCompile Include="..\libavcodec\lzwenc.c" />
     <ClCompile Include="..\libavcodec\mace.c" />
+    <ClCompile Include="..\libavcodec\mathtables.c" />
     <ClCompile Include="..\libavcodec\mdct_fixed.c" />
     <ClCompile Include="..\libavcodec\mdct_fixed_32.c" />
     <ClCompile Include="..\libavcodec\mdct_float.c" />
@@ -1548,7 +1550,6 @@
     <ClInclude Include="..\libavcodec\svq3.h" />
     <ClInclude Include="..\libavcodec\synth_filter.h" />
     <ClInclude Include="..\libavcodec\tableprint.h" />
-    <ClInclude Include="..\libavcodec\tableprint_vlc.h" />
     <ClInclude Include="..\libavcodec\tak.h" />
     <ClInclude Include="..\libavcodec\targa.h" />
     <ClInclude Include="..\libavcodec\thread.h" />
@@ -1841,7 +1842,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>Intel C++ Compiler XE 14.0</PlatformToolset>
@@ -1865,7 +1866,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <TargetName>$(ProjectName)</TargetName>
+    <TargetName>$(ProjectName)d</TargetName>
     <OutDir>..\bin\$(Configuration)</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

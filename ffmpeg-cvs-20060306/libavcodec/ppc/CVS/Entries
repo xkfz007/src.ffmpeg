@@ -1,0 +1,14 @@
+/dsputil_altivec.c/1.30/Thu Jan 12 22:43:20 2006//
+/dsputil_altivec.h/1.17/Thu Jan 12 22:43:20 2006//
+/dsputil_h264_altivec.c/1.5/Sun Feb  5 13:35:17 2006//
+/dsputil_h264_template_altivec.c/1.5/Tue Feb 28 21:55:18 2006//
+/dsputil_ppc.c/1.35/Thu Jan 12 22:43:20 2006//
+/dsputil_ppc.h/1.13/Thu Jan 12 22:43:20 2006//
+/fdct_altivec.c/1.4/Thu Jan 12 22:43:20 2006//
+/fft_altivec.c/1.12/Thu Jan 12 22:43:20 2006//
+/gcc_fixes.h/1.7/Thu Dec 22 01:10:10 2005//
+/gmc_altivec.c/1.12/Thu Jan 12 22:43:20 2006//
+/idct_altivec.c/1.11/Thu Jan 12 22:43:20 2006//
+/mpegvideo_altivec.c/1.16/Thu Jan 12 22:43:20 2006//
+/mpegvideo_ppc.c/1.14/Thu Jan 12 22:43:20 2006//
+D

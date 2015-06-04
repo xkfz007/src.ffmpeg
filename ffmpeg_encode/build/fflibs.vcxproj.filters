@@ -12,9 +12,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\libavcodec\4xm_codec.c">
-      <Filter>libavcodec</Filter>
-    </ClCompile>
     <ClCompile Include="..\libavcodec\8bps.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
@@ -37,9 +34,6 @@
       <Filter>libavcodec</Filter>
     </ClCompile>
     <ClCompile Include="..\libavcodec\asv1.c">
-      <Filter>libavcodec</Filter>
-    </ClCompile>
-    <ClCompile Include="..\libavcodec\avs_codec.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
     <ClCompile Include="..\libavcodec\bitstream.c">
@@ -70,9 +64,6 @@
       <Filter>libavcodec</Filter>
     </ClCompile>
     <ClCompile Include="..\libavcodec\dsputil.c">
-      <Filter>libavcodec</Filter>
-    </ClCompile>
-    <ClCompile Include="..\libavcodec\dv_codec.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
     <ClCompile Include="..\libavcodec\dvbsub.c">
@@ -210,9 +201,6 @@
     <ClCompile Include="..\libavcodec\msvideo1.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
-    <ClCompile Include="..\libavcodec\nuv_codec.c">
-      <Filter>libavcodec</Filter>
-    </ClCompile>
     <ClCompile Include="..\libavcodec\opt.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
@@ -220,12 +208,6 @@
       <Filter>libavcodec</Filter>
     </ClCompile>
     <ClCompile Include="..\libavcodec\pcm.c">
-      <Filter>libavcodec</Filter>
-    </ClCompile>
-    <ClCompile Include="..\libavcodec\png_codec.c">
-      <Filter>libavcodec</Filter>
-    </ClCompile>
-    <ClCompile Include="..\libavcodec\pnm_codec.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
     <ClCompile Include="..\libavcodec\qdm2.c">
@@ -252,9 +234,6 @@
     <ClCompile Include="..\libavcodec\ratecontrol.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
-    <ClCompile Include="..\libavcodec\raw_codec.c">
-      <Filter>libavcodec</Filter>
-    </ClCompile>
     <ClCompile Include="..\libavcodec\resample.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
@@ -277,9 +256,6 @@
       <Filter>libavcodec</Filter>
     </ClCompile>
     <ClCompile Include="..\libavcodec\simple_idct.c">
-      <Filter>libavcodec</Filter>
-    </ClCompile>
-    <ClCompile Include="..\libavcodec\smacker_codec.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
     <ClCompile Include="..\libavcodec\smc.c">
@@ -306,13 +282,7 @@
     <ClCompile Include="..\libavcodec\tscc.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
-    <ClCompile Include="..\libavcodec\tta_codec.c">
-      <Filter>libavcodec</Filter>
-    </ClCompile>
     <ClCompile Include="..\libavcodec\ulti.c">
-      <Filter>libavcodec</Filter>
-    </ClCompile>
-    <ClCompile Include="..\libavcodec\utils_codec.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
     <ClCompile Include="..\libavcodec\vc9.c">
@@ -354,9 +324,6 @@
     <ClCompile Include="..\libavcodec\zmbv.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
-    <ClCompile Include="..\libavformat\4xm_format.c">
-      <Filter>libavformat</Filter>
-    </ClCompile>
     <ClCompile Include="..\libavformat\adtsenc.c">
       <Filter>libavformat</Filter>
     </ClCompile>
@@ -387,9 +354,6 @@
     <ClCompile Include="..\libavformat\aviobuf.c">
       <Filter>libavformat</Filter>
     </ClCompile>
-    <ClCompile Include="..\libavformat\avs_format.c">
-      <Filter>libavformat</Filter>
-    </ClCompile>
     <ClCompile Include="..\libavformat\crc.c">
       <Filter>libavformat</Filter>
     </ClCompile>
@@ -397,9 +361,6 @@
       <Filter>libavformat</Filter>
     </ClCompile>
     <ClCompile Include="..\libavformat\daud.c">
-      <Filter>libavformat</Filter>
-    </ClCompile>
-    <ClCompile Include="..\libavformat\dv_format.c">
       <Filter>libavformat</Filter>
     </ClCompile>
     <ClCompile Include="..\libavformat\electronicarts.c">
@@ -486,9 +447,6 @@
     <ClCompile Include="..\libavformat\nut.c">
       <Filter>libavformat</Filter>
     </ClCompile>
-    <ClCompile Include="..\libavformat\nuv_format.c">
-      <Filter>libavformat</Filter>
-    </ClCompile>
     <ClCompile Include="..\libavformat\ogg2.c">
       <Filter>libavformat</Filter>
     </ClCompile>
@@ -504,16 +462,7 @@
     <ClCompile Include="..\libavformat\os_support.c">
       <Filter>libavformat</Filter>
     </ClCompile>
-    <ClCompile Include="..\libavformat\png_format.c">
-      <Filter>libavformat</Filter>
-    </ClCompile>
-    <ClCompile Include="..\libavformat\pnm_format.c">
-      <Filter>libavformat</Filter>
-    </ClCompile>
     <ClCompile Include="..\libavformat\psxstr.c">
-      <Filter>libavformat</Filter>
-    </ClCompile>
-    <ClCompile Include="..\libavformat\raw_format.c">
       <Filter>libavformat</Filter>
     </ClCompile>
     <ClCompile Include="..\libavformat\rm.c">
@@ -537,9 +486,6 @@
     <ClCompile Include="..\libavformat\sierravmd.c">
       <Filter>libavformat</Filter>
     </ClCompile>
-    <ClCompile Include="..\libavformat\smacker_format.c">
-      <Filter>libavformat</Filter>
-    </ClCompile>
     <ClCompile Include="..\libavformat\sol.c">
       <Filter>libavformat</Filter>
     </ClCompile>
@@ -549,13 +495,7 @@
     <ClCompile Include="..\libavformat\tcp.c">
       <Filter>libavformat</Filter>
     </ClCompile>
-    <ClCompile Include="..\libavformat\tta_format.c">
-      <Filter>libavformat</Filter>
-    </ClCompile>
     <ClCompile Include="..\libavformat\udp.c">
-      <Filter>libavformat</Filter>
-    </ClCompile>
-    <ClCompile Include="..\libavformat\utils_format.c">
       <Filter>libavformat</Filter>
     </ClCompile>
     <ClCompile Include="..\libavformat\voc.c">
@@ -592,6 +532,66 @@
       <Filter>libavutil</Filter>
     </ClCompile>
     <ClCompile Include="..\cmdutils.c" />
+    <ClCompile Include="..\libavcodec\4xm.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavcodec\avs.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavcodec\dv.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavcodec\nuv.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavcodec\png.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavcodec\pnm.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavcodec\raw.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavcodec\smacker.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavcodec\tta.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavcodec\utils.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavformat\4xm.c">
+      <Filter>libavformat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavformat\avs.c">
+      <Filter>libavformat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavformat\dv.c">
+      <Filter>libavformat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavformat\nuv.c">
+      <Filter>libavformat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavformat\png.c">
+      <Filter>libavformat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavformat\pnm.c">
+      <Filter>libavformat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavformat\raw.c">
+      <Filter>libavformat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavformat\smacker.c">
+      <Filter>libavformat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavformat\tta.c">
+      <Filter>libavformat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavformat\utils.c">
+      <Filter>libavformat</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\libavcodec\ac3.h">
@@ -799,7 +799,7 @@
       <Filter>libavutil</Filter>
     </ClInclude>
     <ClInclude Include="..\berrno.h" />
-    <ClInclude Include="..\cmdutils.h" />
     <ClInclude Include="..\config.h" />
+    <ClInclude Include="..\cmdutils.h" />
   </ItemGroup>
 </Project>

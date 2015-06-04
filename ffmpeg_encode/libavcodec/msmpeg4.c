@@ -1923,4 +1923,4 @@ static int msmpeg4_decode_motion(MpegEncContext * s,
  * there is too much shared between versions so that we cant have 1 file per version & 1 common
  * as allmost everything would be in the common file
  */
-#include "wmv2.c.inc"
+#include "wmv2.c"

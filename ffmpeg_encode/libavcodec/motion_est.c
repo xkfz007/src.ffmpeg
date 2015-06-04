@@ -220,7 +220,7 @@ static inline int cmp(MpegEncContext *s, const int x, const int y, const int sub
     return d;
 }
 
-#include "motion_est_template.c.inc"
+#include "motion_est_template.c"
 
 static int zero_cmp(void *s, uint8_t *a, uint8_t *b, int stride, int h){
     return 0;

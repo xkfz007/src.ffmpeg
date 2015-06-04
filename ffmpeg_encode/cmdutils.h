@@ -27,7 +27,7 @@ typedef struct {
 } OptionDef;
 
 void show_help_options(const OptionDef *options, const char *msg, int mask, int value);
-void parse_options(int argc, char **argv, const OptionDef *options);
+void parse_options(int argc, char **argv, const OptionDef *options,void (* parse_arg_function)(const char*));
 void parse_arg_file(const char *filename);
 void print_error(const char *filename, int err);
 

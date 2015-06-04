@@ -54,7 +54,8 @@ static const OptionDef* find_option(const OptionDef *po, const char *name){
     return po;
 }
 
-void parse_options(int argc, char **argv, const OptionDef *options)
+void parse_options(int argc, char **argv, const OptionDef *options,
+                   void (* parse_arg_function)(const char*))
 {
     const char *opt, *arg;
     int optindex;
@@ -99,7 +100,8 @@ unknown_opt:
                 po->u.func_arg(arg);
             }
         } else {
-            parse_arg_file(opt);
+            if (parse_arg_function)
+                parse_arg_function(opt);
         }
     }
 }

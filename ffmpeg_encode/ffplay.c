@@ -2427,7 +2427,7 @@ int main(int argc, char **argv)
       setbuf( stderr, NULL );
     #endif
 
-    parse_options(argc, argv, options);
+    parse_options(argc, argv, options,parse_arg_file);
 
     if (!input_filename)
         show_help();

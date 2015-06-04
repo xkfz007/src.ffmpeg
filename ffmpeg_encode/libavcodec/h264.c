@@ -8074,4 +8074,4 @@ AVCodecParser h264_parser = {
     h264_split,
 };
 
-#include "svq3.c.inc"
+#include "svq3.c"

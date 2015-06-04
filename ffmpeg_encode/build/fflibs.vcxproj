@@ -14,15 +14,16 @@
     <ProjectGuid>{26856A05-A58B-4CB3-ABAF-9653C72799CF}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>fflibs</RootNamespace>
+    <ProjectName>libff</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
@@ -38,8 +39,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LinkIncremental>true</LinkIncremental>
-    <TargetName>$(ProjectName)</TargetName>
+    <LinkIncremental>false</LinkIncremental>
+    <TargetName>$(ProjectName)d</TargetName>
     <OutDir>..\bin\$(Configuration)</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -60,6 +61,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ModuleDefinitionFile>..\ffmpeg.def</ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -72,6 +74,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)\obj\%(RelativeDir)\</ObjectFileName>
+      <AdditionalIncludeDirectories>..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -82,7 +85,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\cmdutils.c" />
-    <ClCompile Include="..\libavcodec\4xm_codec.c" />
+    <ClCompile Include="..\libavcodec\4xm.c" />
     <ClCompile Include="..\libavcodec\8bps.c" />
     <ClCompile Include="..\libavcodec\aasc.c" />
     <ClCompile Include="..\libavcodec\ac3enc.c" />
@@ -91,7 +94,7 @@
     <ClCompile Include="..\libavcodec\alac.c" />
     <ClCompile Include="..\libavcodec\allcodecs.c" />
     <ClCompile Include="..\libavcodec\asv1.c" />
-    <ClCompile Include="..\libavcodec\avs_codec.c" />
+    <ClCompile Include="..\libavcodec\avs.c" />
     <ClCompile Include="..\libavcodec\bitstream.c" />
     <ClCompile Include="..\libavcodec\bmp.c" />
     <ClCompile Include="..\libavcodec\cabac.c" />
@@ -102,11 +105,11 @@
     <ClCompile Include="..\libavcodec\cyuv.c" />
     <ClCompile Include="..\libavcodec\dpcm.c" />
     <ClCompile Include="..\libavcodec\dsputil.c" />
+    <ClCompile Include="..\libavcodec\dv.c" />
     <ClCompile Include="..\libavcodec\dvbsub.c" />
     <ClCompile Include="..\libavcodec\dvbsubdec.c" />
     <ClCompile Include="..\libavcodec\dvdsub.c" />
     <ClCompile Include="..\libavcodec\dvdsubenc.c" />
-    <ClCompile Include="..\libavcodec\dv_codec.c" />
     <ClCompile Include="..\libavcodec\error_resilience.c" />
     <ClCompile Include="..\libavcodec\eval.c" />
     <ClCompile Include="..\libavcodec\faandct.c" />
@@ -148,12 +151,12 @@
     <ClCompile Include="..\libavcodec\msmpeg4.c" />
     <ClCompile Include="..\libavcodec\msrle.c" />
     <ClCompile Include="..\libavcodec\msvideo1.c" />
-    <ClCompile Include="..\libavcodec\nuv_codec.c" />
+    <ClCompile Include="..\libavcodec\nuv.c" />
     <ClCompile Include="..\libavcodec\opt.c" />
     <ClCompile Include="..\libavcodec\parser.c" />
     <ClCompile Include="..\libavcodec\pcm.c" />
-    <ClCompile Include="..\libavcodec\png_codec.c" />
-    <ClCompile Include="..\libavcodec\pnm_codec.c" />
+    <ClCompile Include="..\libavcodec\png.c" />
+    <ClCompile Include="..\libavcodec\pnm.c" />
     <ClCompile Include="..\libavcodec\qdm2.c" />
     <ClCompile Include="..\libavcodec\qdrw.c" />
     <ClCompile Include="..\libavcodec\qpeg.c" />
@@ -162,7 +165,7 @@
     <ClCompile Include="..\libavcodec\ra288.c" />
     <ClCompile Include="..\libavcodec\rangecoder.c" />
     <ClCompile Include="..\libavcodec\ratecontrol.c" />
-    <ClCompile Include="..\libavcodec\raw_codec.c" />
+    <ClCompile Include="..\libavcodec\raw.c" />
     <ClCompile Include="..\libavcodec\resample.c" />
     <ClCompile Include="..\libavcodec\resample2.c" />
     <ClCompile Include="..\libavcodec\roqvideo.c" />
@@ -171,7 +174,7 @@
     <ClCompile Include="..\libavcodec\rv10.c" />
     <ClCompile Include="..\libavcodec\shorten.c" />
     <ClCompile Include="..\libavcodec\simple_idct.c" />
-    <ClCompile Include="..\libavcodec\smacker_codec.c" />
+    <ClCompile Include="..\libavcodec\smacker.c" />
     <ClCompile Include="..\libavcodec\smc.c" />
     <ClCompile Include="..\libavcodec\snow.c" />
     <ClCompile Include="..\libavcodec\sonic.c" />
@@ -180,9 +183,9 @@
     <ClCompile Include="..\libavcodec\truemotion2.c" />
     <ClCompile Include="..\libavcodec\truespeech.c" />
     <ClCompile Include="..\libavcodec\tscc.c" />
-    <ClCompile Include="..\libavcodec\tta_codec.c" />
+    <ClCompile Include="..\libavcodec\tta.c" />
     <ClCompile Include="..\libavcodec\ulti.c" />
-    <ClCompile Include="..\libavcodec\utils_codec.c" />
+    <ClCompile Include="..\libavcodec\utils.c" />
     <ClCompile Include="..\libavcodec\vc9.c" />
     <ClCompile Include="..\libavcodec\vcr1.c" />
     <ClCompile Include="..\libavcodec\vmdav.c" />
@@ -196,7 +199,7 @@
     <ClCompile Include="..\libavcodec\xan.c" />
     <ClCompile Include="..\libavcodec\xl.c" />
     <ClCompile Include="..\libavcodec\zmbv.c" />
-    <ClCompile Include="..\libavformat\4xm_format.c" />
+    <ClCompile Include="..\libavformat\4xm.c" />
     <ClCompile Include="..\libavformat\adtsenc.c" />
     <ClCompile Include="..\libavformat\aiff.c" />
     <ClCompile Include="..\libavformat\allformats.c" />
@@ -207,11 +210,11 @@
     <ClCompile Include="..\libavformat\avienc.c" />
     <ClCompile Include="..\libavformat\avio.c" />
     <ClCompile Include="..\libavformat\aviobuf.c" />
-    <ClCompile Include="..\libavformat\avs_format.c" />
+    <ClCompile Include="..\libavformat\avs.c" />
     <ClCompile Include="..\libavformat\crc.c" />
     <ClCompile Include="..\libavformat\cutils.c" />
     <ClCompile Include="..\libavformat\daud.c" />
-    <ClCompile Include="..\libavformat\dv_format.c" />
+    <ClCompile Include="..\libavformat\dv.c" />
     <ClCompile Include="..\libavformat\electronicarts.c" />
     <ClCompile Include="..\libavformat\ffm.c" />
     <ClCompile Include="..\libavformat\file.c" />
@@ -240,16 +243,16 @@
     <ClCompile Include="..\libavformat\mpjpeg.c" />
     <ClCompile Include="..\libavformat\nsvdec.c" />
     <ClCompile Include="..\libavformat\nut.c" />
-    <ClCompile Include="..\libavformat\nuv_format.c" />
+    <ClCompile Include="..\libavformat\nuv.c" />
     <ClCompile Include="..\libavformat\ogg2.c" />
     <ClCompile Include="..\libavformat\oggparseflac.c" />
     <ClCompile Include="..\libavformat\oggparsetheora.c" />
     <ClCompile Include="..\libavformat\oggparsevorbis.c" />
     <ClCompile Include="..\libavformat\os_support.c" />
-    <ClCompile Include="..\libavformat\png_format.c" />
-    <ClCompile Include="..\libavformat\pnm_format.c" />
+    <ClCompile Include="..\libavformat\png.c" />
+    <ClCompile Include="..\libavformat\pnm.c" />
     <ClCompile Include="..\libavformat\psxstr.c" />
-    <ClCompile Include="..\libavformat\raw_format.c" />
+    <ClCompile Include="..\libavformat\raw.c" />
     <ClCompile Include="..\libavformat\rm.c" />
     <ClCompile Include="..\libavformat\rtp.c" />
     <ClCompile Include="..\libavformat\rtpproto.c" />
@@ -257,13 +260,13 @@
     <ClCompile Include="..\libavformat\segafilm.c" />
     <ClCompile Include="..\libavformat\sgi.c" />
     <ClCompile Include="..\libavformat\sierravmd.c" />
-    <ClCompile Include="..\libavformat\smacker_format.c" />
+    <ClCompile Include="..\libavformat\smacker.c" />
     <ClCompile Include="..\libavformat\sol.c" />
     <ClCompile Include="..\libavformat\swf.c" />
     <ClCompile Include="..\libavformat\tcp.c" />
-    <ClCompile Include="..\libavformat\tta_format.c" />
+    <ClCompile Include="..\libavformat\tta.c" />
     <ClCompile Include="..\libavformat\udp.c" />
-    <ClCompile Include="..\libavformat\utils_format.c" />
+    <ClCompile Include="..\libavformat\utils.c" />
     <ClCompile Include="..\libavformat\voc.c" />
     <ClCompile Include="..\libavformat\wav.c" />
     <ClCompile Include="..\libavformat\wc3movie.c" />

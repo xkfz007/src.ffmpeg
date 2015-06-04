@@ -158,7 +158,7 @@ static int me_penalty_compensation= 256;
 static int frame_skip_threshold= 0;
 static int frame_skip_factor= 0;
 static int frame_skip_exp= 0;
-extern int loop_input; /* currently a hack */
+static int loop_input=AVFMT_NOOUTPUTLOOP; 
 static int loop_output = AVFMT_NOOUTPUTLOOP;
 static int genpts = 0;
 static int qp_hist = 0;
@@ -2888,6 +2888,7 @@ static void opt_input_file(const char *filename)
 
     if(genpts)
         ic->flags|= AVFMT_FLAG_GENPTS;
+    ic->loop_input=loop_input;
 
     /* If not enough info to get the stream parameters, we decode the
        first frames to get it. (used in mpeg case for example) */
@@ -4251,7 +4252,7 @@ int main(int argc, char **argv)
         show_banner();
 
     /* parse options */
-    parse_options(argc, argv, options);
+    parse_options(argc, argv, options,parse_arg_file);
 
     /* file converter / grab */
     if (nb_output_files <= 0) {

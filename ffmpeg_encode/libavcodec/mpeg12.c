@@ -3291,4 +3291,4 @@ AVCodec mpeg_xvmc_decoder = {
 /* this is ugly i know, but the alternative is too make
    hundreds of vars global and prefix them with ff_mpeg1_
    which is far uglier. */
-#include "mdec.c.inc"
+#include "mdec.c"

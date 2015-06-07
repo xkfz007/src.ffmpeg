@@ -157,7 +157,7 @@ DECLARE_ASM_CONST(8, uint64_t, blue_15mask)  = 0x0000001f0000001fULL;
 #define HAVE_AMD3DNOW 0
 #define HAVE_SSE2 0
 #define RENAME(a) a ## _C
-#include "rgb2rgb_template.c.inc"
+#include "rgb2rgb_template.c"
 
 #if ARCH_X86
 
@@ -166,14 +166,14 @@ DECLARE_ASM_CONST(8, uint64_t, blue_15mask)  = 0x0000001f0000001fULL;
 #undef HAVE_MMX
 #define HAVE_MMX 1
 #define RENAME(a) a ## _MMX
-#include "rgb2rgb_template.c.inc"
+#include "rgb2rgb_template.c"
 
 //MMX2 versions
 #undef RENAME
 #undef HAVE_MMX2
 #define HAVE_MMX2 1
 #define RENAME(a) a ## _MMX2
-#include "rgb2rgb_template.c.inc"
+#include "rgb2rgb_template.c"
 
 //3DNOW versions
 #undef RENAME
@@ -182,7 +182,7 @@ DECLARE_ASM_CONST(8, uint64_t, blue_15mask)  = 0x0000001f0000001fULL;
 #define HAVE_MMX2 0
 #define HAVE_AMD3DNOW 1
 #define RENAME(a) a ## _3DNOW
-#include "rgb2rgb_template.c.inc"
+#include "rgb2rgb_template.c"
 
 #endif //ARCH_X86 || ARCH_X86_64
 

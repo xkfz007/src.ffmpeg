@@ -6,7 +6,7 @@
 #define FFMPEG_DATADIR "/usr/local/share/ffmpeg"
 #define CC_TYPE "gcc"
 #define CC_VERSION __VERSION__
-#define restrict restrict
+#define restrict 
 #define ASMALIGN(ZEROBITS) ".align 1 << " #ZEROBITS "\n\t"
 #define EXTERN_PREFIX ""
 #define EXTERN_ASM 
@@ -83,11 +83,11 @@
 #define HAVE_GETHRTIME 0
 #define HAVE_GETPROCESSMEMORYINFO 0
 #define HAVE_GETPROCESSTIMES 0
-#define HAVE_GETRUSAGE 1
+#define HAVE_GETRUSAGE 0
 #define HAVE_STRUCT_RUSAGE_RU_MAXRSS 1
 #define HAVE_INET_ATON 1
-#define HAVE_INLINE_ASM 1
-#define HAVE_ISATTY 1
+#define HAVE_INLINE_ASM 0
+#define HAVE_ISATTY 0
 #define HAVE_LDBRX 0
 #define HAVE_LIBDC1394_1 0
 #define HAVE_LIBDC1394_2 0
@@ -128,11 +128,11 @@
 #define HAVE_SYMVER_ASM_LABEL 0
 #define HAVE_SYS_MMAN_H 1
 #define HAVE_SYS_RESOURCE_H 1
-#define HAVE_SYS_SELECT_H 1
+#define HAVE_SYS_SELECT_H 0
 #define HAVE_SYS_SOUNDCARD_H 1
 #define HAVE_SYS_VIDEOIO_H 0
 #define HAVE_TEN_OPERANDS 1
-#define HAVE_TERMIOS_H 1
+#define HAVE_TERMIOS_H 0
 #define HAVE_THREADS 0
 #define HAVE_TRUNCF 1
 #define HAVE_VFP_ARGS 0
@@ -848,18 +848,18 @@
 #define CONFIG_WEBM_MUXER 0
 #define CONFIG_YUV4MPEGPIPE_MUXER 0
 #define CONFIG_LIBNUT_MUXER 0
-#define CONFIG_ASPECT_FILTER 0
-#define CONFIG_CROP_FILTER 0
-#define CONFIG_FORMAT_FILTER 0
-#define CONFIG_NOFORMAT_FILTER 0
-#define CONFIG_NULL_FILTER 0
-#define CONFIG_PIXELASPECT_FILTER 0
-#define CONFIG_SCALE_FILTER 0
-#define CONFIG_SLICIFY_FILTER 0
-#define CONFIG_UNSHARP_FILTER 0
-#define CONFIG_VFLIP_FILTER 0
-#define CONFIG_NULLSRC_FILTER 0
-#define CONFIG_NULLSINK_FILTER 0
+#define CONFIG_ASPECT_FILTER 1
+#define CONFIG_CROP_FILTER 1
+#define CONFIG_FORMAT_FILTER 1
+#define CONFIG_NOFORMAT_FILTER 1
+#define CONFIG_NULL_FILTER 1
+#define CONFIG_PIXELASPECT_FILTER 1
+#define CONFIG_SCALE_FILTER 1
+#define CONFIG_SLICIFY_FILTER 1
+#define CONFIG_UNSHARP_FILTER 1
+#define CONFIG_VFLIP_FILTER 1
+#define CONFIG_NULLSRC_FILTER 1
+#define CONFIG_NULLSINK_FILTER 1
 #define CONFIG_FILE_PROTOCOL 1
 #define CONFIG_GOPHER_PROTOCOL 0
 #define CONFIG_HTTP_PROTOCOL 0
@@ -970,14 +970,8 @@
 #define snprintf     _snprintf
 #define vsnprintf    _vsnprintf
 
-/*
-#include <windows.h> // 影响 near 变量， near或许做关键字解析, 移到config_w32_add.h中
 
-static void usleep(int x)
-{
-	Sleep(x/1000);
-}
-// */
+
 
 #pragma warning (disable:47)   // for intel c compile
 #pragma warning (disable:177)
@@ -986,7 +980,7 @@ static void usleep(int x)
 #pragma warning (disable:4305)
 #pragma warning (disable:4013)
 
-#pragma comment(lib, "sdl.lib")
+//#pragma comment(lib, "sdl.lib")
 #pragma comment(lib, "ws2_32.lib")
 
 

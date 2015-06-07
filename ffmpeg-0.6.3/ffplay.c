@@ -41,10 +41,8 @@
 
 #include "cmdutils.h"
 
-#include "config_w32_add.h"
-
-#include "SDL/SDL.h"
-#include "SDL/SDL_thread.h"
+#include <SDL.h>
+#include <SDL_thread.h>
 
 #ifdef __MINGW32__
 #undef main /* We don't want SDL to override our main() */
@@ -54,7 +52,7 @@
 #undef main /* We don't want SDL to override our main() */
 #endif
 
-//#include <unistd.h>
+#include <unistd.h>
 #include <assert.h>
 
 const char program_name[] = "FFplay";
@@ -3129,13 +3127,10 @@ int main(int argc, char **argv)
     parse_options(argc, argv, options, opt_input_file);
 
     if (!input_filename) {
-/*
         show_usage();
         fprintf(stderr, "An input file must be specified\n");
         fprintf(stderr, "Use -h to get full help or, even better, run 'man ffplay'\n");
         exit(1);
-// */
-		input_filename = "clocktxt.avi";
     }
 
     if (display_disable) {

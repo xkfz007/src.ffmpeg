@@ -1183,7 +1183,7 @@ static inline void monoblack2Y(uint8_t *dst, const uint8_t *src, long width, uin
 
 #ifdef COMPILE_C
 #define RENAME(a) a ## _C
-#include "swscale_template.c.inc"
+#include "swscale_template.c"
 #endif
 
 #ifdef COMPILE_ALTIVEC
@@ -1191,7 +1191,7 @@ static inline void monoblack2Y(uint8_t *dst, const uint8_t *src, long width, uin
 #undef COMPILE_TEMPLATE_ALTIVEC
 #define COMPILE_TEMPLATE_ALTIVEC 1
 #define RENAME(a) a ## _altivec
-#include "swscale_template.c.inc"
+#include "swscale_template.c"
 #endif
 
 #if ARCH_X86
@@ -1206,7 +1206,7 @@ static inline void monoblack2Y(uint8_t *dst, const uint8_t *src, long width, uin
 #define COMPILE_TEMPLATE_MMX2 0
 #define COMPILE_TEMPLATE_AMD3DNOW 0
 #define RENAME(a) a ## _MMX
-#include "swscale_template.c.inc"
+#include "swscale_template.c"
 #endif
 
 //MMX2 versions
@@ -1219,7 +1219,7 @@ static inline void monoblack2Y(uint8_t *dst, const uint8_t *src, long width, uin
 #define COMPILE_TEMPLATE_MMX2 1
 #define COMPILE_TEMPLATE_AMD3DNOW 0
 #define RENAME(a) a ## _MMX2
-#include "swscale_template.c.inc"
+#include "swscale_template.c"
 #endif
 
 //3DNOW versions
@@ -1232,7 +1232,7 @@ static inline void monoblack2Y(uint8_t *dst, const uint8_t *src, long width, uin
 #define COMPILE_TEMPLATE_MMX2 0
 #define COMPILE_TEMPLATE_AMD3DNOW 1
 #define RENAME(a) a ## _3DNow
-#include "swscale_template.c.inc"
+#include "swscale_template.c"
 #endif
 
 #endif //ARCH_X86

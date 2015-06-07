@@ -30,8 +30,6 @@
 #include "network.h"
 #endif
 
-#include "config_w32_add.h"
-
 #if LIBAVFORMAT_VERSION_MAJOR >= 53
 /** @name Logging context. */
 /*@{*/

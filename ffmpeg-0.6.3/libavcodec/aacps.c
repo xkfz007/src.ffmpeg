@@ -26,7 +26,7 @@
 #include "get_bits.h"
 #include "aacps.h"
 #include "aacps_tablegen.h"
-#include "aacpsdata.c.inc"
+#include "aacpsdata.c"
 
 #define PS_BASELINE 0  //< Operate in Baseline PS mode
                        //< Baseline implies 10 or 20 stereo bands,

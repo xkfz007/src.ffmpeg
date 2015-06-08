@@ -30,12 +30,9 @@
           extern AVHWAccel x##_hwaccel; \
           if(CONFIG_##X##_HWACCEL) av_register_hwaccel(&x##_hwaccel); }
 
-#define REGISTER_ENCODER(X,x) {  }
-/*
 #define REGISTER_ENCODER(X,x) { \
           extern AVCodec x##_encoder; \
           if(CONFIG_##X##_ENCODER)  avcodec_register(&x##_encoder); }
-// */
 #define REGISTER_DECODER(X,x) { \
           extern AVCodec x##_decoder; \
           if(CONFIG_##X##_DECODER)  avcodec_register(&x##_decoder); }

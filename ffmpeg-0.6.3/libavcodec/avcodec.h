@@ -27,7 +27,6 @@
  */
 
 #include <errno.h>
-#include "config.h"
 #include "libavutil/avutil.h"
 
 #define LIBAVCODEC_VERSION_MAJOR 52

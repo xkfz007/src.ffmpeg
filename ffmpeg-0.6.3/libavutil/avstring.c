@@ -23,9 +23,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
-#include "config.h"
 #include "avstring.h"
 #include "mem.h"
+#include "config.h"
 
 int av_strstart(const char *str, const char *pfx, const char **ptr)
 {

@@ -27,11 +27,7 @@
 #endif
 #include <unistd.h>
 #include <sys/stat.h>
-#ifdef CONFIG_WIN32
-#include <sys/timeb.h>
-#else
 #include <sys/time.h>
-#endif
 #include <stdlib.h>
 #include "os_support.h"
 

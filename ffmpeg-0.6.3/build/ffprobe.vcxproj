@@ -11,7 +11,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\cmdutils.c" />
     <ClCompile Include="..\ffprobe.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\cmdutils.h" />
+    <ClInclude Include="..\cmdutils_common_opts.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{9D1DFFE9-B635-4357-8528-254416A37DFA}</ProjectGuid>
@@ -57,9 +62,9 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\;..\include</AdditionalIncludeDirectories>
-      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ObjectFileName>$(IntDir)\$(ProjectName)\</ObjectFileName>
       <C99Support>true</C99Support>
     </ClCompile>
     <Link>
@@ -78,7 +83,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\;..\include</AdditionalIncludeDirectories>
-      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ObjectFileName>$(IntDir)\$(ProjectName)\</ObjectFileName>
       <C99Support>true</C99Support>
     </ClCompile>
     <Link>

@@ -26,7 +26,6 @@
 #ifndef AVUTIL_COMMON_H
 #define AVUTIL_COMMON_H
 
-#include "config.h"
 #include <ctype.h>
 #include <errno.h>
 #include <inttypes.h>

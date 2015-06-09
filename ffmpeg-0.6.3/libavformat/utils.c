@@ -25,11 +25,7 @@
 #include "libavutil/avstring.h"
 #include "riff.h"
 #include "audiointerleave.h"
-#ifdef CONFIG_WIN32
-#include <sys/timeb.h>
-#else
 #include <sys/time.h>
-#endif
 #include <time.h>
 #include <strings.h>
 #include <stdarg.h>
@@ -3153,9 +3149,7 @@ int parse_frame_rate(int *frame_rate_num, int *frame_rate_den, const char *arg)
 
 int64_t av_gettime(void)
 {
-#if defined(CONFIG_WINCE)
-    return timeGetTime() * INT64_C(1000);
-#elif defined(CONFIG_WIN32)
+#ifdef WIN32
     struct timeb tb;
     _ftime(&tb);
     return ((int64_t)tb.time * INT64_C(1000) + (int64_t)tb.millitm) * INT64_C(1000);

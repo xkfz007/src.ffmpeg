@@ -41,7 +41,6 @@
 #define REGISTER_PARSER(X,x) { \
           extern AVCodecParser x##_parser; \
           if(CONFIG_##X##_PARSER)  av_register_codec_parser(&x##_parser); }
-
 #define REGISTER_BSF(X,x) { \
           extern AVBitStreamFilter x##_bsf; \
           if(CONFIG_##X##_BSF)     av_register_bitstream_filter(&x##_bsf); }
@@ -55,7 +54,7 @@ void avcodec_register_all(void)
     initialized = 1;
 
     /* hardware accelerators */
-/*
+#ifdef NDEBUG
     REGISTER_HWACCEL (H263_VAAPI, h263_vaapi);
     REGISTER_HWACCEL (H264_DXVA2, h264_dxva2);
     REGISTER_HWACCEL (H264_VAAPI, h264_vaapi);
@@ -65,7 +64,8 @@ void avcodec_register_all(void)
     REGISTER_HWACCEL (VC1_VAAPI, vc1_vaapi);
     REGISTER_HWACCEL (WMV3_DXVA2, wmv3_dxva2);
     REGISTER_HWACCEL (WMV3_VAAPI, wmv3_vaapi);
-// */
+#endif
+
     /* video codecs */
     REGISTER_DECODER (AASC, aasc);
     REGISTER_DECODER (AMV, amv);
@@ -90,7 +90,7 @@ void avcodec_register_all(void)
     REGISTER_DECODER (DPX, dpx);
     REGISTER_DECODER (DSICINVIDEO, dsicinvideo);
     REGISTER_ENCDEC  (DVVIDEO, dvvideo);
-//    REGISTER_DECODER (DXA, dxa);
+    REGISTER_DECODER (DXA, dxa);
     REGISTER_DECODER (EACMV, eacmv);
     REGISTER_DECODER (EAMAD, eamad);
     REGISTER_DECODER (EATGQ, eatgq);
@@ -102,7 +102,7 @@ void avcodec_register_all(void)
     REGISTER_DECODER (ESCAPE124, escape124);
     REGISTER_ENCDEC  (FFV1, ffv1);
     REGISTER_ENCDEC  (FFVHUFF, ffvhuff);
-//    REGISTER_ENCDEC  (FLASHSV, flashsv);
+    REGISTER_ENCDEC  (FLASHSV, flashsv);
     REGISTER_DECODER (FLIC, flic);
     REGISTER_ENCDEC  (FLV, flv);
     REGISTER_DECODER (FOURXM, fourxm);
@@ -114,7 +114,9 @@ void avcodec_register_all(void)
     REGISTER_DECODER (H263I, h263i);
     REGISTER_ENCODER (H263P, h263p);
     REGISTER_DECODER (H264, h264);
-//    REGISTER_DECODER (H264_VDPAU, h264_vdpau);
+#ifdef NDEBUG
+    REGISTER_DECODER (H264_VDPAU, h264_vdpau);
+#endif
     REGISTER_ENCDEC  (HUFFYUV, huffyuv);
     REGISTER_DECODER (IDCIN, idcin);
     REGISTER_DECODER (IFF_BYTERUN1, iff_byterun1);
@@ -134,14 +136,20 @@ void avcodec_register_all(void)
     REGISTER_DECODER (MJPEGB, mjpegb);
     REGISTER_DECODER (MMVIDEO, mmvideo);
     REGISTER_DECODER (MOTIONPIXELS, motionpixels);
-//    REGISTER_DECODER (MPEG_XVMC, mpeg_xvmc);
+#ifdef NDEBUG
+    REGISTER_DECODER (MPEG_XVMC, mpeg_xvmc);
+#endif
     REGISTER_ENCDEC  (MPEG1VIDEO, mpeg1video);
     REGISTER_ENCDEC  (MPEG2VIDEO, mpeg2video);
     REGISTER_ENCDEC  (MPEG4, mpeg4);
-//    REGISTER_DECODER (MPEG4_VDPAU, mpeg4_vdpau);
+#ifdef NDEBUG
+    REGISTER_DECODER (MPEG4_VDPAU, mpeg4_vdpau);
+#endif
     REGISTER_DECODER (MPEGVIDEO, mpegvideo);
-//    REGISTER_DECODER (MPEG_VDPAU, mpeg_vdpau);
-//    REGISTER_DECODER (MPEG1_VDPAU, mpeg1_vdpau);
+#ifdef NDEBUG
+    REGISTER_DECODER (MPEG_VDPAU, mpeg_vdpau);
+    REGISTER_DECODER (MPEG1_VDPAU, mpeg1_vdpau);
+#endif
     REGISTER_ENCDEC  (MSMPEG4V1, msmpeg4v1);
     REGISTER_ENCDEC  (MSMPEG4V2, msmpeg4v2);
     REGISTER_ENCDEC  (MSMPEG4V3, msmpeg4v3);
@@ -154,7 +162,7 @@ void avcodec_register_all(void)
     REGISTER_ENCDEC  (PCX, pcx);
     REGISTER_ENCDEC  (PGM, pgm);
     REGISTER_ENCDEC  (PGMYUV, pgmyuv);
-//    REGISTER_ENCDEC  (PNG, png);
+    REGISTER_ENCDEC  (PNG, png);
     REGISTER_ENCDEC  (PPM, ppm);
     REGISTER_DECODER (PTX, ptx);
     REGISTER_DECODER (QDRAW, qdraw);
@@ -185,14 +193,16 @@ void avcodec_register_all(void)
     REGISTER_DECODER (TMV, tmv);
     REGISTER_DECODER (TRUEMOTION1, truemotion1);
     REGISTER_DECODER (TRUEMOTION2, truemotion2);
-//    REGISTER_DECODER (TSCC, tscc);
+    REGISTER_DECODER (TSCC, tscc);
     REGISTER_DECODER (TXD, txd);
     REGISTER_DECODER (ULTI, ulti);
     REGISTER_ENCDEC  (V210,  v210);
     REGISTER_DECODER (V210X, v210x);
     REGISTER_DECODER (VB, vb);
     REGISTER_DECODER (VC1, vc1);
-//    REGISTER_DECODER (VC1_VDPAU, vc1_vdpau);
+#ifdef NDEBUG
+    REGISTER_DECODER (VC1_VDPAU, vc1_vdpau);
+#endif
     REGISTER_DECODER (VCR1, vcr1);
     REGISTER_DECODER (VMDVIDEO, vmdvideo);
     REGISTER_DECODER (VMNC, vmnc);
@@ -205,13 +215,15 @@ void avcodec_register_all(void)
     REGISTER_ENCDEC  (WMV1, wmv1);
     REGISTER_ENCDEC  (WMV2, wmv2);
     REGISTER_DECODER (WMV3, wmv3);
-//    REGISTER_DECODER (WMV3_VDPAU, wmv3_vdpau);
+#ifdef NDEBUG
+    REGISTER_DECODER (WMV3_VDPAU, wmv3_vdpau);
+#endif
     REGISTER_DECODER (WNV1, wnv1);
     REGISTER_DECODER (XAN_WC3, xan_wc3);
     REGISTER_DECODER (XL, xl);
     REGISTER_DECODER (YOP, yop);
-//    REGISTER_ENCDEC  (ZLIB, zlib);
-//    REGISTER_ENCDEC  (ZMBV, zmbv);
+    REGISTER_ENCDEC  (ZLIB, zlib);
+    REGISTER_ENCDEC  (ZMBV, zmbv);
 
     /* audio codecs */
     REGISTER_ENCDEC  (AAC, aac);
@@ -333,7 +345,7 @@ void avcodec_register_all(void)
     REGISTER_ENCDEC  (XSUB, xsub);
 
     /* external libraries */
-/*
+#ifdef NDEBUG
     REGISTER_ENCDEC  (LIBDIRAC, libdirac);
     REGISTER_ENCODER (LIBFAAC, libfaac);
     REGISTER_DECODER (LIBFAAD, libfaad);
@@ -348,9 +360,10 @@ void avcodec_register_all(void)
     REGISTER_ENCODER (LIBTHEORA, libtheora);
     REGISTER_ENCODER (LIBVORBIS, libvorbis);
     REGISTER_ENCDEC  (LIBVPX, libvpx);
+#endif
     REGISTER_ENCODER (LIBX264, libx264);
     REGISTER_ENCODER (LIBXVID, libxvid);
-// */
+
     /* parsers */
     REGISTER_PARSER  (AAC, aac);
     REGISTER_PARSER  (AC3, ac3);
@@ -373,7 +386,6 @@ void avcodec_register_all(void)
     REGISTER_PARSER  (VP3, vp3);
 
     /* bitstream filters */
-/*
     REGISTER_BSF     (AAC_ADTSTOASC, aac_adtstoasc);
     REGISTER_BSF     (DUMP_EXTRADATA, dump_extradata);
     REGISTER_BSF     (H264_MP4TOANNEXB, h264_mp4toannexb);
@@ -385,6 +397,5 @@ void avcodec_register_all(void)
     REGISTER_BSF     (NOISE, noise);
     REGISTER_BSF     (REMOVE_EXTRADATA, remove_extradata);
     REGISTER_BSF     (TEXT2MOVSUB, text2movsub);
-// */
 }
 

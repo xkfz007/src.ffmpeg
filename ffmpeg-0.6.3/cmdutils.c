@@ -341,7 +341,6 @@ static void maybe_print_config(const char *lib, const char *cfg)
 
 void show_banner(void)
 {
-/*
     fprintf(stderr, "%s version " FFMPEG_VERSION ", Copyright (c) %d-%d the FFmpeg developers\n",
             program_name, program_birth_year, this_year);
     fprintf(stderr, "  built on %s %s with %s %s\n",
@@ -355,19 +354,15 @@ void show_banner(void)
     PRINT_LIB_CONFIG(SWSCALE,  "libswscale",  swscale_configuration());
     PRINT_LIB_CONFIG(POSTPROC, "libpostproc", postproc_configuration());
     print_all_lib_versions(stderr, 1);
-// */
 }
 
 void show_version(void) {
-/*
     printf("%s " FFMPEG_VERSION "\n", program_name);
     print_all_lib_versions(stdout, 0);
-// */
 }
 
 void show_license(void)
 {
-/*
     printf(
 #if CONFIG_NONFREE
     "This version of %s has nonfree parts compiled in.\n"
@@ -433,24 +428,20 @@ void show_license(void)
     program_name, program_name, program_name
 #endif
     );
-// */
 }
 
 void list_fmts(void (*get_fmt_string)(char *buf, int buf_size, int fmt), int nb_fmts)
 {
-/*
     int i;
     char fmt_str[128];
     for (i=-1; i < nb_fmts; i++) {
         get_fmt_string (fmt_str, sizeof(fmt_str), i);
         fprintf(stdout, "%s\n", fmt_str);
     }
-// */
 }
 
 void show_formats(void)
 {
-/*
     AVInputFormat *ifmt=NULL;
     AVOutputFormat *ofmt=NULL;
     const char *last_name;
@@ -496,12 +487,10 @@ void show_formats(void)
             name,
             long_name ? long_name:" ");
     }
-// */
 }
 
 void show_codecs(void)
 {
-/*
     AVCodec *p=NULL, *p2;
     const char *last_name;
     printf(
@@ -555,7 +544,7 @@ void show_codecs(void)
         }
         printf(
             " %s%s%s%s%s%s %-15s %s",
-            decode ? "D": (" "),
+            decode ? "D": (/*p2->decoder ? "d":*/" "),
             encode ? "E":" ",
             type_str,
             cap & CODEC_CAP_DRAW_HORIZ_BAND ? "S":" ",
@@ -563,6 +552,8 @@ void show_codecs(void)
             cap & CODEC_CAP_TRUNCATED ? "T":" ",
             p2->name,
             p2->long_name ? p2->long_name : "");
+       /* if(p2->decoder && decode==0)
+            printf(" use %s for decoding", p2->decoder->name);*/
         printf("\n");
     }
     printf("\n");
@@ -572,35 +563,29 @@ void show_codecs(void)
 "even though both encoding and decoding are supported. For example, the h263\n"
 "decoder corresponds to the h263 and h263p encoders, for file formats it is even\n"
 "worse.\n");
-// */
 }
 
 void show_bsfs(void)
 {
-/*
     AVBitStreamFilter *bsf=NULL;
 
     printf("Bitstream filters:\n");
     while((bsf = av_bitstream_filter_next(bsf)))
         printf("%s\n", bsf->name);
     printf("\n");
-// */
 }
 
 void show_protocols(void)
 {
-/*
     URLProtocol *up=NULL;
 
     printf("Supported file protocols:\n");
     while((up = av_protocol_next(up)))
         printf("%s\n", up->name);
-// */
 }
 
 void show_filters(void)
 {
-/*
     AVFilter av_unused(**filter) = NULL;
 
     printf("Filters:\n");
@@ -608,12 +593,10 @@ void show_filters(void)
     while ((filter = av_filter_next(filter)) && *filter)
         printf("%-16s %s\n", (*filter)->name, (*filter)->description);
 #endif
-// */
 }
 
 void show_pix_fmts(void)
 {
-/*
     enum PixelFormat pix_fmt;
 
     printf(
@@ -643,7 +626,6 @@ void show_pix_fmts(void)
                pix_desc->nb_components,
                av_get_bits_per_pixel(pix_desc));
     }
-// */
 }
 
 int read_yesno(void)

@@ -28,11 +28,7 @@
 #include "avformat.h"
 #include <unistd.h>
 #include <fcntl.h>
-#ifdef CONFIG_WIN32
-#include <sys/timeb.h>
-#else
 #include <sys/time.h>
-#endif
 #include "os_support.h"
 
 #if CONFIG_NETWORK

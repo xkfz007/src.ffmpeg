@@ -1,7 +1,6 @@
 EXPORTS
 ;ffmpeg needed functions
 
-opt_names
 url_fclose
 av_metadata_free
 av_log
@@ -43,7 +42,6 @@ av_codec_get_id
 av_codec_get_tag
 av_fifo_alloc
 avpicture_alloc
-read_file
 av_metadata_conv
 av_write_header
 av_pkt_dump_log
@@ -55,7 +53,6 @@ av_parse_video_frame_rate
 av_strdup
 avcodec_get_sample_fmt
 avcodec_sample_fmt_string
-list_fmts
 avcodec_find_decoder_by_name
 avcodec_find_encoder_by_name
 av_seek_frame
@@ -69,10 +66,8 @@ av_guess_format
 av_strstart
 av_filename_number_test
 url_exist
-read_yesno
 url_fopen
 av_set_parameters
-opt_timelimit
 av_log_set_callback
 av_opt_show
 av_bitstream_filter_init
@@ -86,7 +81,6 @@ av_gettime
 av_rdft_end
 av_rdft_init
 av_rdft_calc
-sws_opts
 av_get_int
 sws_getCachedContext
 sws_scale
@@ -100,17 +94,13 @@ av_audio_convert_alloc
 avcodec_get_sample_fmt_name
 av_get_bits_per_sample_format
 av_audio_convert
-avcodec_opts
 avcodec_find_decoder
 avcodec_thread_init
-set_context_opts
 avcodec_open
 avcodec_close
-avformat_opts
 avformat_alloc_context
 url_set_interrupt_cb
 av_open_input_file
-print_error
 av_find_stream_info
 avformat_seek_file
 dump_format
@@ -127,29 +117,45 @@ sws_freeContext
 url_ftell
 url_fsize
 av_parse_video_frame_size
-parse_number_or_die
 av_find_input_format
 av_get_pix_fmt
-parse_time_or_die
 av_log_set_level
-show_license
-show_version
-show_formats
-show_codecs
-show_bsfs
-show_protocols
-show_filters
-show_pix_fmts
-opt_loglevel
-opt_default
-show_help_options
 avcodec_register_all
 av_register_all
 avcodec_alloc_context2
 sws_getContext
-show_banner
-parse_options
 
 ;ffprobe needed functions
 av_pix_fmt_descriptors
 av_reduce
+
+;cmdutil needed functions
+
+parse_date
+av_strlcat
+av_find_opt
+av_set_string3
+av_get_string
+av_strerror
+avutil_version
+avcodec_version
+avformat_version
+avdevice_version
+avfilter_version
+swscale_version
+postproc_version
+avutil_configuration
+avcodec_configuration
+avformat_configuration
+avdevice_configuration
+avfilter_configuration
+swscale_configuration
+postproc_configuration
+av_oformat_next
+av_iformat_next
+av_codec_next
+av_bitstream_filter_next
+av_protocol_next
+sws_isSupportedInput
+sws_isSupportedOutput
+av_get_bits_per_pixel

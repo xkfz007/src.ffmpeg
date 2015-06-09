@@ -142,7 +142,6 @@
 #endif
 
 /* avoid usage of dangerous/inappropriate system functions */
-/*
 #undef  malloc
 #define malloc please_use_av_malloc
 #undef  free
@@ -173,7 +172,7 @@
 #undef  perror
 #define perror please_use_av_log_instead_of_perror
 #endif
-// */
+
 #define FF_ALLOC_OR_GOTO(ctx, p, size, label)\
 {\
     p = av_malloc(size);\

@@ -53,7 +53,6 @@ const char *avformat_license(void);
 
 #include <time.h>
 #include <stdio.h>  /* FILE */
-#include "config.h"
 #include "libavcodec/avcodec.h"
 
 #include "avio.h"

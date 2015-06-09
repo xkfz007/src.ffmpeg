@@ -21,12 +21,10 @@
 #include "avformat.h"
 #include "rtp.h"
 #include "rdt.h"
-/*
+
 #define REGISTER_MUXER(X,x) { \
     extern AVOutputFormat x##_muxer; \
     if(CONFIG_##X##_MUXER) av_register_output_format(&x##_muxer); }
-// */
-#define REGISTER_MUXER(X,x) { }
 
 #define REGISTER_DEMUXER(X,x) { \
     extern AVInputFormat x##_demuxer; \
@@ -63,7 +61,9 @@ void av_register_all(void)
     REGISTER_MUXER    (ASF_STREAM, asf_stream);
     REGISTER_MUXDEMUX (AU, au);
     REGISTER_MUXDEMUX (AVI, avi);
-//    REGISTER_DEMUXER  (AVISYNTH, avisynth);
+#ifdef NDEBUG
+    REGISTER_DEMUXER  (AVISYNTH, avisynth);
+#endif
     REGISTER_MUXER    (AVM2, avm2);
     REGISTER_DEMUXER  (AVS, avs);
     REGISTER_DEMUXER  (BETHSOFTVID, bethsoftvid);
@@ -173,9 +173,11 @@ void av_register_all(void)
     REGISTER_MUXDEMUX (RM, rm);
     REGISTER_MUXDEMUX (ROQ, roq);
     REGISTER_DEMUXER  (RPL, rpl);
+#ifdef NDEBUG
     REGISTER_MUXER    (RTP, rtp);
-//    REGISTER_MUXDEMUX (RTSP, rtsp);
-//    REGISTER_DEMUXER  (SDP, sdp);
+    REGISTER_MUXDEMUX (RTSP, rtsp);
+    REGISTER_DEMUXER  (SDP, sdp);
+#endif
 #if CONFIG_SDP_DEMUXER
     av_register_rtp_dynamic_payload_handlers();
     av_register_rdt_dynamic_payload_handlers();
@@ -214,24 +216,27 @@ void av_register_all(void)
     REGISTER_MUXDEMUX (YUV4MPEGPIPE, yuv4mpegpipe);
 
     /* external libraries */
-//    REGISTER_MUXDEMUX (LIBNUT, libnut);
-
+#ifdef NDEBUG
+    REGISTER_MUXDEMUX (LIBNUT, libnut);
+#endif
     /* protocols */
     REGISTER_PROTOCOL (FILE, file);
-/*
+#ifdef NDEBUG
     REGISTER_PROTOCOL (GOPHER, gopher);
     REGISTER_PROTOCOL (HTTP, http);
     REGISTER_PROTOCOL (PIPE, pipe);
     REGISTER_PROTOCOL (RTMP, rtmp);
+#endif
 #if CONFIG_LIBRTMP
     REGISTER_PROTOCOL (RTMP, rtmpt);
     REGISTER_PROTOCOL (RTMP, rtmpe);
     REGISTER_PROTOCOL (RTMP, rtmpte);
     REGISTER_PROTOCOL (RTMP, rtmps);
 #endif
+#ifdef NDEBUG
     REGISTER_PROTOCOL (RTP, rtp);
     REGISTER_PROTOCOL (TCP, tcp);
     REGISTER_PROTOCOL (UDP, udp);
+#endif
     REGISTER_PROTOCOL (CONCAT, concat);
-// */
 }

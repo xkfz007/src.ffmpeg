@@ -703,10 +703,9 @@ av_cold int avcodec_close(AVCodecContext *avctx)
         entangled_thread_counter--;
         return -1;
     }
-/*
+
     if (HAVE_THREADS && avctx->thread_opaque)
         avcodec_thread_free(avctx);
-// */
     if (avctx->codec && avctx->codec->close)
         avctx->codec->close(avctx);
     avcodec_default_free_buffers(avctx);

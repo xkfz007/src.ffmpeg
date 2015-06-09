@@ -78,7 +78,6 @@ enum AVMediaType {
     AVMEDIA_TYPE_NB
 };
 
-#include "config.h"
 #include "common.h"
 #include "error.h"
 #include "mathematics.h"

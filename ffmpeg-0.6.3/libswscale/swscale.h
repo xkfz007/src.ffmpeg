@@ -26,7 +26,7 @@
  * @brief
  *     external api for the swscale stuff
  */
-#include "config.h"
+
 #include "libavutil/avutil.h"
 
 #define LIBSWSCALE_VERSION_MAJOR 0

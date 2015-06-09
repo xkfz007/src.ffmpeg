@@ -48,7 +48,7 @@
 #undef main /* We don't want SDL to override our main() */
 #endif
 
-#ifdef CONFIG_WIN32
+#ifdef WIN32
 #undef main /* We don't want SDL to override our main() */
 #endif
 
@@ -3137,7 +3137,7 @@ int main(int argc, char **argv)
         video_disable = 1;
     }
     flags = SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER;
-#if !defined(CONFIG_WIN32) && !defined(__MINGW32__) && !defined(__APPLE__)
+#if !defined(WIN32) && !defined(__MINGW32__) && !defined(__APPLE__)
     flags |= SDL_INIT_EVENTTHREAD; /* Not supported on Windows or Mac OS X */
 #endif
     if (SDL_Init (flags)) {

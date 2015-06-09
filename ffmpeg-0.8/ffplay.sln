@@ -1,7 +1,7 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual Studio 2005
-Project("{EAF909A5-FA59-4C3D-9431-0FCC20D5BCF9}") = "ffplay", "ffplay.icproj", "{E31B33DE-3AB7-4E89-B709-FD9A3EB5EC5A}"
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ffplay", "ffplay.vcxproj", "{F6B7ABAC-9FB5-40AA-8278-66F222559EF5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,12 +9,10 @@ Global
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E31B33DE-3AB7-4E89-B709-FD9A3EB5EC5A}.Debug|Win32.ActiveCfg = Debug|Win32
-		{E31B33DE-3AB7-4E89-B709-FD9A3EB5EC5A}.Debug|Win32.Build.0 = Debug|Win32
-		{E31B33DE-3AB7-4E89-B709-FD9A3EB5EC5A}.Release|Win32.ActiveCfg = Release|Win32
-		{E31B33DE-3AB7-4E89-B709-FD9A3EB5EC5A}.Release|Win32.Build.0 = Release|Win32
 		{F6B7ABAC-9FB5-40AA-8278-66F222559EF5}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F6B7ABAC-9FB5-40AA-8278-66F222559EF5}.Debug|Win32.Build.0 = Debug|Win32
 		{F6B7ABAC-9FB5-40AA-8278-66F222559EF5}.Release|Win32.ActiveCfg = Release|Win32
+		{F6B7ABAC-9FB5-40AA-8278-66F222559EF5}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

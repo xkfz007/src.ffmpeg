@@ -1495,8 +1495,10 @@ int ff_MPV_frame_start(MpegEncContext *s, AVCodecContext *avctx)
         update_noise_reduction(s);
     }
 
+#ifdef NDEBUG
     if (CONFIG_MPEG_XVMC_DECODER && s->avctx->xvmc_acceleration)
         return ff_xvmc_field_start(s, avctx);
+#endif
 
     return 0;
 }
@@ -1508,9 +1510,12 @@ void ff_MPV_frame_end(MpegEncContext *s)
     int i;
     /* redraw edges for the frame if decoding didn't complete */
     // just to make sure that all data is rendered.
+#ifdef NDEBUG
     if (CONFIG_MPEG_XVMC_DECODER && s->avctx->xvmc_acceleration) {
         ff_xvmc_field_end(s);
-   } else if((s->error_count || s->encoding || !(s->avctx->codec->capabilities&CODEC_CAP_DRAW_HORIZ_BAND)) &&
+   } else 
+#endif
+       if((s->error_count || s->encoding || !(s->avctx->codec->capabilities&CODEC_CAP_DRAW_HORIZ_BAND)) &&
               !s->avctx->hwaccel &&
               !(s->avctx->codec->capabilities & CODEC_CAP_HWACCEL_VDPAU) &&
               s->unrestricted_mv &&
@@ -2443,10 +2448,12 @@ void MPV_decode_mb_internal(MpegEncContext *s, DCTELEM block[12][64],
                             int lowres_flag, int is_mpeg12)
 {
     const int mb_xy = s->mb_y * s->mb_stride + s->mb_x;
+#ifdef NDEBUG
     if(CONFIG_MPEG_XVMC_DECODER && s->avctx->xvmc_acceleration){
         ff_xvmc_decode_mb(s);//xvmc uses pblocks
         return;
     }
+#endif
 
     if(s->avctx->debug&FF_DEBUG_DCT_COEFF) {
        /* save DCT coefficients */

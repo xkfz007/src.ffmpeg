@@ -47,5 +47,7 @@ static void dca_lfe_fir_c(float *out, const float *in, const float *coefs,
 void ff_dcadsp_init(DCADSPContext *s)
 {
     s->lfe_fir = dca_lfe_fir_c;
+#ifdef NDEBUG
     if (ARCH_ARM) ff_dcadsp_init_arm(s);
+#endif
 }

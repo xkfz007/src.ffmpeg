@@ -67,13 +67,17 @@ void avfilter_register_all(void)
 
     REGISTER_FILTER (AEVALSRC,    aevalsrc,    asrc);
     REGISTER_FILTER (ANULLSRC,    anullsrc,    asrc);
+#ifdef NDEBUG
     REGISTER_FILTER (FLITE,       flite,       asrc);
+#endif
 
     REGISTER_FILTER (ANULLSINK,   anullsink,   asink);
 
     REGISTER_FILTER (ALPHAEXTRACT, alphaextract, vf);
     REGISTER_FILTER (ALPHAMERGE,  alphamerge,  vf);
+#ifdef NDEBUG
     REGISTER_FILTER (ASS,         ass,         vf);
+#endif
     REGISTER_FILTER (BBOX,        bbox,        vf);
     REGISTER_FILTER (BLACKDETECT, blackdetect, vf);
     REGISTER_FILTER (BLACKFRAME,  blackframe,  vf);
@@ -85,8 +89,10 @@ void avfilter_register_all(void)
     REGISTER_FILTER (DECIMATE,    decimate,    vf);
     REGISTER_FILTER (DELOGO,      delogo,      vf);
     REGISTER_FILTER (DESHAKE,     deshake,     vf);
+#ifdef NDEBUG
     REGISTER_FILTER (DRAWBOX,     drawbox,     vf);
     REGISTER_FILTER (DRAWTEXT,    drawtext,    vf);
+#endif
     REGISTER_FILTER (EDGEDETECT,  edgedetect,  vf);
     REGISTER_FILTER (FADE,        fade,        vf);
     REGISTER_FILTER (FIELDORDER,  fieldorder,  vf);
@@ -94,7 +100,9 @@ void avfilter_register_all(void)
     REGISTER_FILTER (FORMAT,      format,      vf);
     REGISTER_FILTER (FPS,         fps,         vf);
     REGISTER_FILTER (FRAMESTEP,   framestep,   vf);
+#ifdef NDEBUG
     REGISTER_FILTER (FREI0R,      frei0r,      vf);
+#endif
     REGISTER_FILTER (GRADFUN,     gradfun,     vf);
     REGISTER_FILTER (HFLIP,       hflip,       vf);
     REGISTER_FILTER (HQDN3D,      hqdn3d,      vf);
@@ -103,11 +111,15 @@ void avfilter_register_all(void)
     REGISTER_FILTER (LUT,         lut,         vf);
     REGISTER_FILTER (LUTRGB,      lutrgb,      vf);
     REGISTER_FILTER (LUTYUV,      lutyuv,      vf);
+#ifdef NDEBUG
     REGISTER_FILTER (MP,          mp,          vf);
+#endif
     REGISTER_FILTER (NEGATE,      negate,      vf);
     REGISTER_FILTER (NOFORMAT,    noformat,    vf);
     REGISTER_FILTER (NULL,        null,        vf);
+#ifdef NDEBUG
     REGISTER_FILTER (OCV,         ocv,         vf);
+#endif
     REGISTER_FILTER (OVERLAY,     overlay,     vf);
     REGISTER_FILTER (PAD,         pad,         vf);
     REGISTER_FILTER (PIXDESCTEST, pixdesctest, vf);
@@ -136,7 +148,9 @@ void avfilter_register_all(void)
 
     REGISTER_FILTER (CELLAUTO,    cellauto,    vsrc);
     REGISTER_FILTER (COLOR,       color,       vsrc);
+#ifdef NDEBUG
     REGISTER_FILTER (FREI0R,      frei0r_src,  vsrc);
+#endif
     REGISTER_FILTER (LIFE,        life,        vsrc);
     REGISTER_FILTER (MANDELBROT,  mandelbrot,  vsrc);
     REGISTER_FILTER (MPTESTSRC,   mptestsrc,   vsrc);

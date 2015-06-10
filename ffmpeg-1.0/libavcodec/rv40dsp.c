@@ -603,9 +603,10 @@ av_cold void ff_rv40dsp_init(RV34DSPContext *c, DSPContext* dsp) {
     c->rv40_strong_loop_filter[1]   = rv40_v_strong_loop_filter;
     c->rv40_loop_filter_strength[0] = rv40_h_loop_filter_strength;
     c->rv40_loop_filter_strength[1] = rv40_v_loop_filter_strength;
-
+#ifdef NDEBUG
     if (HAVE_MMX)
         ff_rv40dsp_init_x86(c, dsp);
     if (HAVE_NEON)
         ff_rv40dsp_init_neon(c, dsp);
+#endif
 }

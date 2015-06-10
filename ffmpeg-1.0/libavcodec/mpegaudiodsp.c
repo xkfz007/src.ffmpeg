@@ -40,9 +40,11 @@ void ff_mpadsp_init(MPADSPContext *s)
     s->imdct36_blocks_float = ff_imdct36_blocks_float;
     s->imdct36_blocks_fixed = ff_imdct36_blocks_fixed;
 
+#ifdef NDEBUG
     if (ARCH_ARM)     ff_mpadsp_init_arm(s);
     if (HAVE_MMX)     ff_mpadsp_init_mmx(s);
     if (HAVE_ALTIVEC) ff_mpadsp_init_altivec(s);
     if (HAVE_MIPSFPU)   ff_mpadsp_init_mipsfpu(s);
     if (HAVE_MIPSDSPR1) ff_mpadsp_init_mipsdspr1(s);
+#endif
 }

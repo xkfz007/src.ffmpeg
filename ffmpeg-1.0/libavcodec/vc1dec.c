@@ -5548,11 +5548,13 @@ static int vc1_decode_frame(AVCodecContext *avctx, void *data,
 
     s->me.qpel_put = s->dsp.put_qpel_pixels_tab;
     s->me.qpel_avg = s->dsp.avg_qpel_pixels_tab;
-
+#ifdef NDEBUG
     if ((CONFIG_VC1_VDPAU_DECODER)
         &&s->avctx->codec->capabilities&CODEC_CAP_HWACCEL_VDPAU)
         ff_vdpau_vc1_decode_picture(s, buf_start, (buf + buf_size) - buf_start);
-    else if (avctx->hwaccel) {
+    else 
+#endif
+        if (avctx->hwaccel) {
         if (avctx->hwaccel->start_frame(avctx, buf, buf_size) < 0)
             goto err;
         if (avctx->hwaccel->decode_slice(avctx, buf_start, (buf + buf_size) - buf_start) < 0)

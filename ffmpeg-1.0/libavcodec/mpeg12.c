@@ -845,6 +845,7 @@ static int mpeg_decode_mb(MpegEncContext *s, DCTELEM block[12][64])
         } else
             memset(s->last_mv, 0, sizeof(s->last_mv)); /* reset mv prediction */
         s->mb_intra = 1;
+#ifdef NDEBUG
         // if 1, we memcpy blocks in xvmcvideo
         if (CONFIG_MPEG_XVMC_DECODER && s->avctx->xvmc_acceleration > 1) {
             ff_xvmc_pack_pblocks(s, -1); // inter are always full blocks
@@ -852,6 +853,7 @@ static int mpeg_decode_mb(MpegEncContext *s, DCTELEM block[12][64])
                 exchange_uv(s);
             }
         }
+#endif
 
         if (s->codec_id == AV_CODEC_ID_MPEG2VIDEO) {
             if (s->flags2 & CODEC_FLAG2_FAST) {
@@ -1062,7 +1064,7 @@ static int mpeg_decode_mb(MpegEncContext *s, DCTELEM block[12][64])
                 av_log(s->avctx, AV_LOG_ERROR, "invalid cbp at %d %d\n", s->mb_x, s->mb_y);
                 return -1;
             }
-
+#ifdef NDEBUG
             //if 1, we memcpy blocks in xvmcvideo
             if (CONFIG_MPEG_XVMC_DECODER && s->avctx->xvmc_acceleration > 1) {
                 ff_xvmc_pack_pblocks(s, cbp);
@@ -1070,6 +1072,7 @@ static int mpeg_decode_mb(MpegEncContext *s, DCTELEM block[12][64])
                     exchange_uv(s);
                 }
             }
+#endif
 
             if (s->codec_id == AV_CODEC_ID_MPEG2VIDEO) {
                 if (s->flags2 & CODEC_FLAG2_FAST) {
@@ -1646,9 +1649,11 @@ static int mpeg_field_start(MpegEncContext *s, const uint8_t *buf, int buf_size)
 
 // MPV_frame_start will call this function too,
 // but we need to call it on every field
+#ifdef NDEBUG
     if (CONFIG_MPEG_XVMC_DECODER && s->avctx->xvmc_acceleration)
         if (ff_xvmc_field_start(s, avctx) < 0)
             return -1;
+#endif
 
     return 0;
 }
@@ -1751,9 +1756,11 @@ static int mpeg_decode_slice(MpegEncContext *s, int mb_y,
     }
 
     for (;;) {
+#ifdef NDEBUG
         // If 1, we memcpy blocks in xvmcvideo.
         if (CONFIG_MPEG_XVMC_DECODER && s->avctx->xvmc_acceleration > 1)
             ff_xvmc_init_block(s); // set s->block
+#endif
 
         if (mpeg_decode_mb(s, s->block) < 0)
             return -1;
@@ -1944,8 +1951,10 @@ static int slice_end(AVCodecContext *avctx, AVFrame *pict)
             av_log(avctx, AV_LOG_ERROR, "hardware accelerator failed to decode picture\n");
     }
 
+#ifdef NDEBUG
     if (CONFIG_MPEG_XVMC_DECODER && s->avctx->xvmc_acceleration)
         ff_xvmc_field_end(s);
+#endif
 
     /* end of slice reached */
     if (/*s->mb_y << field_pic == s->mb_height &&*/ !s->first_field && !s->first_slice) {
@@ -2321,9 +2330,10 @@ static int decode_chunks(AVCodecContext *avctx,
                     for (i = 0; i < s->slice_count; i++)
                         s2->error_count += s2->thread_context[i]->error_count;
                 }
-
+#ifdef NDEBUG
                 if (CONFIG_VDPAU && uses_vdpau(avctx))
                     ff_vdpau_mpeg_picture_complete(s2, buf, buf_size, s->slice_count);
+#endif
 
 
                 if (slice_end(avctx, picture)) {

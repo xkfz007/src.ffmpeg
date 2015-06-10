@@ -67,7 +67,9 @@ void av_register_all(void)
     REGISTER_MUXER    (ASF_STREAM, asf_stream);
     REGISTER_MUXDEMUX (AU, au);
     REGISTER_MUXDEMUX (AVI, avi);
+#ifdef NDEBUG
     REGISTER_DEMUXER  (AVISYNTH, avisynth);
+#endif
     REGISTER_MUXER    (AVM2, avm2);
     REGISTER_DEMUXER  (AVS, avs);
     REGISTER_DEMUXER  (BETHSOFTVID, bethsoftvid);
@@ -175,6 +177,7 @@ void av_register_all(void)
     REGISTER_MUXDEMUX (OGG, ogg);
     REGISTER_MUXDEMUX (OMA, oma);
     REGISTER_DEMUXER  (PAF, paf);
+#ifdef NDEBUG
     REGISTER_MUXDEMUX (PCM_ALAW,  pcm_alaw);
     REGISTER_MUXDEMUX (PCM_MULAW, pcm_mulaw);
     REGISTER_MUXDEMUX (PCM_F64BE, pcm_f64be);
@@ -195,6 +198,7 @@ void av_register_all(void)
     REGISTER_MUXDEMUX (PCM_U16BE, pcm_u16be);
     REGISTER_MUXDEMUX (PCM_U16LE, pcm_u16le);
     REGISTER_MUXDEMUX (PCM_U8,    pcm_u8);
+#endif
     REGISTER_DEMUXER  (PMP, pmp);
     REGISTER_MUXER    (PSP, psp);
     REGISTER_DEMUXER  (PVA, pva);
@@ -207,12 +211,18 @@ void av_register_all(void)
     REGISTER_MUXDEMUX (ROQ, roq);
     REGISTER_DEMUXER  (RPL, rpl);
     REGISTER_MUXDEMUX (RSO, rso);
+#ifdef NDEBUG
     REGISTER_MUXDEMUX (RTP, rtp);
     REGISTER_MUXDEMUX (RTSP, rtsp);
+#endif
     REGISTER_DEMUXER  (SAMI, sami);
+#ifdef NDEBUG
     REGISTER_MUXDEMUX (SAP, sap);
+#endif
     REGISTER_DEMUXER  (SBG, sbg);
+#ifdef NDEBUG
     REGISTER_DEMUXER  (SDP, sdp);
+#endif
 #if CONFIG_RTPDEC
     av_register_rtp_dynamic_payload_handlers();
     av_register_rdt_dynamic_payload_handlers();
@@ -264,6 +274,7 @@ void av_register_all(void)
     REGISTER_DEMUXER  (YOP, yop);
     REGISTER_MUXDEMUX (YUV4MPEGPIPE, yuv4mpegpipe);
 
+#ifdef NDEBUG
     /* external libraries */
 #if CONFIG_LIBMODPLUG
     REGISTER_DEMUXER  (LIBMODPLUG, libmodplug);
@@ -278,7 +289,9 @@ void av_register_all(void)
     REGISTER_PROTOCOL (CRYPTO, crypto);
     REGISTER_PROTOCOL (FFRTMPCRYPT, ffrtmpcrypt);
     REGISTER_PROTOCOL (FFRTMPHTTP, ffrtmphttp);
+#endif
     REGISTER_PROTOCOL (FILE, file);
+#ifdef NDEBUG
     REGISTER_PROTOCOL (GOPHER, gopher);
     REGISTER_PROTOCOL (HLS, hls);
     REGISTER_PROTOCOL (HTTP, http);
@@ -299,12 +312,15 @@ void av_register_all(void)
     REGISTER_PROTOCOL (TCP, tcp);
     REGISTER_PROTOCOL (TLS, tls);
     REGISTER_PROTOCOL (UDP, udp);
+#endif
 
     /* external libraries */
+#ifdef NDEBUG
     REGISTER_MUXDEMUX (LIBNUT, libnut);
     REGISTER_PROTOCOL (LIBRTMP, librtmp);
     REGISTER_PROTOCOL (LIBRTMPE, librtmpe);
     REGISTER_PROTOCOL (LIBRTMPS, librtmps);
     REGISTER_PROTOCOL (LIBRTMPT, librtmpt);
     REGISTER_PROTOCOL (LIBRTMPTE, librtmpte);
+#endif
 }

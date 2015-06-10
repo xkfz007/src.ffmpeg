@@ -254,8 +254,10 @@ av_cold void ff_ac3dsp_init(AC3DSPContext *c, int bit_exact)
     c->sum_square_butterfly_float = ac3_sum_square_butterfly_float_c;
     c->downmix = ac3_downmix_c;
 
+#ifdef NDEBUG
     if (ARCH_ARM)
         ff_ac3dsp_init_arm(c, bit_exact);
     if (HAVE_MMX)
         ff_ac3dsp_init_x86(c, bit_exact);
+#endif
 }

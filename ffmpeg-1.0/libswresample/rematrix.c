@@ -404,7 +404,9 @@ av_cold int swri_rematrix_init(SwrContext *s){
         s->matrix_ch[i][0]= ch_in;
     }
 
+#ifdef NDEBUG
     if(HAVE_YASM && HAVE_MMX) swri_rematrix_init_x86(s);
+#endif
 
     return 0;
 }

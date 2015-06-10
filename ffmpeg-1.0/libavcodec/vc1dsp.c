@@ -847,9 +847,10 @@ av_cold void ff_vc1dsp_init(VC1DSPContext* dsp) {
     dsp->sprite_v_double_onescale = sprite_v_double_onescale_c;
     dsp->sprite_v_double_twoscale = sprite_v_double_twoscale_c;
 #endif
-
+#ifdef NDEBUG
     if (HAVE_ALTIVEC)
         ff_vc1dsp_init_altivec(dsp);
     if (HAVE_MMX)
         ff_vc1dsp_init_mmx(dsp);
+#endif
 }

@@ -268,8 +268,10 @@ static void MPV_encode_defaults(MpegEncContext *s)
 }
 
 av_cold int ff_dct_encode_init(MpegEncContext *s) {
+#ifdef NDEBUG
     if (ARCH_X86)
         ff_dct_encode_init_x86(s);
+#endif
 
     if (!s->dct_quantize)
         s->dct_quantize = ff_dct_quantize_c;

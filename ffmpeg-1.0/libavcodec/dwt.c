@@ -876,9 +876,10 @@ void ff_dwt_init(DWTContext *c)
     c->vertical_compose97i   = ff_snow_vertical_compose97i;
     c->horizontal_compose97i = ff_snow_horizontal_compose97i;
     c->inner_add_yblock      = ff_snow_inner_add_yblock;
-
+#ifdef NDEBUG
     if (HAVE_MMX)
         ff_dwt_init_x86(c);
+#endif
 }
 
 
@@ -1385,7 +1386,9 @@ int ff_spatial_idwt_init2(DWTContext *d, IDWTELEM *buffer, int width, int height
         return -1;
     }
 
+#ifdef NDEBUG
     if (HAVE_MMX) ff_spatial_idwt_init_mmx(d, type);
+#endif
 
     return 0;
 }

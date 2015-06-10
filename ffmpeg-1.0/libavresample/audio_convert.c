@@ -275,11 +275,12 @@ AudioConvert *ff_audio_convert_alloc(AVAudioResampleContext *avr,
         ac->func_type = CONV_FUNC_TYPE_DEINTERLEAVE;
 
     set_generic_function(ac);
-
+#ifdef NDEBUG
     if (ARCH_ARM)
         ff_audio_convert_init_arm(ac);
     if (ARCH_X86)
         ff_audio_convert_init_x86(ac);
+#endif
 
     return ac;
 }

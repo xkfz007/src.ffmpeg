@@ -153,9 +153,10 @@ AudioConvert *swri_audio_convert_alloc(enum AVSampleFormat out_fmt,
             case 8:ctx->simd_f = cpy8; break;
         }
     }
-
+#ifdef NDEBUG
     if(HAVE_YASM && HAVE_MMX) swri_audio_convert_init_x86(ctx, out_fmt, in_fmt, channels);
     if(ARCH_ARM)              swri_audio_convert_init_arm(ctx, out_fmt, in_fmt, channels);
+#endif
 
     return ctx;
 }

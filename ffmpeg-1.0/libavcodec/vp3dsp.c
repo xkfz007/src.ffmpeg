@@ -280,11 +280,12 @@ av_cold void ff_vp3dsp_init(VP3DSPContext *c, int flags)
     c->h_loop_filter = vp3_h_loop_filter_c;
 
     c->idct_perm = FF_NO_IDCT_PERM;
-
+#ifdef NDEBUG
     if (ARCH_ARM)
         ff_vp3dsp_init_arm(c, flags);
     if (ARCH_PPC)
         ff_vp3dsp_init_ppc(c, flags);
     if (ARCH_X86)
         ff_vp3dsp_init_x86(c, flags);
+#endif
 }

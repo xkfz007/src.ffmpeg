@@ -294,9 +294,10 @@ static int dnxhd_encode_init(AVCodecContext *avctx)
        ctx->get_pixels_8x4_sym = dnxhd_8bit_get_pixels_8x4_sym;
        ctx->block_width_l2 = 3;
     }
-
+#ifdef NDEBUG
     if (ARCH_X86)
         ff_dnxhdenc_init_x86(ctx);
+#endif
 
     ctx->m.mb_height = (avctx->height + 15) / 16;
     ctx->m.mb_width  = (avctx->width  + 15) / 16;

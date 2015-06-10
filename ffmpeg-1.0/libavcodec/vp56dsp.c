@@ -88,7 +88,8 @@ void ff_vp56dsp_init(VP56DSPContext *s, enum AVCodecID codec)
             s->vp6_filter_diag4 = ff_vp6_filter_diag4_c;
         }
     }
-
+#ifdef NDEBUG
     if (ARCH_ARM) ff_vp56dsp_init_arm(s, codec);
     if (HAVE_MMX) ff_vp56dsp_init_x86(s, codec);
+#endif
 }

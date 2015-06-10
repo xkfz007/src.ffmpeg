@@ -2241,10 +2241,11 @@ static int field_end(H264Context *h, int in_setup)
     if (!in_setup && !s->dropable)
         ff_thread_report_progress(&s->current_picture_ptr->f, INT_MAX,
                                   s->picture_structure == PICT_BOTTOM_FIELD);
-
+#ifdef NDEBUG
     if (CONFIG_H264_VDPAU_DECODER &&
         s->avctx->codec->capabilities & CODEC_CAP_HWACCEL_VDPAU)
         ff_vdpau_h264_set_reference_frames(s);
+#endif
 
     if (in_setup || !(avctx->active_thread_type & FF_THREAD_FRAME)) {
         if (!s->dropable) {
@@ -2263,9 +2264,11 @@ static int field_end(H264Context *h, int in_setup)
                    "hardware accelerator failed to decode picture\n");
     }
 
+#ifdef NDEBUG
     if (CONFIG_H264_VDPAU_DECODER &&
         s->avctx->codec->capabilities & CODEC_CAP_HWACCEL_VDPAU)
         ff_vdpau_h264_picture_complete(s);
+#endif
 
     /*
      * FIXME: Error handling code does not seem to support interlaced
@@ -3898,9 +3901,11 @@ again:
                     if (s->avctx->hwaccel &&
                         s->avctx->hwaccel->start_frame(s->avctx, NULL, 0) < 0)
                         return -1;
+#ifdef NDEBUG
                     if (CONFIG_H264_VDPAU_DECODER &&
                         s->avctx->codec->capabilities & CODEC_CAP_HWACCEL_VDPAU)
                         ff_vdpau_h264_picture_start(s);
+#endif
                 }
 
                 if (hx->redundant_pic_count == 0 &&
@@ -3916,7 +3921,9 @@ again:
                                                          &buf[buf_index - consumed],
                                                          consumed) < 0)
                             return -1;
-                    } else if (CONFIG_H264_VDPAU_DECODER &&
+                    } else 
+#ifdef NDEBUG
+                        if (CONFIG_H264_VDPAU_DECODER &&
                                s->avctx->codec->capabilities & CODEC_CAP_HWACCEL_VDPAU) {
                         static const uint8_t start_code[] = {
                             0x00, 0x00, 0x01 };
@@ -3925,6 +3932,7 @@ again:
                         ff_vdpau_add_data_chunk(s, &buf[buf_index - consumed],
                                                 consumed);
                     } else
+#endif
                         context_count++;
                 }
                 break;

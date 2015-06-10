@@ -240,9 +240,10 @@ av_cold void ff_sbrdsp_init(SBRDSPContext *s)
     s->hf_apply_noise[1] = sbr_hf_apply_noise_1;
     s->hf_apply_noise[2] = sbr_hf_apply_noise_2;
     s->hf_apply_noise[3] = sbr_hf_apply_noise_3;
-
+#ifdef NDEBUG
     if (ARCH_ARM)
         ff_sbrdsp_init_arm(s);
     if (HAVE_MMX)
         ff_sbrdsp_init_x86(s);
+#endif
 }

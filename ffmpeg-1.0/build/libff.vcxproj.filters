@@ -1854,9 +1854,6 @@
     <ClCompile Include="..\libavcodec\ac3enc_fixed.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
-    <ClCompile Include="..\libavcodec\inverse.c">
-      <Filter>libavutil</Filter>
-    </ClCompile>
     <ClCompile Include="..\libavcodec\ac3enc.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
@@ -2834,6 +2831,9 @@
     </ClCompile>
     <ClCompile Include="..\libavfilter\graphdump.c">
       <Filter>libavfilter</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavcodec\inverse.c">
+      <Filter>libavcodec</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

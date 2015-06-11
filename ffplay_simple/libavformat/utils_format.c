@@ -297,7 +297,7 @@ void av_close_input_file(AVFormatContext *s)
     {
         st = s->streams[i];
         av_free(st->index_entries);
-        av_free(st->actx);
+        av_free(st->codec);
         av_free(st);
     }
 
@@ -318,7 +318,7 @@ AVStream *av_new_stream(AVFormatContext *s, int id)
     if (!st)
         return NULL;
 
-    st->actx = avcodec_alloc_context();
+    st->codec = avcodec_alloc_context();
 
     s->streams[s->nb_streams++] = st;
     return st;

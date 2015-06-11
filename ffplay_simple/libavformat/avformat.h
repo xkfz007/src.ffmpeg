@@ -118,7 +118,7 @@ typedef struct AVIndexEntry
 
 typedef struct AVStream
 {
-    AVCodecContext *actx;  // codec context, change from AVCodecContext *codec;
+    AVCodecContext *codec;  // codec context, change from AVCodecContext *codec;
 
     void *priv_data;       // AVIStream
 

@@ -219,13 +219,13 @@ static void alloc_picture(void *opaque)
     if (vp->bmp)
         SDL_FreeYUVOverlay(vp->bmp);
 
-    vp->bmp = SDL_CreateYUVOverlay(is->video_st->actx->width, 
-                                   is->video_st->actx->height,
+    vp->bmp = SDL_CreateYUVOverlay(is->video_st->codec->width, 
+                                   is->video_st->codec->height,
                                    SDL_YV12_OVERLAY,
                                    screen);
 
-    vp->width = is->video_st->actx->width;
-    vp->height = is->video_st->actx->height;
+    vp->width = is->video_st->codec->width;
+    vp->height = is->video_st->codec->height;
 }
 
 static int video_display(VideoState *is, AVFrame *src_frame, double pts)
@@ -262,16 +262,16 @@ static int video_display(VideoState *is, AVFrame *src_frame, double pts)
         img_convert(&pict, 
                     dst_pix_fmt,
                     (AVPicture*)src_frame, 
-                    is->video_st->actx->pix_fmt, 
-                    is->video_st->actx->width,
-                    is->video_st->actx->height);
+                    is->video_st->codec->pix_fmt, 
+                    is->video_st->codec->width,
+                    is->video_st->codec->height);
 
         SDL_UnlockYUVOverlay(vp->bmp); /* update the bitmap content */
 
         rect.x = 0;
         rect.y = 0;
-        rect.w = is->video_st->actx->width;
-        rect.h = is->video_st->actx->height;
+        rect.w = is->video_st->codec->width;
+        rect.h = is->video_st->codec->height;
         SDL_DisplayYUVOverlay(vp->bmp, &rect);
 #endif
     }
@@ -296,7 +296,7 @@ static int video_thread(void *arg)
             break;
 
         SDL_LockMutex(is->video_decoder_mutex);
-        len1 = avcodec_decode_video(is->video_st->actx, frame, &got_picture, pkt->data, pkt->size);
+        len1 = avcodec_decode_video(is->video_st->codec, frame, &got_picture, pkt->data, pkt->size);
         SDL_UnlockMutex(is->video_decoder_mutex);
 
         if (pkt->dts != AV_NOPTS_VALUE)
@@ -327,7 +327,7 @@ static int audio_decode_frame(VideoState *is, uint8_t *audio_buf, double *pts_pt
         while (is->audio_pkt_size > 0)
         {
             SDL_LockMutex(is->audio_decoder_mutex);
-            len1 = avcodec_decode_audio(is->audio_st->actx, (int16_t*)audio_buf,
+            len1 = avcodec_decode_audio(is->audio_st->codec, (int16_t*)audio_buf,
                             &data_size, is->audio_pkt_data, is->audio_pkt_size);
 
             SDL_UnlockMutex(is->audio_decoder_mutex);
@@ -405,7 +405,7 @@ static int stream_component_open(VideoState *is, int stream_index)
     if (stream_index < 0 || stream_index >= ic->nb_streams)
         return  - 1;
 
-    enc = ic->streams[stream_index]->actx;
+    enc = ic->streams[stream_index]->codec;
 
     /* prepare audio output */
     if (enc->codec_type == CODEC_TYPE_AUDIO)
@@ -466,7 +466,7 @@ static void stream_component_close(VideoState *is, int stream_index)
 
     if (stream_index < 0 || stream_index >= ic->nb_streams)
         return ;
-    enc = ic->streams[stream_index]->actx;
+    enc = ic->streams[stream_index]->codec;
 
     switch (enc->codec_type)
     {
@@ -515,7 +515,7 @@ static int decode_thread(void *arg)
 
     for (i = 0; i < ic->nb_streams; i++)
     {
-        AVCodecContext *enc = ic->streams[i]->actx;
+        AVCodecContext *enc = ic->streams[i]->codec;
         switch (enc->codec_type)
         {
         case CODEC_TYPE_AUDIO:

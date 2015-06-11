@@ -186,7 +186,7 @@ static int avi_read_header(AVFormatContext *s, AVFormatParameters *ap)
                     goto fail;
                 st->priv_data = ast;
 
-                st->actx->bit_rate = bit_rate;
+                st->codec->bit_rate = bit_rate;
             }
             url_fskip(pb, size - 7 * 4);
             break;
@@ -261,10 +261,10 @@ static int avi_read_header(AVFormatContext *s, AVFormatParameters *ap)
                 {
                 case CODEC_TYPE_VIDEO:    // BITMAPINFOHEADER
                     get_le32(pb); // size
-                    st->actx->width = get_le32(pb);
-                    st->actx->height = get_le32(pb);
+                    st->codec->width = get_le32(pb);
+                    st->codec->height = get_le32(pb);
                     get_le16(pb); // panes
-                    st->actx->bits_per_sample = get_le16(pb); // depth
+                    st->codec->bits_per_sample = get_le16(pb); // depth
                     tag1 = get_le32(pb);
                     get_le32(pb); // ImageSize
                     get_le32(pb); // XPelsPerMeter
@@ -274,36 +274,36 @@ static int avi_read_header(AVFormatContext *s, AVFormatParameters *ap)
 
                     if (size > 10 *4 && size < (1 << 30))
                     {
-                        st->actx->extradata_size = size - 10 * 4;
-                        st->actx->extradata = av_malloc(st->actx->extradata_size + 
+                        st->codec->extradata_size = size - 10 * 4;
+                        st->codec->extradata = av_malloc(st->codec->extradata_size + 
 							                             FF_INPUT_BUFFER_PADDING_SIZE);
-                        url_fread(pb, st->actx->extradata, st->actx->extradata_size);
+                        url_fread(pb, st->codec->extradata, st->codec->extradata_size);
                     }
 
-                    if (st->actx->extradata_size &1)
+                    if (st->codec->extradata_size &1)
                         get_byte(pb);
 
                     /* Extract palette from extradata if bpp <= 8 */
                     /* This code assumes that extradata contains only palette */
                     /* This is true for all paletted codecs implemented in ffmpeg */
-                    if (st->actx->extradata_size && (st->actx->bits_per_sample <= 8))
+                    if (st->codec->extradata_size && (st->codec->bits_per_sample <= 8))
                     {
-                        int min = FFMIN(st->actx->extradata_size, AVPALETTE_SIZE);
+                        int min = FFMIN(st->codec->extradata_size, AVPALETTE_SIZE);
 
-                        st->actx->palctrl = av_mallocz(sizeof(AVPaletteControl));
-                        memcpy(st->actx->palctrl->palette, st->actx->extradata, min);
-                        st->actx->palctrl->palette_changed = 1;
+                        st->codec->palctrl = av_mallocz(sizeof(AVPaletteControl));
+                        memcpy(st->codec->palctrl->palette, st->codec->extradata, min);
+                        st->codec->palctrl->palette_changed = 1;
                     }
 
-                    st->actx->codec_type = CODEC_TYPE_VIDEO;
-                    st->actx->codec_id = codec_get_id(codec_bmp_tags, tag1);
+                    st->codec->codec_type = CODEC_TYPE_VIDEO;
+                    st->codec->codec_id = codec_get_id(codec_bmp_tags, tag1);
 
                     st->frame_last_delay = 1.0 * ast->scale / ast->rate;
 
                     break;
                  case CODEC_TYPE_AUDIO:
                     {
-                        AVCodecContext *actx = st->actx;
+                        AVCodecContext *actx = st->codec;
 
                         int id = get_le16(pb);
                         actx->codec_type = CODEC_TYPE_AUDIO;
@@ -344,8 +344,8 @@ static int avi_read_header(AVFormatContext *s, AVFormatParameters *ap)
 
                     break;
                  default:
-                    st->actx->codec_type = CODEC_TYPE_DATA;
-                    st->actx->codec_id = CODEC_ID_NONE;
+                    st->codec->codec_type = CODEC_TYPE_DATA;
+                    st->codec->codec_id = CODEC_ID_NONE;
                     url_fskip(pb, size);
                     break;
                 }
@@ -364,7 +364,7 @@ end_of_header:
 fail: 
         for (i = 0; i < s->nb_streams; i++)
         {
-            av_freep(&s->streams[i]->actx->extradata);
+            av_freep(&s->streams[i]->codec->extradata);
             av_freep(&s->streams[i]);
         }
         return  - 1;
@@ -460,7 +460,7 @@ resync:
 
         pkt->stream_index = avi->stream_index_2;
 
-        if (st->actx->codec_type == CODEC_TYPE_VIDEO)
+        if (st->codec->codec_type == CODEC_TYPE_VIDEO)
         {
             if (st->index_entries)
             {
@@ -605,9 +605,9 @@ resync:
                 g = get_byte(pb);
                 b = get_byte(pb);
                 get_byte(pb);
-                st->actx->palctrl->palette[k] = b + (g << 8) + (r << 16);
+                st->codec->palctrl->palette[k] = b + (g << 8) + (r << 16);
             }
-            st->actx->palctrl->palette_changed = 1;
+            st->codec->palctrl->palette_changed = 1;
             goto resync;
         }
     }
@@ -732,8 +732,8 @@ static int avi_read_close(AVFormatContext *s)
         AVStream *st = s->streams[i];
         AVIStream *ast = st->priv_data;
         av_free(ast);
-        av_free(st->actx->extradata);
-        av_free(st->actx->palctrl);
+        av_free(st->codec->extradata);
+        av_free(st->codec->palctrl);
     }
 
     return 0;

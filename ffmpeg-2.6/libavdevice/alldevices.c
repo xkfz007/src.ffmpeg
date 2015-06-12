@@ -46,6 +46,7 @@ void avdevice_register_all(void)
     initialized = 1;
 
     /* devices */
+#ifdef NDEBUG
     REGISTER_INOUTDEV(ALSA,             alsa);
     REGISTER_INDEV   (AVFOUNDATION,     avfoundation);
     REGISTER_INDEV   (BKTR,             bktr);
@@ -57,13 +58,17 @@ void avdevice_register_all(void)
     REGISTER_INDEV   (GDIGRAB,          gdigrab);
     REGISTER_INDEV   (IEC61883,         iec61883);
     REGISTER_INDEV   (JACK,             jack);
+#endif
     REGISTER_INDEV   (LAVFI,            lavfi);
+#ifdef NDEBUG
     REGISTER_INDEV   (OPENAL,           openal);
     REGISTER_OUTDEV  (OPENGL,           opengl);
     REGISTER_INOUTDEV(OSS,              oss);
     REGISTER_INOUTDEV(PULSE,            pulse);
     REGISTER_INDEV   (QTKIT,            qtkit);
+#endif
     REGISTER_OUTDEV  (SDL,              sdl);
+#ifdef NDEBUG
     REGISTER_INOUTDEV(SNDIO,            sndio);
     REGISTER_INOUTDEV(V4L2,             v4l2);
 //    REGISTER_INDEV   (V4L,              v4l
@@ -75,4 +80,5 @@ void avdevice_register_all(void)
     /* external libraries */
     REGISTER_INDEV   (LIBCDIO,          libcdio);
     REGISTER_INDEV   (LIBDC1394,        libdc1394);
+#endif
 }

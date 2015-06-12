@@ -597,11 +597,12 @@ retry:
 
     if (!s->divx_packed && !avctx->hwaccel)
         ff_thread_finish_setup(avctx);
-
+#ifdef NDEBUG
     if (CONFIG_MPEG4_VDPAU_DECODER && (s->avctx->codec->capabilities & CODEC_CAP_HWACCEL_VDPAU)) {
         ff_vdpau_mpeg4_decode_picture(avctx->priv_data, s->gb.buffer, s->gb.buffer_end - s->gb.buffer);
         goto frame_end;
     }
+#endif
 
     if (avctx->hwaccel) {
         ret = avctx->hwaccel->start_frame(avctx, s->gb.buffer,

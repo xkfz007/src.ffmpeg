@@ -128,6 +128,7 @@ av_cold void avpriv_float_dsp_init(AVFloatDSPContext *fdsp, int bit_exact)
     fdsp->butterflies_float = butterflies_float_c;
     fdsp->scalarproduct_float = avpriv_scalarproduct_float_c;
 
+#ifdef NDEBUG
     if (ARCH_AARCH64)
         ff_float_dsp_init_aarch64(fdsp);
     if (ARCH_ARM)
@@ -138,6 +139,7 @@ av_cold void avpriv_float_dsp_init(AVFloatDSPContext *fdsp, int bit_exact)
         ff_float_dsp_init_x86(fdsp);
     if (ARCH_MIPS)
         ff_float_dsp_init_mips(fdsp);
+#endif
 }
 
 av_cold AVFloatDSPContext *avpriv_float_dsp_alloc(int bit_exact)

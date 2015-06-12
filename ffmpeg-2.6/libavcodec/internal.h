@@ -30,7 +30,6 @@
 #include "libavutil/channel_layout.h"
 #include "libavutil/mathematics.h"
 #include "libavutil/pixfmt.h"
-#include "libavutil/internal.h"
 #include "avcodec.h"
 #include "config.h"
 

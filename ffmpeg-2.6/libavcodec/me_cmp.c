@@ -983,6 +983,7 @@ av_cold void ff_me_cmp_init(MECmpContext *c, AVCodecContext *avctx)
     ff_dsputil_init_dwt(c);
 #endif
 
+#ifdef NDEBUG
     if (ARCH_ALPHA)
         ff_me_cmp_init_alpha(c, avctx);
     if (ARCH_ARM)
@@ -991,4 +992,5 @@ av_cold void ff_me_cmp_init(MECmpContext *c, AVCodecContext *avctx)
         ff_me_cmp_init_ppc(c, avctx);
     if (ARCH_X86)
         ff_me_cmp_init_x86(c, avctx);
+#endif
 }

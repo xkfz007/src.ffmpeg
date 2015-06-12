@@ -354,7 +354,7 @@ av_cold void ff_hpeldsp_init(HpelDSPContext *c, int flags)
     hpel_funcs(avg, [2],  4);
     hpel_funcs(avg, [3],  2);
     hpel_funcs(avg_no_rnd,, 16);
-
+#ifdef NDEBUG
     if (ARCH_AARCH64)
         ff_hpeldsp_init_aarch64(c, flags);
     if (ARCH_ALPHA)
@@ -365,4 +365,5 @@ av_cold void ff_hpeldsp_init(HpelDSPContext *c, int flags)
         ff_hpeldsp_init_ppc(c, flags);
     if (ARCH_X86)
         ff_hpeldsp_init_x86(c, flags);
+#endif
 }

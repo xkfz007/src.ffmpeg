@@ -100,8 +100,10 @@ static av_cold int encode_init(AVCodecContext *avctx)
     s->pack_line_8  = v210_planar_pack_8_c;
     s->pack_line_10 = v210_planar_pack_10_c;
 
+#ifdef NDEBUG
     if (ARCH_X86)
         ff_v210enc_init_x86(s);
+#endif
 
     return 0;
 }

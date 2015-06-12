@@ -169,6 +169,7 @@ av_cold int ff_fft_init(FFTContext *s, int nbits, int inverse)
         ff_fft_lut_init(ff_fft_offsets_lut, 0, 1 << 16, &n);
     }
 #else /* FFT_FIXED_32 */
+#ifdef NDEBUG
 #if FFT_FLOAT
     if (ARCH_AARCH64) ff_fft_init_aarch64(s);
     if (ARCH_ARM)     ff_fft_init_arm(s);
@@ -179,6 +180,7 @@ av_cold int ff_fft_init(FFTContext *s, int nbits, int inverse)
 #else
     if (CONFIG_MDCT)  s->mdct_calcw = ff_mdct_calcw_c;
     if (ARCH_ARM)     ff_fft_fixed_init_arm(s);
+#endif
 #endif
     for(j=4; j<=nbits; j++) {
         ff_init_ff_cos_tabs(j);

@@ -563,10 +563,12 @@ static av_cold int svq1_encode_init(AVCodecContext *avctx)
         return AVERROR(ENOMEM);
     }
 
+#ifdef NDEBUG
     if (ARCH_PPC)
         ff_svq1enc_init_ppc(s);
     if (ARCH_X86)
         ff_svq1enc_init_x86(s);
+#endif
 
     ff_h263_encode_init(&s->m); // mv_penalty
 

@@ -246,8 +246,10 @@ static av_cold void volume_init(VolumeContext *vol)
         break;
     }
 
+#ifdef NDEBUG
     if (ARCH_X86)
         ff_volume_init_x86(vol);
+#endif
 }
 
 static int set_volume(AVFilterContext *ctx)

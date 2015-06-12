@@ -82,7 +82,9 @@ void av_register_all(void)
     REGISTER_MUXER   (ASF_STREAM,       asf_stream);
     REGISTER_MUXDEMUX(AU,               au);
     REGISTER_MUXDEMUX(AVI,              avi);
+#ifdef NDEBUG
     REGISTER_DEMUXER (AVISYNTH,         avisynth);
+#endif
     REGISTER_MUXER   (AVM2,             avm2);
     REGISTER_DEMUXER (AVR,              avr);
     REGISTER_DEMUXER (AVS,              avs);
@@ -220,6 +222,7 @@ void av_register_all(void)
     REGISTER_MUXDEMUX(OMA,              oma);
     REGISTER_MUXER   (OPUS,             opus);
     REGISTER_DEMUXER (PAF,              paf);
+#ifdef NDEBUG
     REGISTER_MUXDEMUX(PCM_ALAW,         pcm_alaw);
     REGISTER_MUXDEMUX(PCM_MULAW,        pcm_mulaw);
     REGISTER_MUXDEMUX(PCM_F64BE,        pcm_f64be);
@@ -240,6 +243,7 @@ void av_register_all(void)
     REGISTER_MUXDEMUX(PCM_U16BE,        pcm_u16be);
     REGISTER_MUXDEMUX(PCM_U16LE,        pcm_u16le);
     REGISTER_MUXDEMUX(PCM_U8,           pcm_u8);
+#endif
     REGISTER_DEMUXER (PJS,              pjs);
     REGISTER_DEMUXER (PMP,              pmp);
     REGISTER_MUXER   (PSP,              psp);
@@ -256,13 +260,19 @@ void av_register_all(void)
     REGISTER_DEMUXER (RPL,              rpl);
     REGISTER_DEMUXER (RSD,              rsd);
     REGISTER_MUXDEMUX(RSO,              rso);
+#ifdef NDEBUG
     REGISTER_MUXDEMUX(RTP,              rtp);
     REGISTER_MUXER   (RTP_MPEGTS,       rtp_mpegts);
     REGISTER_MUXDEMUX(RTSP,             rtsp);
+#endif
     REGISTER_DEMUXER (SAMI,             sami);
+#ifdef NDEBUG
     REGISTER_MUXDEMUX(SAP,              sap);
+#endif
     REGISTER_DEMUXER (SBG,              sbg);
+#ifdef NDEBUG
     REGISTER_DEMUXER (SDP,              sdp);
+#endif
     REGISTER_DEMUXER (SDR2,             sdr2);
 #if CONFIG_RTPDEC
     ff_register_rtp_dynamic_payload_handlers();
@@ -345,6 +355,7 @@ void av_register_all(void)
 
 
     /* protocols */
+#ifdef NDEBUG
     REGISTER_PROTOCOL(BLURAY,           bluray);
     REGISTER_PROTOCOL(CACHE,            cache);
     REGISTER_PROTOCOL(CONCAT,           concat);
@@ -352,7 +363,9 @@ void av_register_all(void)
     REGISTER_PROTOCOL(DATA,             data);
     REGISTER_PROTOCOL(FFRTMPCRYPT,      ffrtmpcrypt);
     REGISTER_PROTOCOL(FFRTMPHTTP,       ffrtmphttp);
+#endif
     REGISTER_PROTOCOL(FILE,             file);
+#ifdef NDEBUG
     REGISTER_PROTOCOL(FTP,              ftp);
     REGISTER_PROTOCOL(GOPHER,           gopher);
     REGISTER_PROTOCOL(HLS,              hls);
@@ -392,4 +405,5 @@ void av_register_all(void)
     REGISTER_PROTOCOL(LIBRTMPTE,        librtmpte);
     REGISTER_PROTOCOL(LIBSSH,           libssh);
     REGISTER_PROTOCOL(LIBSMBCLIENT,     libsmbclient);
+#endif
 }

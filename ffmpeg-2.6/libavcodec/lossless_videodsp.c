@@ -123,6 +123,8 @@ void ff_llviddsp_init(LLVidDSPContext *c, AVCodecContext *avctx)
     c->add_hfyu_median_pred_int16 = add_hfyu_median_pred_int16_c;
     c->sub_hfyu_median_pred_int16 = sub_hfyu_median_pred_int16_c;
 
+#ifdef NDEBUG
     if (ARCH_X86)
         ff_llviddsp_init_x86(c, avctx);
+#endif
 }

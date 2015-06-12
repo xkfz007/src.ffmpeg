@@ -492,9 +492,10 @@ static int config_props(AVFilterLink *link)
         s->filter_line  = filter_line_c;
         s->filter_edges = filter_edges;
     }
-
+#ifdef NDEBUG
     if (ARCH_X86)
         ff_yadif_init_x86(s);
+#endif
 
     return 0;
 }

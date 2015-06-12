@@ -53,14 +53,15 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;DEBUG;__MINGW32__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\;..\include;..\include\SDL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ObjectFileName>$(IntDir)\$(ProjectName)\</ObjectFileName>
+      <C99Support>true</C99Support>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>..\bin\$(Configuration)\fflibs.lib;..\lib\SDL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>..\bin\$(Configuration)\libffd.lib;..\lib\SDL.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -72,19 +73,25 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\</AdditionalIncludeDirectories>
-      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <AdditionalIncludeDirectories>..\;..\include;..\include\SDL</AdditionalIncludeDirectories>
+      <ObjectFileName>$(IntDir)\$(ProjectName)\</ObjectFileName>
+      <C99Support>true</C99Support>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>..\bin\$(Configuration)\fflibs.lib;..\lib\SDL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>..\bin\$(Configuration)\libff.lib;..\lib\SDL.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\cmdutils.c" />
     <ClCompile Include="..\ffplay.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\cmdutils.h" />
+    <ClInclude Include="..\cmdutils_common_opts.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -158,9 +158,11 @@ int ff_h264_field_end(H264Context *h, int in_setup)
     int err = 0;
     h->mb_y = 0;
 
+#ifdef NDEBUG
     if (CONFIG_H264_VDPAU_DECODER &&
         h->avctx->codec->capabilities & CODEC_CAP_HWACCEL_VDPAU)
         ff_vdpau_h264_set_reference_frames(h);
+#endif
 
     if (in_setup || !(avctx->active_thread_type & FF_THREAD_FRAME)) {
         if (!h->droppable) {
@@ -179,9 +181,11 @@ int ff_h264_field_end(H264Context *h, int in_setup)
                    "hardware accelerator failed to decode picture\n");
     }
 
+#ifdef NDEBUG
     if (CONFIG_H264_VDPAU_DECODER &&
         h->avctx->codec->capabilities & CODEC_CAP_HWACCEL_VDPAU)
         ff_vdpau_h264_picture_complete(h);
+#endif
 
 #if CONFIG_ERROR_RESILIENCE
     /*

@@ -110,8 +110,10 @@ av_cold void ff_dcadsp_init(DCADSPContext *s)
     s->qmf_32_subbands = dca_qmf_32_subbands;
     s->decode_hf       = decode_hf_c;
 
+#ifdef NDEBUG
     if (ARCH_ARM)
         ff_dcadsp_init_arm(s);
     if (ARCH_X86)
         ff_dcadsp_init_x86(s);
+#endif
 }

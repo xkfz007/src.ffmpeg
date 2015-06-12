@@ -71,6 +71,7 @@ av_cold void ff_pixblockdsp_init(PixblockDSPContext *c, AVCodecContext *avctx)
         break;
     }
 
+#ifdef NDEBUG
     if (ARCH_ALPHA)
         ff_pixblockdsp_init_alpha(c, avctx, high_bit_depth);
     if (ARCH_ARM)
@@ -79,4 +80,5 @@ av_cold void ff_pixblockdsp_init(PixblockDSPContext *c, AVCodecContext *avctx)
         ff_pixblockdsp_init_ppc(c, avctx, high_bit_depth);
     if (ARCH_X86)
         ff_pixblockdsp_init_x86(c, avctx, high_bit_depth);
+#endif
 }

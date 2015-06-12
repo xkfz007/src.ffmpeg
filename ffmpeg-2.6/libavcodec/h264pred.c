@@ -591,7 +591,8 @@ av_cold void ff_h264_pred_init(H264PredContext *h, int codec_id,
             H264_PRED(8)
             break;
     }
-
+#ifdef NDEBUG
     if (ARCH_ARM) ff_h264_pred_init_arm(h, codec_id, bit_depth, chroma_format_idc);
     if (ARCH_X86) ff_h264_pred_init_x86(h, codec_id, bit_depth, chroma_format_idc);
+#endif
 }

@@ -63,6 +63,7 @@ void swri_resample_dsp_init(ResampleContext *c)
         c->dsp.resample     = c->linear ? resample_linear_double : resample_common_double;
         break;
     }
-
+#ifdef NDEBUG
     if (ARCH_X86) swri_resample_dsp_x86_init(c);
+#endif
 }

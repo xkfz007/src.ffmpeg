@@ -112,6 +112,8 @@ av_cold void ff_huffyuvdsp_init(HuffYUVDSPContext *c)
     c->add_hfyu_left_pred       = add_hfyu_left_pred_c;
     c->add_hfyu_left_pred_bgr32 = add_hfyu_left_pred_bgr32_c;
 
+#ifdef NDEBUG
     if (ARCH_X86)
         ff_huffyuvdsp_init_x86(c);
+#endif
 }

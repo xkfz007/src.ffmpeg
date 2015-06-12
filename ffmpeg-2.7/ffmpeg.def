@@ -240,6 +240,7 @@ av_strcasecmp
 av_stream_get_recommended_encoder_configuration
 av_stream_get_side_data
 av_display_rotation_get
+av_packet_side_data_name
 av_strstart
 av_strtok
 avcodec_alloc_context3

@@ -425,6 +425,7 @@ void avcodec_register_all(void)
     REGISTER_DECODER(WS_SND1,           ws_snd1);
 
     /* PCM codecs */
+#ifdef NDEBUG
     REGISTER_ENCDEC (PCM_ALAW,          pcm_alaw);
     REGISTER_DECODER(PCM_BLURAY,        pcm_bluray);
     REGISTER_DECODER(PCM_DVD,           pcm_dvd);
@@ -455,6 +456,7 @@ void avcodec_register_all(void)
     REGISTER_ENCDEC (PCM_U32BE,         pcm_u32be);
     REGISTER_ENCDEC (PCM_U32LE,         pcm_u32le);
     REGISTER_DECODER(PCM_ZORK,          pcm_zork);
+#endif
 
     /* DPCM codecs */
     REGISTER_DECODER(INTERPLAY_DPCM,    interplay_dpcm);
@@ -556,9 +558,7 @@ void avcodec_register_all(void)
     REGISTER_ENCODER(LIBWEBP,           libwebp);
 #endif
     REGISTER_ENCODER(LIBX264,           libx264);
-#ifdef NDEBUG
     REGISTER_ENCODER(LIBX264RGB,        libx264rgb);
-#endif
     REGISTER_ENCODER(LIBX265,           libx265);
 #ifdef NDEBUG
     REGISTER_ENCODER(LIBXAVS,           libxavs);

@@ -62,7 +62,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;DEBUG;strtoll=_strtoi64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;DEBUG;_WIN32;strtoll=_strtoi64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\;..\include</AdditionalIncludeDirectories>
       <ObjectFileName>$(IntDir)\$(ProjectName)\</ObjectFileName>
       <C99Support>true</C99Support>

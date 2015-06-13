@@ -1910,5 +1910,6 @@
 #ifdef WIN32
 #include "compat\msvcrt\snprintf.h"
 #define MAX_PATH 256
+#include "libavutil\libm.h"
 #endif
 #endif /* FFMPEG_CONFIG_H */

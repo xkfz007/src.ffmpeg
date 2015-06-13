@@ -1295,7 +1295,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LinkIncremental>true</LinkIncremental>
+    <LinkIncremental>false</LinkIncremental>
     <TargetName>$(ProjectName)d</TargetName>
     <OutDir>..\bin\$(Configuration)</OutDir>
     <RunCodeAnalysis>true</RunCodeAnalysis>

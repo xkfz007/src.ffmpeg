@@ -46,6 +46,7 @@ av_cold void ff_h264chroma_init(H264ChromaContext *c, int bit_depth)
         SET_CHROMA(8);
     }
 
+#ifdef NDEBUG
     if (ARCH_AARCH64)
         ff_h264chroma_init_aarch64(c, bit_depth);
     if (ARCH_ARM)
@@ -56,4 +57,5 @@ av_cold void ff_h264chroma_init(H264ChromaContext *c, int bit_depth)
         ff_h264chroma_init_x86(c, bit_depth);
     if (ARCH_MIPS)
         ff_h264chroma_init_mips(c, bit_depth);
+#endif
 }

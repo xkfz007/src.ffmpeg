@@ -118,8 +118,10 @@ static int config_out_props(AVFilterLink *outlink)
 
     if (s->lowpass) {
         s->lowpass_line = lowpass_line_c;
+#ifdef NDEBUG
         if (ARCH_X86)
             ff_interlace_init_x86(s);
+#endif
     }
 
     av_log(ctx, AV_LOG_VERBOSE, "%s interlacing %s lowpass filter\n",

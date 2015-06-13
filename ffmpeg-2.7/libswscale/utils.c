@@ -865,9 +865,11 @@ int sws_setColorspaceDetails(struct SwsContext *c, const int inv_table[4],
                                  contrast, saturation);
         // FIXME factorize
 
+#ifdef NDEBUG
         if (ARCH_PPC)
             ff_yuv2rgb_init_tables_ppc(c, inv_table, brightness,
                                        contrast, saturation);
+#endif
     }
 
     fill_rgb2yuv_table(c, table, dstRange);

@@ -1533,9 +1533,11 @@ again:
                     if (h->avctx->hwaccel &&
                         (ret = h->avctx->hwaccel->start_frame(h->avctx, buf, buf_size)) < 0)
                         goto end;
+#ifdef NDEBUG
                     if (CONFIG_H264_VDPAU_DECODER &&
                         h->avctx->codec->capabilities & CODEC_CAP_HWACCEL_VDPAU)
                         ff_vdpau_h264_picture_start(h);
+#endif
                 }
 
                 if (sl->redundant_pic_count == 0) {
@@ -1545,6 +1547,7 @@ again:
                                                            consumed);
                         if (ret < 0)
                             goto end;
+#ifdef NDEBUG
                     } else if (CONFIG_H264_VDPAU_DECODER &&
                                h->avctx->codec->capabilities & CODEC_CAP_HWACCEL_VDPAU) {
                         ff_vdpau_add_data_chunk(h->cur_pic_ptr->f->data[0],
@@ -1553,6 +1556,7 @@ again:
                         ff_vdpau_add_data_chunk(h->cur_pic_ptr->f->data[0],
                                                 &buf[buf_index - consumed],
                                                 consumed);
+#endif
                     } else
                         context_count++;
                 }

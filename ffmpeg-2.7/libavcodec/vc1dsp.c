@@ -1027,6 +1027,7 @@ av_cold void ff_vc1dsp_init(VC1DSPContext *dsp)
 
     dsp->startcode_find_candidate = ff_startcode_find_candidate_c;
 
+#ifdef NDEBUG
     if (ARCH_AARCH64)
         ff_vc1dsp_init_aarch64(dsp);
     if (ARCH_ARM)
@@ -1035,4 +1036,5 @@ av_cold void ff_vc1dsp_init(VC1DSPContext *dsp)
         ff_vc1dsp_init_ppc(dsp);
     if (ARCH_X86)
         ff_vc1dsp_init_x86(dsp);
+#endif
 }

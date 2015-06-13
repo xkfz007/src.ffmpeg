@@ -36,5 +36,7 @@ av_cold void ff_vp9dsp_init(VP9DSPContext *dsp, int bpp)
         ff_vp9dsp_init_12(dsp);
     }
 
+#ifdef NDEBUG
     if (ARCH_X86) ff_vp9dsp_init_x86(dsp, bpp);
+#endif
 }

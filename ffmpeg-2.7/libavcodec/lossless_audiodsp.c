@@ -40,10 +40,12 @@ av_cold void ff_llauddsp_init(LLAudDSPContext *c)
 {
     c->scalarproduct_and_madd_int16 = scalarproduct_and_madd_int16_c;
 
+#ifdef NDEBUG
     if (ARCH_ARM)
         ff_llauddsp_init_arm(c);
     if (ARCH_PPC)
         ff_llauddsp_init_ppc(c);
     if (ARCH_X86)
         ff_llauddsp_init_x86(c);
+#endif
 }

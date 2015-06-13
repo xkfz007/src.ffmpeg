@@ -809,6 +809,8 @@ av_cold void ff_qpeldsp_init(QpelDSPContext *c)
     dspfunc(avg_qpel, 0, 16);
     dspfunc(avg_qpel, 1, 8);
 
+#ifdef NDEBUG
     if (ARCH_X86)
         ff_qpeldsp_init_x86(c);
+#endif
 }

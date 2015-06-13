@@ -132,8 +132,10 @@ void (*yuyvtoyuv422)(uint8_t *ydst, uint8_t *udst, uint8_t *vdst,
 av_cold void sws_rgb2rgb_init(void)
 {
     rgb2rgb_init_c();
+#ifdef NDEBUG
     if (ARCH_X86)
         rgb2rgb_init_x86();
+#endif
 }
 
 void rgb32to24(const uint8_t *src, uint8_t *dst, int src_size)

@@ -317,8 +317,10 @@ av_cold void ff_iir_filter_free_coeffsp(struct FFIIRFilterCoeffs **coeffsp)
 void ff_iir_filter_init(FFIIRFilterContext *f) {
     f->filter_flt = ff_iir_filter_flt;
 
+#ifdef NDEBUG
     if (HAVE_MIPSFPU)
         ff_iir_filter_init_mips(f);
+#endif
 }
 
 #ifdef TEST

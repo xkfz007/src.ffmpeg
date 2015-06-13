@@ -64,5 +64,7 @@ void swri_resample_dsp_init(ResampleContext *c)
         break;
     }
 
+#ifdef NDEBUG
     if (ARCH_X86) swri_resample_dsp_x86_init(c);
+#endif
 }

@@ -277,8 +277,10 @@ static int filter_frame(AVFilterLink *link, AVFrame *picref)
         idet->csp = av_pix_fmt_desc_get(link->format);
     if (idet->csp->comp[0].depth_minus1 / 8 == 1){
         idet->filter_line = (ff_idet_filter_func)ff_idet_filter_line_c_16bit;
+#ifdef NDEBUG
         if (ARCH_X86)
             ff_idet_init_x86(idet, 1);
+#endif
     }
 
     if (idet->analyze_interlaced_flag) {
@@ -426,8 +428,10 @@ static av_cold int init(AVFilterContext *ctx)
 
     idet->filter_line = ff_idet_filter_line_c;
 
+#ifdef NDEBUG
     if (ARCH_X86)
         ff_idet_init_x86(idet, 0);
+#endif
 
     return 0;
 }

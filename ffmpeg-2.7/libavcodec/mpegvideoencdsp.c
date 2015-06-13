@@ -170,10 +170,12 @@ av_cold void ff_mpegvideoencdsp_init(MpegvideoEncDSPContext *c,
 
     c->draw_edges = draw_edges_8_c;
 
+#ifdef NDEBUG
     if (ARCH_ARM)
         ff_mpegvideoencdsp_init_arm(c, avctx);
     if (ARCH_PPC)
         ff_mpegvideoencdsp_init_ppc(c, avctx);
     if (ARCH_X86)
         ff_mpegvideoencdsp_init_x86(c, avctx);
+#endif
 }

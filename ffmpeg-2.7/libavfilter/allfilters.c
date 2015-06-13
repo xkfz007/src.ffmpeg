@@ -72,12 +72,16 @@ void avfilter_register_all(void)
     REGISTER_FILTER(ASYNCTS,        asyncts,        af);
     REGISTER_FILTER(ATEMPO,         atempo,         af);
     REGISTER_FILTER(ATRIM,          atrim,          af);
+#ifdef NDEBUG
     REGISTER_FILTER(AZMQ,           azmq,           af);
+#endif
     REGISTER_FILTER(BANDPASS,       bandpass,       af);
     REGISTER_FILTER(BANDREJECT,     bandreject,     af);
     REGISTER_FILTER(BASS,           bass,           af);
     REGISTER_FILTER(BIQUAD,         biquad,         af);
+#ifdef NDEBUG
     REGISTER_FILTER(BS2B,           bs2b,           af);
+#endif
     REGISTER_FILTER(CHANNELMAP,     channelmap,     af);
     REGISTER_FILTER(CHANNELSPLIT,   channelsplit,   af);
     REGISTER_FILTER(CHORUS,         chorus,         af);
@@ -89,7 +93,9 @@ void avfilter_register_all(void)
     REGISTER_FILTER(FLANGER,        flanger,        af);
     REGISTER_FILTER(HIGHPASS,       highpass,       af);
     REGISTER_FILTER(JOIN,           join,           af);
+#ifdef NDEBUG
     REGISTER_FILTER(LADSPA,         ladspa,         af);
+#endif
     REGISTER_FILTER(LOWPASS,        lowpass,        af);
     REGISTER_FILTER(PAN,            pan,            af);
     REGISTER_FILTER(REPLAYGAIN,     replaygain,     af);
@@ -102,14 +108,18 @@ void avfilter_register_all(void)
 
     REGISTER_FILTER(AEVALSRC,       aevalsrc,       asrc);
     REGISTER_FILTER(ANULLSRC,       anullsrc,       asrc);
+#ifdef NDEBUG
     REGISTER_FILTER(FLITE,          flite,          asrc);
+#endif
     REGISTER_FILTER(SINE,           sine,           asrc);
 
     REGISTER_FILTER(ANULLSINK,      anullsink,      asink);
 
     REGISTER_FILTER(ALPHAEXTRACT,   alphaextract,   vf);
     REGISTER_FILTER(ALPHAMERGE,     alphamerge,     vf);
+#ifdef NDEBUG
     REGISTER_FILTER(ASS,            ass,            vf);
+#endif
     REGISTER_FILTER(BBOX,           bbox,           vf);
     REGISTER_FILTER(BLACKDETECT,    blackdetect,    vf);
     REGISTER_FILTER(BLACKFRAME,     blackframe,     vf);
@@ -121,7 +131,9 @@ void avfilter_register_all(void)
     REGISTER_FILTER(COLORLEVELS,    colorlevels,    vf);
     REGISTER_FILTER(COLORMATRIX,    colormatrix,    vf);
     REGISTER_FILTER(COPY,           copy,           vf);
+#ifdef NDEBUG
     REGISTER_FILTER(COVER_RECT,     cover_rect,     vf);
+#endif
     REGISTER_FILTER(CROP,           crop,           vf);
     REGISTER_FILTER(CROPDETECT,     cropdetect,     vf);
     REGISTER_FILTER(CURVES,         curves,         vf);
@@ -129,11 +141,13 @@ void avfilter_register_all(void)
     REGISTER_FILTER(DECIMATE,       decimate,       vf);
     REGISTER_FILTER(DEJUDDER,       dejudder,       vf);
     REGISTER_FILTER(DELOGO,         delogo,         vf);
+#ifdef NDEBUG
     REGISTER_FILTER(DESHAKE,        deshake,        vf);
     REGISTER_FILTER(DETELECINE,     detelecine,     vf);
     REGISTER_FILTER(DRAWBOX,        drawbox,        vf);
     REGISTER_FILTER(DRAWGRID,       drawgrid,       vf);
     REGISTER_FILTER(DRAWTEXT,       drawtext,       vf);
+#endif
     REGISTER_FILTER(EDGEDETECT,     edgedetect,     vf);
     REGISTER_FILTER(ELBG,           elbg,           vf);
     REGISTER_FILTER(EQ,             eq,             vf);
@@ -143,12 +157,16 @@ void avfilter_register_all(void)
     REGISTER_FILTER(FIELD,          field,          vf);
     REGISTER_FILTER(FIELDMATCH,     fieldmatch,     vf);
     REGISTER_FILTER(FIELDORDER,     fieldorder,     vf);
+#ifdef NDEBUG
     REGISTER_FILTER(FIND_RECT,      find_rect,      vf);
+#endif
     REGISTER_FILTER(FORMAT,         format,         vf);
     REGISTER_FILTER(FPS,            fps,            vf);
     REGISTER_FILTER(FRAMEPACK,      framepack,      vf);
     REGISTER_FILTER(FRAMESTEP,      framestep,      vf);
+#ifdef NDEBUG
     REGISTER_FILTER(FREI0R,         frei0r,         vf);
+#endif
     REGISTER_FILTER(FSPP,           fspp,           vf);
     REGISTER_FILTER(GEQ,            geq,            vf);
     REGISTER_FILTER(GRADFUN,        gradfun,        vf);
@@ -176,7 +194,9 @@ void avfilter_register_all(void)
     REGISTER_FILTER(NOFORMAT,       noformat,       vf);
     REGISTER_FILTER(NOISE,          noise,          vf);
     REGISTER_FILTER(NULL,           null,           vf);
+#ifdef NDEBUG
     REGISTER_FILTER(OCV,            ocv,            vf);
+#endif
     REGISTER_FILTER(OVERLAY,        overlay,        vf);
     REGISTER_FILTER(OWDENOISE,      owdenoise,      vf);
     REGISTER_FILTER(PAD,            pad,            vf);
@@ -212,7 +232,9 @@ void avfilter_register_all(void)
     REGISTER_FILTER(SPLIT,          split,          vf);
     REGISTER_FILTER(SPP,            spp,            vf);
     REGISTER_FILTER(STEREO3D,       stereo3d,       vf);
+#ifdef NDEBUG
     REGISTER_FILTER(SUBTITLES,      subtitles,      vf);
+#endif
     REGISTER_FILTER(SUPER2XSAI,     super2xsai,     vf);
     REGISTER_FILTER(SWAPUV,         swapuv,         vf);
     REGISTER_FILTER(TBLEND,         tblend,         vf);
@@ -222,21 +244,29 @@ void avfilter_register_all(void)
     REGISTER_FILTER(TINTERLACE,     tinterlace,     vf);
     REGISTER_FILTER(TRANSPOSE,      transpose,      vf);
     REGISTER_FILTER(TRIM,           trim,           vf);
+#ifdef NDEBUG
     REGISTER_FILTER(UNSHARP,        unsharp,        vf);
+#endif
     REGISTER_FILTER(USPP,           uspp,           vf);
     REGISTER_FILTER(VFLIP,          vflip,          vf);
+#ifdef NDEBUG
     REGISTER_FILTER(VIDSTABDETECT,  vidstabdetect,  vf);
     REGISTER_FILTER(VIDSTABTRANSFORM, vidstabtransform, vf);
+#endif
     REGISTER_FILTER(VIGNETTE,       vignette,       vf);
     REGISTER_FILTER(W3FDIF,         w3fdif,         vf);
     REGISTER_FILTER(XBR,            xbr,            vf);
     REGISTER_FILTER(YADIF,          yadif,          vf);
+#ifdef NDEBUG
     REGISTER_FILTER(ZMQ,            zmq,            vf);
+#endif
     REGISTER_FILTER(ZOOMPAN,        zoompan,        vf);
 
     REGISTER_FILTER(CELLAUTO,       cellauto,       vsrc);
     REGISTER_FILTER(COLOR,          color,          vsrc);
+#ifdef NDEBUG
     REGISTER_FILTER(FREI0R,         frei0r_src,     vsrc);
+#endif
     REGISTER_FILTER(HALDCLUTSRC,    haldclutsrc,    vsrc);
     REGISTER_FILTER(LIFE,           life,           vsrc);
     REGISTER_FILTER(MANDELBROT,     mandelbrot,     vsrc);

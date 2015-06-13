@@ -1754,8 +1754,10 @@ void ff_get_unscaled_swscale(SwsContext *c)
             c->swscale = planarCopyWrapper;
     }
 
+#ifdef NDEBUG
     if (ARCH_PPC)
         ff_get_unscaled_swscale_ppc(c);
+#endif
 //     if (ARCH_ARM)
 //         ff_get_unscaled_swscale_arm(c);
 }

@@ -65,6 +65,7 @@ av_cold void ff_blockdsp_init(BlockDSPContext *c, AVCodecContext *avctx)
     c->fill_block_tab[0] = fill_block16_c;
     c->fill_block_tab[1] = fill_block8_c;
 
+#ifdef NDEBUG
     if (ARCH_ALPHA)
         ff_blockdsp_init_alpha(c, high_bit_depth);
     if (ARCH_ARM)
@@ -77,4 +78,5 @@ av_cold void ff_blockdsp_init(BlockDSPContext *c, AVCodecContext *avctx)
 #else
         ff_blockdsp_init_x86(c, high_bit_depth);
 #endif /* FF_API_XVMC */
+#endif
 }

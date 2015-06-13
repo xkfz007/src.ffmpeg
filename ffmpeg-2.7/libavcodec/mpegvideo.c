@@ -328,6 +328,7 @@ static av_cold int dct_init(MpegEncContext *s)
         s->dct_unquantize_mpeg2_intra = dct_unquantize_mpeg2_intra_bitexact;
     s->dct_unquantize_mpeg2_inter = dct_unquantize_mpeg2_inter_c;
 
+#ifdef NDEBUG
     if (HAVE_INTRINSICS_NEON)
         ff_mpv_common_init_neon(s);
 
@@ -339,6 +340,7 @@ static av_cold int dct_init(MpegEncContext *s)
         ff_mpv_common_init_ppc(s);
     if (ARCH_X86)
         ff_mpv_common_init_x86(s);
+#endif
 
     return 0;
 }

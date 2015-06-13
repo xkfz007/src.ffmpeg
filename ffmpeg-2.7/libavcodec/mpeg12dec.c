@@ -840,8 +840,10 @@ static int mpeg_decode_mb(MpegEncContext *s, int16_t block[12][64])
         }
         s->mb_intra = 1;
         // if 1, we memcpy blocks in xvmcvideo
+#ifdef NDEBUG
         if ((CONFIG_MPEG1_XVMC_HWACCEL || CONFIG_MPEG2_XVMC_HWACCEL) && s->pack_pblocks)
             ff_xvmc_pack_pblocks(s, -1); // inter are always full blocks
+#endif
 
         if (s->codec_id == AV_CODEC_ID_MPEG2VIDEO) {
             if (s->avctx->flags2 & CODEC_FLAG2_FAST) {
@@ -1060,8 +1062,10 @@ static int mpeg_decode_mb(MpegEncContext *s, int16_t block[12][64])
             }
 
             // if 1, we memcpy blocks in xvmcvideo
+#ifdef NDEBUG
             if ((CONFIG_MPEG1_XVMC_HWACCEL || CONFIG_MPEG2_XVMC_HWACCEL) && s->pack_pblocks)
                 ff_xvmc_pack_pblocks(s, cbp);
+#endif
 
             if (s->codec_id == AV_CODEC_ID_MPEG2VIDEO) {
                 if (s->avctx->flags2 & CODEC_FLAG2_FAST) {
@@ -1849,8 +1853,10 @@ static int mpeg_decode_slice(MpegEncContext *s, int mb_y,
 
     for (;;) {
         // If 1, we memcpy blocks in xvmcvideo.
+#ifdef NDEBUG
         if ((CONFIG_MPEG1_XVMC_HWACCEL || CONFIG_MPEG2_XVMC_HWACCEL) && s->pack_pblocks)
             ff_xvmc_init_block(s); // set s->block
+#endif
 
         if ((ret = mpeg_decode_mb(s, s->block)) < 0)
             return ret;
@@ -2445,9 +2451,11 @@ static int decode_chunks(AVCodecContext *avctx, AVFrame *picture,
                         s2->er.error_count += s2->thread_context[i]->er.error_count;
                 }
 
+#ifdef NDEBUG
                 if ((CONFIG_MPEG_VDPAU_DECODER || CONFIG_MPEG1_VDPAU_DECODER)
                     && uses_vdpau(avctx))
                     ff_vdpau_mpeg_picture_complete(s2, buf, buf_size, s->slice_count);
+#endif
 
                 ret = slice_end(avctx, picture);
                 if (ret < 0)

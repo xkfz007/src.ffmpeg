@@ -277,7 +277,7 @@ static int avi_read_header(AVFormatContext *s, AVFormatParameters *ap)
                         st->codec->extradata_size = size - 10 * 4;
                         st->codec->extradata = av_malloc(st->codec->extradata_size + 
 							                             FF_INPUT_BUFFER_PADDING_SIZE);
-                        url_fread(pb, st->codec->extradata, st->codec->extradata_size);
+                        get_buffer(pb, st->codec->extradata, st->codec->extradata_size);
                     }
 
                     if (st->codec->extradata_size &1)
@@ -326,7 +326,7 @@ static int avi_read_header(AVFormatContext *s, AVFormatParameters *ap)
                                     actx->extradata_size = size - 18;
                                 actx->extradata = av_mallocz(actx->extradata_size + 
                                                          FF_INPUT_BUFFER_PADDING_SIZE);
-                                url_fread(pb, actx->extradata, actx->extradata_size);
+                                get_buffer(pb, actx->extradata, actx->extradata_size);
                             }
                             else
                             {

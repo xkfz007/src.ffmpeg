@@ -162,7 +162,7 @@ int av_open_input_file(AVFormatContext **ic_ptr, const char *filename, AVInputFo
         for (probe_size = PROBE_BUF_MIN; probe_size <= PROBE_BUF_MAX && !fmt; probe_size <<= 1)
         {
             pd->buf = av_realloc(pd->buf, probe_size);
-            pd->buf_size = url_fread(pb, pd->buf, probe_size);
+            pd->buf_size = get_buffer(pb, pd->buf, probe_size);
             if (url_fseek(pb, 0, SEEK_SET) == (offset_t) - EPIPE)
             {
                 url_fclose(pb);

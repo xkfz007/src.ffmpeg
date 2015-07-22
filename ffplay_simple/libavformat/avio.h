@@ -71,7 +71,7 @@ offset_t url_fsize(ByteIOContext *s);
 int url_feof(ByteIOContext *s);
 int url_ferror(ByteIOContext *s);
 
-int url_fread(ByteIOContext *s, unsigned char *buf, int size); // get_buffer
+int get_buffer(ByteIOContext *s, unsigned char *buf, int size); // get_buffer
 int get_byte(ByteIOContext *s);
 unsigned int get_le32(ByteIOContext *s);
 unsigned int get_le16(ByteIOContext *s);

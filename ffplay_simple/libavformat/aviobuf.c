@@ -157,15 +157,15 @@ unsigned int get_le32(ByteIOContext *s)
     return val;
 }
 
-#define url_write_buf NULL
+#define url_write_packet NULL
 
-static int url_read_buf(void *opaque, uint8_t *buf, int buf_size)
+static int url_read_packet(void *opaque, uint8_t *buf, int buf_size)
 {
     URLContext *h = opaque;
     return url_read(h, buf, buf_size);
 }
 
-static offset_t url_seek_buf(void *opaque, offset_t offset, int whence)
+static offset_t url_seek_packet(void *opaque, offset_t offset, int whence)
 {
     URLContext *h = opaque;
     return url_seek(h, offset, whence);
@@ -222,9 +222,9 @@ int url_fopen(ByteIOContext *s, const char *filename, int flags)
 					  buffer_size, 
 					  (h->flags & URL_WRONLY || h->flags & URL_RDWR), 
 					  h, 
-					  url_read_buf, 
-					  url_write_buf, 
-					  url_seek_buf) < 0)
+					  url_read_packet, 
+					  url_write_packet, 
+					  url_seek_packet) < 0)
     {
         url_close(h);
         av_free(buffer);
@@ -245,7 +245,7 @@ int url_fclose(ByteIOContext *s)
     return url_close(h);
 }
 
-int url_fread(ByteIOContext *s, unsigned char *buf, int size) // get_buffer
+int get_buffer(ByteIOContext *s, unsigned char *buf, int size) // get_buffer
 {
     int len, size1;
 

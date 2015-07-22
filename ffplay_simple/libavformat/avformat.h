@@ -92,7 +92,7 @@ static inline int av_get_packet(ByteIOContext *s, AVPacket *pkt, int size)
 
     pkt->pos = url_ftell(s);
 
-    ret = url_fread(s, pkt->data, size);
+    ret = get_buffer(s, pkt->data, size);
     if (ret <= 0)
         av_free_packet(pkt);
     else

@@ -1,0 +1,15 @@
+ff_kernelDeint.dll
+TomsMoComp_ff.dll
+ff_unrar.dll
+ff_samplerate.dll
+ff_wmv9.dll
+FLT_ffdshow.dll
+libmpeg2_ff.dll
+ff_libfaad2.dll
+ff_libmad.dll
+ff_liba52.dll
+ff_libdts.dll
+libavcodec.dll
+xvidcore.dll
+ffmpegmt.dll
+ffdshow.ax

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>MPC-HC WebServer - File Browser</title>
+        <link rel="stylesheet" href="default.css">
+        <link rel="icon" href="favicon.ico">
+    </head>
+    <body>
+        <!--[if lt IE 8]>
+            <div class="browser-warning"><strong>Warning!</strong> You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+        <![endif]-->
+        <div>
+            <table class="browser-table">
+                <tr>
+                    <td class="text-center">
+                        <strong>Location: </strong>[currentdir]
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <span>&nbsp;</span>
+        <div>
+            <table class="browser-table">
+                <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Size</th>
+                    <th>Date Modified</th>
+                </tr>
+                [currentfiles]
+            </table>
+        </div>
+[debug]
+    </body>
+</html>

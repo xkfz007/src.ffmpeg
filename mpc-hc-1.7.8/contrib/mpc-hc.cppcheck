@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="1">
+    <root name="."/>
+    <includedir>
+        <dir name="include/"/>
+    </includedir>
+    <paths>
+        <dir name="../"/>
+    </paths>
+    <exclude>
+        <path name="src/thirdparty/"/>
+    </exclude>
+    <libraries>
+        <library>windows</library>
+    </libraries>
+    <suppressions>
+        <suppression>cstyleCast</suppression>
+        <suppression>redundantAssignment</suppression>
+        <suppression>unreadVariable</suppression>
+        <suppression>unusedPrivateFunction</suppression>
+        <suppression>variableScope</suppression>
+    </suppressions>
+</project>

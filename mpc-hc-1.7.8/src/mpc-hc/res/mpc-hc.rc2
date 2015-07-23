@@ -1,0 +1,200 @@
+//
+// mpc-hc.rc2 - resources Microsoft Visual C++ does not edit directly
+//
+
+#ifdef APSTUDIO_INVOKED
+#error this file is not editable by Microsoft Visual C++
+#endif //APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Add manually edited resources here...
+#include "resource.h"
+#include "version.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United States) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AVI
+//
+
+IDR_AVI_FILECOPY                 AVI                     "res\\ani.avi"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_AUDIOTYPE_MONO               BITMAP                  "res\\mono.bmp"
+IDB_AUDIOTYPE_NOAUDIO            BITMAP                  "res\\noaudio.bmp"
+IDB_AUDIOTYPE_STEREO             BITMAP                  "res\\stereo.bmp"
+IDB_CHECK_ALL                    BITMAP                  "res\\check_all.bmp"
+IDB_CHECK_AUDIO                  BITMAP                  "res\\check_audio.bmp"
+IDB_CHECK_VIDEO                  BITMAP                  "res\\check_video.bmp"
+IDB_CHECKBOX                     BITMAP                  "res\\onoff.bmp"
+IDB_STREAMTYPES                  BITMAP                  "res\\streamtypes.bmp"
+IDB_SHADER_UP                    BITMAP                  "res\\shader_up.bmp"
+IDB_SHADER_DOWN                  BITMAP                  "res\\shader_down.bmp"
+IDB_SHADER_DEL                   BITMAP                  "res\\shader_del.bmp"
+IDB_UNCHECK_ALL                  BITMAP                  "res\\uncheck_all.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// FILE
+//
+
+IDF_DEFAULT_CSS                  FILE                    "res\\web\\default.css"
+IDF_FAVICON                      FILE                    "res\\web\\favicon.ico"
+IDF_JAVASCRIPT                   FILE                    "res\\web\\javascript.js"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// HTML
+//
+
+IDR_HTML_404                     HTML                    "res\\web\\404.html"
+IDR_HTML_BROWSER                 HTML                    "res\\web\\browser.html"
+IDR_HTML_CONTROLS                HTML                    "res\\web\\controls.html"
+IDR_HTML_INDEX                   HTML                    "res\\web\\index.html"
+IDR_HTML_INFO                    HTML                    "res\\web\\info.html"
+IDR_HTML_PLAYER                  HTML                    "res\\web\\player.html"
+IDR_HTML_VARIABLES               HTML                    "res\\web\\variables.html"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME                    ICON                    "res\\icon.ico"
+IDI_SINGLE                       ICON                    "res\\single.ico"
+IDI_MULTI                        ICON                    "res\\multi.ico"
+IDR_TB_PLAY                      ICON                    "res\\tb_play_16.ico"
+IDR_TB_PAUSE                     ICON                    "res\\tb_pause_16.ico"
+IDR_TB_STOP                      ICON                    "res\\tb_stop_16.ico"
+IDI_AUDIOCD                      ICON                    "res\\Icon_41.ico"
+IDI_DVD                          ICON                    "res\\Icon_114.ico"
+IDI_UNKNOWN                      ICON                    "res\\Icon_116.ico"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// PNG
+//
+
+IDF_1PIX_PNG                     PNG                     "res\\web\\img\\1pix.png"
+IDF_BOTTOMSIDE_PNG               PNG                     "res\\web\\img\\bottomside.png"
+IDF_CONTROLBACK_PNG              PNG                     "res\\web\\img\\controlback.png"
+IDF_CONTROLBUTTONDECRATE_PNG     PNG                     "res\\web\\img\\controlbuttondecrate.png"
+IDF_CONTROLBUTTONINCRATE_PNG     PNG                     "res\\web\\img\\controlbuttonincrate.png"
+IDF_CONTROLBUTTONPAUSE_PNG       PNG                     "res\\web\\img\\controlbuttonpause.png"
+IDF_CONTROLBUTTONPLAY_PNG        PNG                     "res\\web\\img\\controlbuttonplay.png"
+IDF_CONTROLBUTTONSKIPBACK_PNG    PNG                     "res\\web\\img\\controlbuttonskipback.png"
+IDF_CONTROLBUTTONSKIPFORWARD_PNG PNG                     "res\\web\\img\\controlbuttonskipforward.png"
+IDF_CONTROLBUTTONSTEP_PNG        PNG                     "res\\web\\img\\controlbuttonstep.png"
+IDF_CONTROLBUTTONSTOP_PNG        PNG                     "res\\web\\img\\controlbuttonstop.png"
+IDF_CONTROLVOLUMEBAR_PNG         PNG                     "res\\web\\img\\controlvolumebar.png"
+IDF_CONTROLVOLUMEGRIP_PNG        PNG                     "res\\web\\img\\controlvolumegrip.png"
+IDF_CONTROLVOLUMEOFF_PNG         PNG                     "res\\web\\img\\controlvolumeoff.png"
+IDF_CONTROLVOLUMEON_PNG          PNG                     "res\\web\\img\\controlvolumeon.png"
+IDF_HEADERBACK_PNG               PNG                     "res\\web\\img\\headerback.png"
+IDF_HEADERCLOSE_PNG              PNG                     "res\\web\\img\\headerclose.png"
+IDF_HEADERICON_PNG               PNG                     "res\\web\\img\\headericon.png"
+IDF_LEFTBOTTOMSIDE_PNG           PNG                     "res\\web\\img\\leftbottomside.png"
+IDF_LEFTSIDE_PNG                 PNG                     "res\\web\\img\\leftside.png"
+IDF_LOGO0                        PNG                     "res\\logo.0.png"
+#ifdef _WIN64
+IDF_LOGO1                        PNG                     "res\\logo.1_x64.png"
+IDF_LOGO2                        PNG                     "res\\logo.2_x64.png"
+IDF_LOGO3                        PNG                     "res\\logo.3_x64.png"
+#else
+IDF_LOGO1                        PNG                     "res\\logo.1.png"
+IDF_LOGO2                        PNG                     "res\\logo.2.png"
+IDF_LOGO3                        PNG                     "res\\logo.3.png"
+#endif
+IDF_RIGHTBOTTOMSIDE_PNG          PNG                     "res\\web\\img\\rightbottomside.png"
+IDF_RIGHTSIDE_PNG                PNG                     "res\\web\\img\\rightside.png"
+IDF_SEEKBARGRIP_PNG              PNG                     "res\\web\\img\\seekbargrip.png"
+IDF_SEEKBARLEFT_PNG              PNG                     "res\\web\\img\\seekbarleft.png"
+IDF_SEEKBARMID_PNG               PNG                     "res\\web\\img\\seekbarmid.png"
+IDF_SEEKBARRIGHT_PNG             PNG                     "res\\web\\img\\seekbarright.png"
+IDF_SLIDERBACK_PNG               PNG                     "res\\web\\img\\sliderback.png"
+IDF_SLIDERGRIP_PNG               PNG                     "res\\web\\img\\slidergrip.png"
+IDF_TICKCROSS                    PNG                     "res\\tickcross.png"
+IDF_VBR_PNG                      PNG                     "res\\web\\img\\vbg.png"
+IDF_VBS_PNG                      PNG                     "res\\web\\img\\vbs.png"
+IDF_WIN7_TOOLBAR                 PNG                     "res\\toolbarw7.png"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// SHADER
+//
+IDF_SHADER_EMPTY                 SHADER                  "res\\shaders\\empty.psh"
+IDF_SHADER_FINAL                 SHADER                  "res\\shaders\\final.psh"
+IDF_SHADER_RESIZER               SHADER                  "res\\shaders\\resizer.psh"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION    MPC_VERSION_NUM
+ PRODUCTVERSION MPC_VERSION_NUM
+ FILEFLAGSMASK  VS_FFI_FILEFLAGSMASK
+#ifdef _DEBUG
+ FILEFLAGS      VS_FF_DEBUG
+#else
+ FILEFLAGS      0x0L
+#endif
+ FILEOS         VOS_NT_WINDOWS32
+ FILETYPE       VFT_APP
+ FILESUBTYPE    VFT2_UNKNOWN
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "Comments",         "Based on the original Media Player Classic v6.4.9.0 © Gabest"
+            VALUE "CompanyName",      MPC_COMP_NAME_STR
+            VALUE "FileDescription",  "MPC-HC"
+            VALUE "FileVersion",      MPC_VERSION_STR_FULL
+            VALUE "InternalName",     "mpc-hc"
+            VALUE "LegalCopyright",   MPC_COPYRIGHT_STR
+#ifdef _WIN64
+            VALUE "OriginalFilename", "mpc-hc64.exe"
+#else
+            VALUE "OriginalFilename", "mpc-hc.exe"
+#endif
+            VALUE "ProductName",      "MPC-HC"
+            VALUE "ProductVersion",   MPC_VERSION_STR_FULL
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+#endif    // English (United States) resources

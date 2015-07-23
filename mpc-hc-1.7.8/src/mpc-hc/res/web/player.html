@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>MPC-HC WebServer - Player</title>
+        <link rel="stylesheet" href="default.css">
+        <link rel="icon" href="favicon.ico">
+        <script src="javascript.js"></script>
+    </head>
+    <body onload="playerInit()">
+        <!--[if lt IE 8]>
+            <div class="browser-warning"><strong>Warning!</strong> You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+        <![endif]-->
+        <noscript>
+            <p>
+                <strong>JavaScript is disabled; nothing will work in this page!</strong>
+            </p>
+        </noscript>
+        <div>
+            <table id="player">
+                <tr>
+                    <td colspan="3">
+                        <table id="header">
+                            <tr>
+                                <td id="headerIcon"></td>
+                                <td id="headerBack"><div class="nobr" id="title">&nbsp;</div></td>
+                                <td id="headerClose" onclick="onCommand(816)"></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td id="leftside"></td>
+                    <td>
+                        <table id="center">
+                            <tr>
+                                <td>
+                                    <table id="menu">
+                                        <tr>
+                                            <td>File</td>
+                                            <td>View</td>
+                                            <td>Play</td>
+                                            <td>Navigate</td>
+                                            <td>Favorites</td>
+                                            <td id="menu-help" class="text-right">Help</td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td id="video" onclick="onCommand(889)">
+                                    <img src="snapshot.jpg" id="snapshot" alt="snapshot" onload="onLoadSnapshot()" onabort="onAbortErrorSnapshot()" onerror="onAbortErrorSnapshot()">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <table id="seekbar">
+                                        <tr>
+                                            <td id="seekbarleft"><img src="img/seekbarleft.png" alt="seekbarleft"></td>
+                                            <td id="seekbarchleft"></td>
+                                            <td id="seekbargrip"><img src="img/seekbargrip.png" alt="seekbargrip"></td>
+                                            <td id="seekbarchright"></td>
+                                            <td id="seekbarright"><img src="img/seekbarright.png" alt="seekbarright"></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <table id="controlbar">
+                                        <tr>
+                                            <td id="controlbuttonplay" onclick="onCommand(887)" title="Play"></td>
+                                            <td id="controlbuttonpause" onclick="onCommand(888)" title="Pause"></td>
+                                            <td id="controlbuttonstop" onclick="onCommand(890)" title="Stop"></td>
+                                            <td id="controlbuttonskipback" onclick="onCommand(920)" title="Skip back"></td>
+                                            <td id="controlbuttondecrate" onclick="onCommand(894)" title="Decrease speed"></td>
+                                            <td id="controlbuttonincrate" onclick="onCommand(895)" title="Increase speed"></td>
+                                            <td id="controlbuttonskipforward" onclick="onCommand(921)" title="Skip forward"></td>
+                                            <td id="controlbuttonstep" onclick="onCommand(891)" title="Step"></td>
+                                            <td>&nbsp;</td>
+                                            <td id="controlvolumemute" onclick="onCommand(909)" title="Mute"></td>
+                                            <td id="controlvolumebar">
+                                                <img src="img/controlvolumegrip.png" id="controlvolumegrip" alt="control volume grip">
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <table id="statusbar">
+                                        <tr>
+                                            <td><div id="status"></div></td>
+                                            <td class="text-right"><div id="timer">&nbsp;</div></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td id="rightside"></td>
+                </tr>
+                <tr>
+                    <td id="leftbottomside"></td>
+                    <td id="bottomside"></td>
+                    <td id="rightbottomside"></td>
+                </tr>
+            </table>
+        </div>
+[debug]
+    </body>
+</html>

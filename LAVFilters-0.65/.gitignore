@@ -1,0 +1,10 @@
+
+*.user
+*.suo
+*.sdf
+*.opensdf
+*.aps
+
+/ipch
+/bin_*
+/common/includes/version_rev.h

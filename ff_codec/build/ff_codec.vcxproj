@@ -1,0 +1,234 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{87D271FA-36C2-4B19-83BE-A76E4025F36F}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>ff_codec</RootNamespace>
+    <ProjectName>ff_codec</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>Intel C++ Compiler XE 14.0</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>Intel C++ Compiler XE 14.0</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>..\bin\$(Configuration)</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>..\bin\$(Configuration)</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;HAVE_AV_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <C99Support>true</C99Support>
+      <AdditionalIncludeDirectories>..\;..\include</AdditionalIncludeDirectories>
+      <ObjectFileName>$(IntDir)\obj\%(RelativeDir)\</ObjectFileName>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;HAVE_AV_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\;..\include</AdditionalIncludeDirectories>
+      <C99Support>true</C99Support>
+      <ObjectFileName>$(IntDir)\obj\%(RelativeDir)\</ObjectFileName>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\compat\msvcrt\snprintf.c" />
+    <ClCompile Include="..\h264_dec.c" />
+    <ClCompile Include="..\libavcodec\avpacket.c" />
+    <ClCompile Include="..\libavcodec\bitstream.c" />
+    <ClCompile Include="..\libavcodec\blockdsp.c" />
+    <ClCompile Include="..\libavcodec\cabac.c" />
+    <ClCompile Include="..\libavcodec\codec_desc.c" />
+    <ClCompile Include="..\libavcodec\error_resilience.c" />
+    <ClCompile Include="..\libavcodec\frame_thread_encoder.c" />
+    <ClCompile Include="..\libavcodec\golomb.c" />
+    <ClCompile Include="..\libavcodec\h264.c" />
+    <ClCompile Include="..\libavcodec\h264chroma.c" />
+    <ClCompile Include="..\libavcodec\h264dsp.c" />
+    <ClCompile Include="..\libavcodec\h264idct.c" />
+    <ClCompile Include="..\libavcodec\h264pred.c" />
+    <ClCompile Include="..\libavcodec\h264qpel.c" />
+    <ClCompile Include="..\libavcodec\h264_cabac.c" />
+    <ClCompile Include="..\libavcodec\h264_cavlc.c" />
+    <ClCompile Include="..\libavcodec\h264_direct.c" />
+    <ClCompile Include="..\libavcodec\h264_loopfilter.c" />
+    <ClCompile Include="..\libavcodec\h264_mb.c" />
+    <ClCompile Include="..\libavcodec\h264_mp4toannexb_bsf.c" />
+    <ClCompile Include="..\libavcodec\h264_parser.c" />
+    <ClCompile Include="..\libavcodec\h264_picture.c" />
+    <ClCompile Include="..\libavcodec\h264_ps.c" />
+    <ClCompile Include="..\libavcodec\h264_refs.c" />
+    <ClCompile Include="..\libavcodec\h264_sei.c" />
+    <ClCompile Include="..\libavcodec\h264_slice.c" />
+    <ClCompile Include="..\libavcodec\hpeldsp.c" />
+    <ClCompile Include="..\libavcodec\mathtables.c" />
+    <ClCompile Include="..\libavcodec\me_cmp.c" />
+    <ClCompile Include="..\libavcodec\motion_est.c" />
+    <ClCompile Include="..\libavcodec\mpegutils.c" />
+    <ClCompile Include="..\libavcodec\mpegvideodata.c" />
+    <ClCompile Include="..\libavcodec\options.c" />
+    <ClCompile Include="..\libavcodec\parser.c" />
+    <ClCompile Include="..\libavcodec\pixblockdsp.c" />
+    <ClCompile Include="..\libavcodec\pthread.c" />
+    <ClCompile Include="..\libavcodec\pthread_frame.c" />
+    <ClCompile Include="..\libavcodec\pthread_slice.c" />
+    <ClCompile Include="..\libavcodec\ratecontrol.c" />
+    <ClCompile Include="..\libavcodec\simple_idct.c" />
+    <ClCompile Include="..\libavcodec\startcode.c" />
+    <ClCompile Include="..\libavcodec\utils.c" />
+    <ClCompile Include="..\libavcodec\videodsp.c" />
+    <ClCompile Include="..\libavutil\atomic.c" />
+    <ClCompile Include="..\libavutil\avstring.c" />
+    <ClCompile Include="..\libavutil\bprint.c" />
+    <ClCompile Include="..\libavutil\buffer.c" />
+    <ClCompile Include="..\libavutil\channel_layout.c" />
+    <ClCompile Include="..\libavutil\cpu.c" />
+    <ClCompile Include="..\libavutil\crc.c" />
+    <ClCompile Include="..\libavutil\dict.c" />
+    <ClCompile Include="..\libavutil\display.c" />
+    <ClCompile Include="..\libavutil\error.c" />
+    <ClCompile Include="..\libavutil\eval.c" />
+    <ClCompile Include="..\libavutil\fifo.c" />
+    <ClCompile Include="..\libavutil\frame.c" />
+    <ClCompile Include="..\libavutil\imgutils.c" />
+    <ClCompile Include="..\libavutil\intmath.c" />
+    <ClCompile Include="..\libavutil\log.c" />
+    <ClCompile Include="..\libavutil\mathematics.c" />
+    <ClCompile Include="..\libavutil\mem.c" />
+    <ClCompile Include="..\libavutil\opt.c" />
+    <ClCompile Include="..\libavutil\parseutils.c" />
+    <ClCompile Include="..\libavutil\pixdesc.c" />
+    <ClCompile Include="..\libavutil\random_seed.c" />
+    <ClCompile Include="..\libavutil\rational.c" />
+    <ClCompile Include="..\libavutil\samplefmt.c" />
+    <ClCompile Include="..\libavutil\sha.c" />
+    <ClCompile Include="..\libavutil\stereo3d.c" />
+    <ClCompile Include="..\libavutil\time.c" />
+    <ClCompile Include="..\libavutil\timecode.c" />
+    <ClCompile Include="..\libavutil\utils.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\compat\msvcrt\snprintf.h" />
+    <ClInclude Include="..\config.h" />
+    <ClInclude Include="..\h264_dec.h" />
+    <ClInclude Include="..\libavcodec\cabac.h" />
+    <ClInclude Include="..\libavcodec\error_resilience.h" />
+    <ClInclude Include="..\libavcodec\get_bits.h" />
+    <ClInclude Include="..\libavcodec\h264.h" />
+    <ClInclude Include="..\libavcodec\h264chroma.h" />
+    <ClInclude Include="..\libavcodec\h264data.h" />
+    <ClInclude Include="..\libavcodec\h264dsp.h" />
+    <ClInclude Include="..\libavcodec\h264idct.h" />
+    <ClInclude Include="..\libavcodec\h264pred.h" />
+    <ClInclude Include="..\libavcodec\h264qpel.h" />
+    <ClInclude Include="..\libavcodec\h264_mvpred.h" />
+    <ClInclude Include="..\libavcodec\put_bits.h" />
+    <ClInclude Include="..\libavutil\atomic.h" />
+    <ClInclude Include="..\libavutil\atomic_win32.h" />
+    <ClInclude Include="..\libavutil\attributes.h" />
+    <ClInclude Include="..\libavutil\avassert.h" />
+    <ClInclude Include="..\libavutil\avconfig.h" />
+    <ClInclude Include="..\libavutil\avstring.h" />
+    <ClInclude Include="..\libavutil\avutil.h" />
+    <ClInclude Include="..\libavutil\bprint.h" />
+    <ClInclude Include="..\libavutil\bswap.h" />
+    <ClInclude Include="..\libavutil\buffer.h" />
+    <ClInclude Include="..\libavutil\buffer_internal.h" />
+    <ClInclude Include="..\libavutil\channel_layout.h" />
+    <ClInclude Include="..\libavutil\common.h" />
+    <ClInclude Include="..\libavutil\cpu.h" />
+    <ClInclude Include="..\libavutil\cpu_internal.h" />
+    <ClInclude Include="..\libavutil\crc.h" />
+    <ClInclude Include="..\libavutil\dict.h" />
+    <ClInclude Include="..\libavutil\display.h" />
+    <ClInclude Include="..\libavutil\dynarray.h" />
+    <ClInclude Include="..\libavutil\error.h" />
+    <ClInclude Include="..\libavutil\eval.h" />
+    <ClInclude Include="..\libavutil\ffversion.h" />
+    <ClInclude Include="..\libavutil\fifo.h" />
+    <ClInclude Include="..\libavutil\frame.h" />
+    <ClInclude Include="..\libavutil\imgutils.h" />
+    <ClInclude Include="..\libavutil\internal.h" />
+    <ClInclude Include="..\libavutil\intfloat.h" />
+    <ClInclude Include="..\libavutil\intmath.h" />
+    <ClInclude Include="..\libavutil\intreadwrite.h" />
+    <ClInclude Include="..\libavutil\libm.h" />
+    <ClInclude Include="..\libavutil\log.h" />
+    <ClInclude Include="..\libavutil\macros.h" />
+    <ClInclude Include="..\libavutil\mathematics.h" />
+    <ClInclude Include="..\libavutil\mem.h" />
+    <ClInclude Include="..\libavutil\motion_vector.h" />
+    <ClInclude Include="..\libavutil\old_pix_fmts.h" />
+    <ClInclude Include="..\libavutil\opt.h" />
+    <ClInclude Include="..\libavutil\parseutils.h" />
+    <ClInclude Include="..\libavutil\pixdesc.h" />
+    <ClInclude Include="..\libavutil\pixfmt.h" />
+    <ClInclude Include="..\libavutil\random_seed.h" />
+    <ClInclude Include="..\libavutil\rational.h" />
+    <ClInclude Include="..\libavutil\samplefmt.h" />
+    <ClInclude Include="..\libavutil\sha.h" />
+    <ClInclude Include="..\libavutil\stereo3d.h" />
+    <ClInclude Include="..\libavutil\thread.h" />
+    <ClInclude Include="..\libavutil\time.h" />
+    <ClInclude Include="..\libavutil\timecode.h" />
+    <ClInclude Include="..\libavutil\timer.h" />
+    <ClInclude Include="..\libavutil\time_internal.h" />
+    <ClInclude Include="..\libavutil\version.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

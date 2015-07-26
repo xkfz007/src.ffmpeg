@@ -76,7 +76,58 @@
     <ClCompile Include="..\libavutil\display.c">
       <Filter>libavutil</Filter>
     </ClCompile>
+    <ClCompile Include="..\libavutil\atomic.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavutil\buffer.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavutil\frame.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavutil\imgutils.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavutil\timecode.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavutil\utils.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavutil\stereo3d.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavutil\fifo.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavutil\time.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavutil\crc.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavcodec\avpacket.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavcodec\bitstream.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavcodec\blockdsp.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
     <ClCompile Include="..\libavcodec\cabac.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavcodec\codec_desc.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavcodec\error_resilience.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavcodec\frame_thread_encoder.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavcodec\golomb.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
     <ClCompile Include="..\libavcodec\h264.c">
@@ -133,59 +184,41 @@
     <ClCompile Include="..\libavcodec\h264qpel.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
-    <ClCompile Include="..\libavcodec\error_resilience.c">
-      <Filter>libavcodec</Filter>
-    </ClCompile>
-    <ClCompile Include="..\libavutil\atomic.c">
-      <Filter>libavutil</Filter>
-    </ClCompile>
-    <ClCompile Include="..\libavutil\buffer.c">
-      <Filter>libavutil</Filter>
-    </ClCompile>
-    <ClCompile Include="..\libavutil\frame.c">
-      <Filter>libavutil</Filter>
-    </ClCompile>
-    <ClCompile Include="..\libavutil\imgutils.c">
-      <Filter>libavutil</Filter>
-    </ClCompile>
-    <ClCompile Include="..\libavcodec\utils.c">
-      <Filter>libavcodec</Filter>
-    </ClCompile>
-    <ClCompile Include="..\libavcodec\startcode.c">
-      <Filter>libavcodec</Filter>
-    </ClCompile>
-    <ClCompile Include="..\libavcodec\mathtables.c">
-      <Filter>libavcodec</Filter>
-    </ClCompile>
-    <ClCompile Include="..\libavcodec\pthread.c">
-      <Filter>libavcodec</Filter>
-    </ClCompile>
-    <ClCompile Include="..\libavcodec\me_cmp.c">
-      <Filter>libavcodec</Filter>
-    </ClCompile>
-    <ClCompile Include="..\libavcodec\simple_idct.c">
-      <Filter>libavcodec</Filter>
-    </ClCompile>
-    <ClCompile Include="..\libavcodec\mpegutils.c">
-      <Filter>libavcodec</Filter>
-    </ClCompile>
-    <ClCompile Include="..\libavcodec\blockdsp.c">
+    <ClCompile Include="..\libavcodec\hpel_template.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
     <ClCompile Include="..\libavcodec\hpeldsp.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
+    <ClCompile Include="..\libavcodec\mathops.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavcodec\mathtables.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavcodec\me_cmp.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
     <ClCompile Include="..\libavcodec\motion_est.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavcodec\mpegutils.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavcodec\options.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavcodec\parser.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavcodec\pel_template.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
     <ClCompile Include="..\libavcodec\pixblockdsp.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
-    <ClCompile Include="..\libavcodec\ratecontrol.c">
+    <ClCompile Include="..\libavcodec\pthread.c">
       <Filter>libavcodec</Filter>
-    </ClCompile>
-    <ClCompile Include="..\libavutil\timecode.c">
-      <Filter>libavutil</Filter>
     </ClCompile>
     <ClCompile Include="..\libavcodec\pthread_frame.c">
       <Filter>libavcodec</Filter>
@@ -193,47 +226,23 @@
     <ClCompile Include="..\libavcodec\pthread_slice.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
-    <ClCompile Include="..\libavcodec\mpegvideodata.c">
+    <ClCompile Include="..\libavcodec\ratecontrol.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
-    <ClCompile Include="..\libavutil\utils.c">
-      <Filter>libavutil</Filter>
-    </ClCompile>
-    <ClCompile Include="..\libavcodec\golomb.c">
+    <ClCompile Include="..\libavcodec\raw.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
-    <ClCompile Include="..\libavutil\stereo3d.c">
-      <Filter>libavutil</Filter>
-    </ClCompile>
-    <ClCompile Include="..\libavcodec\avpacket.c">
+    <ClCompile Include="..\libavcodec\simple_idct.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
-    <ClCompile Include="..\libavcodec\bitstream.c">
+    <ClCompile Include="..\libavcodec\startcode.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
-    <ClCompile Include="..\libavcodec\parser.c">
+    <ClCompile Include="..\libavcodec\utils.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
     <ClCompile Include="..\libavcodec\videodsp.c">
       <Filter>libavcodec</Filter>
-    </ClCompile>
-    <ClCompile Include="..\libavcodec\codec_desc.c">
-      <Filter>libavcodec</Filter>
-    </ClCompile>
-    <ClCompile Include="..\libavcodec\frame_thread_encoder.c">
-      <Filter>libavcodec</Filter>
-    </ClCompile>
-    <ClCompile Include="..\libavutil\fifo.c">
-      <Filter>libavutil</Filter>
-    </ClCompile>
-    <ClCompile Include="..\libavcodec\options.c">
-      <Filter>libavcodec</Filter>
-    </ClCompile>
-    <ClCompile Include="..\libavutil\time.c">
-      <Filter>libavutil</Filter>
-    </ClCompile>
-    <ClCompile Include="..\libavutil\crc.c">
-      <Filter>libavutil</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -349,42 +358,6 @@
     </ClInclude>
     <ClInclude Include="..\libavutil\display.h">
       <Filter>libavutil</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libavcodec\cabac.h">
-      <Filter>libavcodec</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libavcodec\get_bits.h">
-      <Filter>libavcodec</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libavcodec\h264.h">
-      <Filter>libavcodec</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libavcodec\h264_mvpred.h">
-      <Filter>libavcodec</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libavcodec\h264chroma.h">
-      <Filter>libavcodec</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libavcodec\h264data.h">
-      <Filter>libavcodec</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libavcodec\h264dsp.h">
-      <Filter>libavcodec</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libavcodec\h264idct.h">
-      <Filter>libavcodec</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libavcodec\h264pred.h">
-      <Filter>libavcodec</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libavcodec\h264qpel.h">
-      <Filter>libavcodec</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libavcodec\put_bits.h">
-      <Filter>libavcodec</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libavcodec\error_resilience.h">
-      <Filter>libavcodec</Filter>
     </ClInclude>
     <ClInclude Include="..\libavutil\atomic.h">
       <Filter>libavutil</Filter>

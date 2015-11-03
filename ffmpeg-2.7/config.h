@@ -1909,6 +1909,7 @@
 
 #ifdef WIN32
 #include "compat\msvcrt\snprintf.h"
+#define strtoll _strtoi64
 #define MAX_PATH 256
 #include "libavutil\libm.h"
 #endif

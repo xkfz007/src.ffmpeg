@@ -1,3 +1,0 @@
-Works only when hardware supports it.
-
-Supports overlay mixer and VMR9 renderer in windowed mode.

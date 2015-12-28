@@ -2406,9 +2406,6 @@
     <ClCompile Include="..\libavcodec\fmtconvert.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
-    <ClCompile Include="..\libavutil\frame.c">
-      <Filter>libavcodec</Filter>
-    </ClCompile>
     <ClCompile Include="..\libavcodec\frame_thread_encoder.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
@@ -3776,6 +3773,9 @@
     </ClCompile>
     <ClCompile Include="..\libavcodec\vp9dsp_12bpp.c">
       <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavutil\frame.c">
+      <Filter>libavutil</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

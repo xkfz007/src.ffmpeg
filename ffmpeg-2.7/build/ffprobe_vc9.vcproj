@@ -4,7 +4,7 @@
 	Version="9.00"
 	Name="ffprobe_vc9"
 	ProjectGUID="{B8ACABC9-3493-445A-88CD-1DC3B78ECA09}"
-	RootNamespace="cli_vc9"
+	RootNamespace="ffprobe_vc9"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>

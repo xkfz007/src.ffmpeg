@@ -4,7 +4,7 @@
 	Version="9.00"
 	Name="libff_vc9"
 	ProjectGUID="{4D52CB0E-B80F-4659-9220-AB8B5E4A27EF}"
-	RootNamespace="libx264_vc9"
+	RootNamespace="libff_vc9"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>
@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..;..\include;..\include\zlib;..\include\x264;..\include\xvid;..\include\SDL;..\include\x265"
+				AdditionalIncludeDirectories="..;..\include;..\include\x264;..\include\xvid;..\include\SDL;..\include\x265"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;DEBUG;_WIN32;HAVE_AV_CONFIG_H;strtoll=_strtoi64;EOVERFLOW=EFBIG"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -62,7 +62,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="..\lib\zdll.lib ..\lib\libxvidcore.lib ..\lib\libx264.lib ..\lib\SDL.lib ..\lib\libx265.lib"
+				AdditionalDependencies="..\lib\libxvidcore.lib ..\lib\libx264.lib ..\lib\SDL.lib ..\lib\libx265.lib"
 				LinkIncremental="1"
 				ModuleDefinitionFile="..\ffmpeg.def"
 				GenerateDebugInformation="true"
@@ -120,7 +120,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="..;..\include;..\include\zlib;..\include\x264;..\include\xvid;..\include\SDL;..\include\x265"
+				AdditionalIncludeDirectories="..;..\include;..\include\x264;..\include\xvid;..\include\SDL;..\include\x265"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;_WIN32;HAVE_AV_CONFIG_H;strtoll=_strtoi64;EOVERFLOW=EFBIG"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -140,7 +140,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="..\lib\zdll.lib ..\lib\libxvidcore.lib ..\lib\libx264.lib ..\lib\SDL.lib ..\lib\libx265.lib"
+				AdditionalDependencies="..\lib\libxvidcore.lib ..\lib\libx264.lib ..\lib\SDL.lib ..\lib\libx265.lib"
 				LinkIncremental="1"
 				ModuleDefinitionFile="..\ffmpeg.def"
 				GenerateDebugInformation="true"
@@ -1186,10 +1186,6 @@
 			</File>
 			<File
 				RelativePath="..\libavformat\dvenc.c"
-				>
-			</File>
-			<File
-				RelativePath="..\libavformat\dxa.c"
 				>
 			</File>
 			<File
@@ -3221,10 +3217,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\libavcodec\dxa.c"
-				>
-			</File>
-			<File
 				RelativePath="..\libavcodec\dxtory.c"
 				>
 			</File>
@@ -3286,10 +3278,6 @@
 			</File>
 			<File
 				RelativePath="..\libavcodec\exif.c"
-				>
-			</File>
-			<File
-				RelativePath="..\libavcodec\exr.c"
 				>
 			</File>
 			<File
@@ -3369,18 +3357,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\libavcodec\flashsv.c"
-				>
-			</File>
-			<File
-				RelativePath="..\libavcodec\flashsv2enc.c"
-				>
-			</File>
-			<File
-				RelativePath="..\libavcodec\flashsvenc.c"
-				>
-			</File>
-			<File
 				RelativePath="..\libavcodec\flicvideo.c"
 				>
 			</File>
@@ -3406,10 +3382,6 @@
 			</File>
 			<File
 				RelativePath="..\libavcodec\frwu.c"
-				>
-			</File>
-			<File
-				RelativePath="..\libavcodec\g2meet.c"
 				>
 			</File>
 			<File
@@ -3834,10 +3806,6 @@
 			</File>
 			<File
 				RelativePath="..\libavcodec\lcldec.c"
-				>
-			</File>
-			<File
-				RelativePath="..\libavcodec\lclenc.c"
 				>
 			</File>
 			<File
@@ -4333,18 +4301,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\libavcodec\pngdec.c"
-				>
-			</File>
-			<File
-				RelativePath="..\libavcodec\pngdsp.c"
-				>
-			</File>
-			<File
-				RelativePath="..\libavcodec\pngenc.c"
-				>
-			</File>
-			<File
 				RelativePath="..\libavcodec\pnm.c"
 				>
 			</File>
@@ -4741,10 +4697,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\libavcodec\tdsc.c"
-				>
-			</File>
-			<File
 				RelativePath="..\libavcodec\textdec.c"
 				>
 			</File>
@@ -4786,10 +4738,6 @@
 			</File>
 			<File
 				RelativePath="..\libavcodec\truespeech.c"
-				>
-			</File>
-			<File
-				RelativePath="..\libavcodec\tscc.c"
 				>
 			</File>
 			<File
@@ -5202,18 +5150,6 @@
 			</File>
 			<File
 				RelativePath="..\libavcodec\yuv4enc.c"
-				>
-			</File>
-			<File
-				RelativePath="..\libavcodec\zerocodec.c"
-				>
-			</File>
-			<File
-				RelativePath="..\libavcodec\zmbv.c"
-				>
-			</File>
-			<File
-				RelativePath="..\libavcodec\zmbvenc.c"
 				>
 			</File>
 		</Filter>

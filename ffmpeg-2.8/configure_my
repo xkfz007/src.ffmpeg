@@ -1,0 +1,18 @@
+#!/bin/bash
+#source ./run_before_configure.sh
+./configure \
+--enable-nonfree \
+--enable-openssl \
+--enable-gnutls \
+--enable-libssh \
+--enable-libopenjpeg \
+--enable-gpl \
+--enable-libx264 \
+--enable-libx265 \
+--enable-libxvid \
+--enable-librtmp \
+--enable-libwavpack \
+--enable-libwebp \
+--enable-libxavs \
+--enable-libvpx \
+--enable-libvorbis

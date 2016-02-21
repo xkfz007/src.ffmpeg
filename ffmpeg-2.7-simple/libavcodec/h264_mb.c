@@ -698,8 +698,11 @@ static av_always_inline void hl_decode_mb_predict_luma(const H264Context *h,
                                 idct_dc_add(ptr, sl->mb + (i * 16 + p * 256 << pixel_shift), linesize);
                             else
                                 idct_add(ptr, sl->mb + (i * 16 + p * 256 << pixel_shift), linesize);
-                        } else if (CONFIG_SVQ3_DECODER)
+                        } 
+#if CONFIG_SVQ3_DECODER
+						else if (CONFIG_SVQ3_DECODER)
                             ff_svq3_add_idct_c(ptr, sl->mb + i * 16 + p * 256, linesize, qscale, 0);
+#endif
                     }
                 }
             }
@@ -726,9 +729,12 @@ static av_always_inline void hl_decode_mb_predict_luma(const H264Context *h,
                                                 pixel_shift, i));
                 }
             }
-        } else if (CONFIG_SVQ3_DECODER)
+        } 
+#if CONFIG_SVQ3_DECODER
+		else if (CONFIG_SVQ3_DECODER)
             ff_svq3_luma_dc_dequant_idct_c(sl->mb + p * 256,
                                            sl->mb_luma_dc[p], qscale);
+#endif
     }
 }
 
@@ -791,7 +797,9 @@ static av_always_inline void hl_decode_mb_idct_luma(const H264Context *h, H264Sl
                                                    sl->non_zero_count_cache + p * 5 * 8);
                 }
             }
-        } else if (CONFIG_SVQ3_DECODER) {
+        } 
+#if CONFIG_SVQ3_DECODER
+		else if (CONFIG_SVQ3_DECODER) {
             for (i = 0; i < 16; i++)
                 if (sl->non_zero_count_cache[scan8[i + p * 16]] || sl->mb[i * 16 + p * 256]) {
                     // FIXME benchmark weird rule, & below
@@ -800,6 +808,7 @@ static av_always_inline void hl_decode_mb_idct_luma(const H264Context *h, H264Sl
                                        sl->qscale, IS_INTRA(mb_type) ? 1 : 0);
                 }
         }
+#endif
     }
 }
 

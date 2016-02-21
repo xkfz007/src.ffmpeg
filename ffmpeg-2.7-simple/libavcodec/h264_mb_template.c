@@ -243,7 +243,9 @@ static av_noinline void FUNC(hl_decode_mb)(const H264Context *h, H264SliceContex
                     h->h264dsp.h264_idct_add8(dest, block_offset,
                                               sl->mb, uvlinesize,
                                               sl->non_zero_count_cache);
-                } else if (CONFIG_SVQ3_DECODER) {
+                } 
+#if CONFIG_SVQ3_DECODER
+                else if (CONFIG_SVQ3_DECODER) {
                     h->h264dsp.h264_chroma_dc_dequant_idct(sl->mb + 16 * 16 * 1,
                                                            h->dequant4_coeff[IS_INTRA(mb_type) ? 1 : 4][sl->chroma_qp[0]][0]);
                     h->h264dsp.h264_chroma_dc_dequant_idct(sl->mb + 16 * 16 * 2,
@@ -258,6 +260,7 @@ static av_noinline void FUNC(hl_decode_mb)(const H264Context *h, H264SliceContex
                             }
                     }
                 }
+#endif
             }
         }
     }

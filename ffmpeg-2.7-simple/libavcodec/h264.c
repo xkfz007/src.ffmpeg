@@ -1834,6 +1834,7 @@ static int h264_decode_frame(AVCodecContext *avctx, void *data,
             if (ret < 0)
                 return ret;
             *got_frame = 1;
+#if CONFIG_MPEGVIDEO
             if (CONFIG_MPEGVIDEO) {
                 ff_print_debug_info2(h->avctx, pict, NULL,
                                     h->next_output_pic->mb_type,
@@ -1842,6 +1843,7 @@ static int h264_decode_frame(AVCodecContext *avctx, void *data,
                                     &h->low_delay,
                                     h->mb_width, h->mb_height, h->mb_stride, 1);
             }
+#endif
         }
     }
 

@@ -1013,6 +1013,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\libavcodec\aacpsdsp.c"
+				>
+			</File>
+			<File
 				RelativePath="..\libavcodec\aacpsy.c"
 				>
 			</File>
@@ -1025,7 +1029,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\libavcodec\aandcttab.c"
+				RelativePath="..\libavcodec\ac3tab.c"
 				>
 			</File>
 			<File
@@ -1317,6 +1321,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\libavcodec\latm_parser.c"
+				>
+			</File>
+			<File
 				RelativePath="..\libavcodec\libx264.c"
 				>
 			</File>
@@ -1358,6 +1366,14 @@
 			</File>
 			<File
 				RelativePath="..\libavcodec\motionpixels.c"
+				>
+			</File>
+			<File
+				RelativePath="..\libavcodec\mpeg4audio.c"
+				>
+			</File>
+			<File
+				RelativePath="..\libavcodec\mpegaudiodata.c"
 				>
 			</File>
 			<File
@@ -1421,7 +1437,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\libavcodec\sbrdsp.c"
+				>
+			</File>
+			<File
 				RelativePath="..\libavcodec\simple_idct.c"
+				>
+			</File>
+			<File
+				RelativePath="..\libavcodec\sinewin.c"
 				>
 			</File>
 			<File

@@ -385,6 +385,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\libavformat\avlanguage.c"
+				>
+			</File>
+			<File
 				RelativePath="..\libavformat\concatdec.c"
 				>
 			</File>
@@ -398,6 +402,14 @@
 			</File>
 			<File
 				RelativePath="..\libavformat\file.c"
+				>
+			</File>
+			<File
+				RelativePath="..\libavformat\flac_picture.c"
+				>
+			</File>
+			<File
+				RelativePath="..\libavformat\flacenc_header.c"
 				>
 			</File>
 			<File
@@ -501,6 +513,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\libavformat\oggparsevorbis.c"
+				>
+			</File>
+			<File
 				RelativePath="..\libavformat\options.c"
 				>
 			</File>
@@ -534,6 +550,10 @@
 			</File>
 			<File
 				RelativePath="..\libavformat\riffenc.c"
+				>
+			</File>
+			<File
+				RelativePath="..\libavformat\rmsipr.c"
 				>
 			</File>
 			<File
@@ -578,6 +598,10 @@
 			</File>
 			<File
 				RelativePath="..\libavformat\vorbiscomment.c"
+				>
+			</File>
+			<File
+				RelativePath="..\libavformat\wv.c"
 				>
 			</File>
 			<File
@@ -1470,6 +1494,10 @@
 			</File>
 			<File
 				RelativePath="..\libavcodec\videodsp.c"
+				>
+			</File>
+			<File
+				RelativePath="..\libavcodec\vorbis_parser.c"
 				>
 			</File>
 			<File

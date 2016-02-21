@@ -34,7 +34,7 @@
 
 #include "avfft.h"
 #include "imdct15.h"
-#include "opus.h"
+//#include "opus.h"
 
 // minimal iMDCT size to make SIMD opts easier
 #define CELT_MIN_IMDCT_SIZE 120
@@ -93,6 +93,11 @@ av_cold int ff_imdct15_init(IMDCT15Context **ps, int N)
     int len2 = 15 * (1 << N);
     int len  = 2 * len2;
     int i, j;
+
+#define CELT_SHORT_BLOCKSIZE         120
+#define CELT_OVERLAP                 CELT_SHORT_BLOCKSIZE
+#define CELT_MAX_LOG_BLOCKS          3
+#define CELT_MAX_FRAME_SIZE          (CELT_SHORT_BLOCKSIZE * (1 << CELT_MAX_LOG_BLOCKS))
 
     if (len2 > CELT_MAX_FRAME_SIZE || len2 < CELT_MIN_IMDCT_SIZE)
         return AVERROR(EINVAL);

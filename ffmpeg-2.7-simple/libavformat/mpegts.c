@@ -29,7 +29,7 @@
 #include "libavutil/avassert.h"
 #include "libavcodec/bytestream.h"
 #include "libavcodec/get_bits.h"
-#include "libavcodec/opus.h"
+//#include "libavcodec/opus.h"
 #include "avformat.h"
 #include "mpegts.h"
 #include "internal.h"
@@ -1777,6 +1777,7 @@ int ff_parse_mpeg2_descriptor(AVFormatContext *fc, AVStream *st, int stream_type
         ext_desc_tag = get8(pp, desc_end);
         if (ext_desc_tag < 0)
             return AVERROR_INVALIDDATA;
+#if 0
         if (st->codec->codec_id == AV_CODEC_ID_OPUS &&
             ext_desc_tag == 0x80) { /* User defined (provisional Opus) */
             if (!st->codec->extradata) {
@@ -1803,6 +1804,7 @@ int ff_parse_mpeg2_descriptor(AVFormatContext *fc, AVStream *st, int stream_type
                 st->need_parsing = AVSTREAM_PARSE_FULL;
             }
         }
+#endif
         break;
     default:
         break;

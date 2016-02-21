@@ -362,6 +362,7 @@ sws_isSupportedOutput
 swscale_configuration
 swscale_version
 
+
 ;ffplay needed functions
 av_get_packed_sample_fmt
 av_dup_packet

@@ -46,7 +46,7 @@
 #include "libavutil/rational.h"
 #include "libavutil/threadmessage.h"
 
-#include "libswresample/swresample.h"
+//#include "libswresample/swresample.h"
 
 #define VSYNC_AUTO       -1
 #define VSYNC_PASSTHROUGH 0

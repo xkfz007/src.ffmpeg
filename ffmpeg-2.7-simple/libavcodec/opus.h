@@ -29,7 +29,7 @@
 #include "libavutil/float_dsp.h"
 #include "libavutil/frame.h"
 
-#include "libswresample/swresample.h"
+//#include "libswresample/swresample.h"
 
 #include "avcodec.h"
 #include "get_bits.h"

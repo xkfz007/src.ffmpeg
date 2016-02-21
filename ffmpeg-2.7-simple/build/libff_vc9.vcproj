@@ -838,10 +838,6 @@
 			</File>
 		</Filter>
 		<Filter
-			Name="libpostproc"
-			>
-		</Filter>
-		<Filter
 			Name="libswscale"
 			>
 			<File
@@ -934,14 +930,6 @@
 			</File>
 		</Filter>
 		<Filter
-			Name="libswresample"
-			>
-		</Filter>
-		<Filter
-			Name="libavresample"
-			>
-		</Filter>
-		<Filter
 			Name="libavcodec"
 			>
 			<File
@@ -1001,22 +989,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\libavcodec\ass.c"
-				>
-			</File>
-			<File
-				RelativePath="..\libavcodec\ass_split.c"
-				>
-			</File>
-			<File
-				RelativePath="..\libavcodec\assdec.c"
-				>
-			</File>
-			<File
-				RelativePath="..\libavcodec\assenc.c"
-				>
-			</File>
-			<File
 				RelativePath="..\libavcodec\audio_frame_queue.c"
 				>
 			</File>
@@ -1065,10 +1037,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\libavcodec\celp_math.c"
-				>
-			</File>
-			<File
 				RelativePath="..\libavcodec\cga_data.c"
 				>
 			</File>
@@ -1086,22 +1054,6 @@
 			</File>
 			<File
 				RelativePath="..\libavcodec\dct32_float.c"
-				>
-			</File>
-			<File
-				RelativePath="..\libavcodec\dpcm.c"
-				>
-			</File>
-			<File
-				RelativePath="..\libavcodec\dpx.c"
-				>
-			</File>
-			<File
-				RelativePath="..\libavcodec\dpx_parser.c"
-				>
-			</File>
-			<File
-				RelativePath="..\libavcodec\dpxenc.c"
 				>
 			</File>
 			<File
@@ -1285,10 +1237,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\libavcodec\latm_parser.c"
-				>
-			</File>
-			<File
 				RelativePath="..\libavcodec\libx264.c"
 				>
 			</File>
@@ -1413,19 +1361,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\libavcodec\srtdec.c"
-				>
-			</File>
-			<File
-				RelativePath="..\libavcodec\srtenc.c"
-				>
-			</File>
-			<File
 				RelativePath="..\libavcodec\startcode.c"
-				>
-			</File>
-			<File
-				RelativePath="..\libavcodec\synth_filter.c"
 				>
 			</File>
 			<File

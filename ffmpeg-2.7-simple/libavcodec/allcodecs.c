@@ -80,7 +80,7 @@ void avcodec_register_all(void)
 
     /* audio codecs */
     REGISTER_ENCDEC (AAC,               aac);
-    REGISTER_DECODER(AAC_LATM,          aac_latm);
+    //REGISTER_DECODER(AAC_LATM,          aac_latm);
 
 
     /* subtitles */
@@ -94,7 +94,7 @@ void avcodec_register_all(void)
 
     /* parsers */
     REGISTER_PARSER(AAC,                aac);
-    REGISTER_PARSER(AAC_LATM,           aac_latm);
+    //REGISTER_PARSER(AAC_LATM,           aac_latm);
     REGISTER_PARSER(H264,               h264);
     REGISTER_PARSER(HEVC,               hevc);
 

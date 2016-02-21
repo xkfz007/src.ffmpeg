@@ -181,6 +181,10 @@
 			Name="libavfilter"
 			>
 			<File
+				RelativePath="..\libavfilter\af_anull.c"
+				>
+			</File>
+			<File
 				RelativePath="..\libavfilter\allfilters.c"
 				>
 			</File>
@@ -836,10 +840,6 @@
 		<Filter
 			Name="libpostproc"
 			>
-			<File
-				RelativePath="..\libpostproc\postprocess.c"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="libswscale"

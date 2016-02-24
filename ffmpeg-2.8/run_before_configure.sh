@@ -1,3 +1,6 @@
 #!/bin/bash
-export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:/opt/lib/pkgconfig/"
-export PATH="$PATH:/opt/bin/"
+#PREFIX=/opt
+PREFIX=/usr/local
+export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$PREFIX/lib/pkgconfig"
+export PATH="$PATH:$PREFIX/bin:$PREFIX/lib"
+

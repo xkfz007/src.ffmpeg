@@ -1,5 +1,5 @@
 #!/bin/bash
-#source ./run_before_configure.sh
+source ./run_before_configure.sh
 ./configure \
 --enable-nonfree \
 --enable-openssl \
@@ -15,4 +15,28 @@
 --enable-libwebp \
 --enable-libxavs \
 --enable-libvpx \
---enable-libvorbis
+--enable-libvorbis \
+--enable-libtheora \
+--enable-libtwolame \
+--enable-libsoxr \
+--enable-libspeex \
+--enable-libdcadec \
+--enable-libfreetype \
+--enable-libfaac \
+--enable-libfdk-aac \
+--enable-libopencore-amrnb \
+--enable-libopencore-amrwb \
+--enable-version3 \
+--enable-libvo-aacenc \
+--enable-libvo-amrwbenc \
+--enable-openal \
+--enable-libopencv \
+
+#--enable-libkvazaar \
+#--enable-libfontconfig \
+#--enable-frei0r \
+#--enable-libmp3lame \
+
+
+
+

@@ -35,10 +35,10 @@ extern "C"{
 
 
 // compatibility with newer API
-//#if LIBAVCODEC_VERSION_INT < AV_VERSION_INT(55,28,1)
-//#define av_frame_alloc avcodec_alloc_frame
-//#define av_frame_free avcodec_free_frame
-//#endif
+#if LIBAVCODEC_VERSION_INT < AV_VERSION_INT(55,28,1)
+#define av_frame_alloc avcodec_alloc_frame
+#define av_frame_free avcodec_free_frame
+#endif
 
 int main_tutorial02(int argc, char *argv[]) {
   AVFormatContext *pFormatCtx = NULL;
@@ -136,7 +136,7 @@ int main_tutorial02(int argc, char *argv[]) {
 			   pCodecCtx->pix_fmt,
 			   pCodecCtx->width,
 			   pCodecCtx->height,
-			   PIX_FMT_YUV420P,
+			   AV_PIX_FMT_YUV420P,
 			   SWS_BILINEAR,
 			   NULL,
 			   NULL,

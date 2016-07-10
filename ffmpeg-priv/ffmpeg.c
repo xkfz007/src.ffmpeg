@@ -4875,7 +4875,8 @@ static void exit_ff(){
     ffmpeg_exited = 1;
 }
 static void execute_ff(int argc,char*argv[],int input_ind,int* otag_list,int output_cnt,int do_execute){
-	av_log(NULL,AV_LOG_INFO,"Command line:\n\t");
+	static int i=0;
+	av_log(NULL,AV_LOG_INFO,"Command line %2d:\n\t",i++);
 	print_cmdline(argc,argv,input_ind,otag_list,output_cnt);
 
 	if(do_execute){
@@ -4885,7 +4886,7 @@ static void execute_ff(int argc,char*argv[],int input_ind,int* otag_list,int out
 
 }
 static int cmp(const void*a,const void*b){
-	return strcmp(a,b);
+	return strcmp(*(char**)a,*(char**)b);
 }
 int main(int argc, char* argv[]){
 	int i;
@@ -4893,15 +4894,16 @@ int main(int argc, char* argv[]){
 	const char *options;
 	const char *output_tag[OUTPUT_NUM];
 	int otag_list[OUTPUT_NUM];
-	int input_ind;
+	int input_ind; //the index option '-i'
 	char outfilename[OUTPUT_NUM][256];
 	char **input_filelist=NULL;
 	char* argv_internal[200];
 	int argc_internal=0;
-	int output_cnt=0;
+	int output_cnt=0; //output files numbers
 	int do_execute=0;
 	struct stat sb;
 	int is_livestream=0;
+	int inputfile_num=0;
 
 	if(argc<2) {
 		usage();
@@ -4996,10 +4998,6 @@ int main(int argc, char* argv[]){
 
 	//we will use the original ffmepg
 	if(is_livestream){
-//		input_filelist=malloc(2*sizeof(char*));
-//		input_filelist[0]=malloc(strlen(patterns)+1);
-//		strcpy(input_filelist[0],patterns);
-//		input_filelist[1]=NULL;//end flag
     	execute_ff(argc_internal,argv_internal,input_ind,otag_list,output_cnt,do_execute);
     	exit_ff();
     	exit(-1);
@@ -5013,19 +5011,21 @@ int main(int argc, char* argv[]){
 		usage();
 		exit(1);
 	}
-	av_log(NULL,AV_LOG_INFO,"File list:\n");
-#if 0
-	for(i=0;input_filelist[i];i++){
-		av_log(NULL,AV_LOG_DEBUG,"\t%s\n",input_filelist[i]);
-	}
-	av_log(NULL,AV_LOG_DEBUG,"listsize=%d\n",i);
-	qsort(input_filelist,i,sizeof(input_filelist[0]),cmp);
-#endif
-	for(i=0;input_filelist[i];i++){
-		av_log(NULL,AV_LOG_INFO,"\t%s\n",input_filelist[i]);
+
+	//count files in the filelist
+	for(i=0;input_filelist[i];i++);
+
+	inputfile_num=i;
+
+	//sort files in the list
+	qsort(input_filelist,inputfile_num,sizeof(char*),cmp);
+
+	av_log(NULL,AV_LOG_INFO,"File list(%d):\n",inputfile_num);
+	for(i=0;i<inputfile_num;i++){
+		av_log(NULL,AV_LOG_INFO,"\t%2d:%s\n",i,input_filelist[i]);
 	}
 
-    for(i=0;input_filelist[i];i++){
+    for(i=0;i<inputfile_num;i++){
     	size_t len,in_ext_len;
     	char*infilename,*in_ext;
     	int j;

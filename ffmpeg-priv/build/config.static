@@ -1,15 +1,16 @@
 #!/bin/bash
 current_dir=`pwd`
-build_dir="${current_dir}/build"
+build_dir="${current_dir}"
 if [ ! -e $build_dir ];then
     mkdir $build_dir
 fi
+root_dir=`realpath "${current_dir}/../"`
 
 
-export PKG_CONFIG_PATH="$PKG_GONFIG_PATH:${current_dir}/lib/pkgconfig"
+export PKG_CONFIG_PATH="$PKG_GONFIG_PATH:${root_dir}/lib/pkgconfig"
 #echo $PKG_CONFIG_PATH
 
-./configure  \
+cmd="${root_dir}/configure  \
     --prefix=$build_dir \
     --disable-doc \
     --disable-htmlpages \
@@ -20,7 +21,7 @@ export PKG_CONFIG_PATH="$PKG_GONFIG_PATH:${current_dir}/lib/pkgconfig"
     --disable-ffserver  \
     --disable-shared    \
     --enable-gpl        \
-    --pkg-config-flags="--static" \
+    --pkg-config-flags=\"--static\" \
     --enable-nonfree    \
     --enable-static     \
     --enable-libfaac    \
@@ -29,5 +30,13 @@ export PKG_CONFIG_PATH="$PKG_GONFIG_PATH:${current_dir}/lib/pkgconfig"
     --enable-libx265    \
     --enable-libvpx     \
     --enable-libxvid    \
-    --extra-ldflags="-L${current_dir}/lib" \
-    --extra-cflags="-I${current_dir}/include" \
+    --extra-ldflags=\"-L${root_dir}/lib\" \
+    --extra-cflags=\"-I${root_dir}/include\" \
+"
+echo $cmd
+eval $cmd
+
+config_file="config.h"
+if [ -e $config_file  ];then
+    sed -i '$i#include "defines.h"' $config_file 
+fi

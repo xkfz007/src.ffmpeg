@@ -1,0 +1,33 @@
+#!/bin/bash
+current_dir=`pwd`
+build_dir="${current_dir}/build"
+if [ ! -e $build_dir ];then
+    mkdir $build_dir
+fi
+
+
+export PKG_CONFIG_PATH="$PKG_GONFIG_PATH:${current_dir}/lib/pkgconfig"
+#echo $PKG_CONFIG_PATH
+
+./configure  \
+    --prefix=$build_dir \
+    --disable-doc \
+    --disable-htmlpages \
+    --disable-manpages  \
+    --disable-podpages  \
+    --disable-txtpages  \
+    --disable-ffplay    \
+    --disable-ffserver  \
+    --disable-shared    \
+    --enable-gpl        \
+    --pkg-config-flags="--static" \
+    --enable-nonfree    \
+    --enable-static     \
+    --enable-libfaac    \
+    --enable-libfdk_aac \
+    --enable-libx264    \
+    --enable-libx265    \
+    --enable-libvpx     \
+    --enable-libxvid    \
+    --extra-ldflags="-L${current_dir}/lib" \
+    --extra-cflags="-I${current_dir}/include" \

@@ -1,0 +1,11 @@
+prefix=/cygdrive/e/my_develop/oschina/myffmpeg
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: x265
+Description: H.265/HEVC video encoder
+Version: 1.9
+Libs: -L${libdir} -lx265 -lstdc++ -lcygwin -ladvapi32 -lshell32 -luser32 -lkernel32 -lrt -ldl
+Libs.private:
+Cflags: -I${includedir}

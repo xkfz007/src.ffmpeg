@@ -65,6 +65,7 @@ typedef struct TestSourceContext {
 
     /* only used by testsrc */
     int nb_decimals;
+    int digits_only;
 
     /* only used by color */
     FFDrawContext draw;
@@ -450,6 +451,7 @@ static const AVOption testsrc_options[] = {
     COMMON_OPTIONS
     { "decimals", "set number of decimals to show", OFFSET(nb_decimals), AV_OPT_TYPE_INT, {.i64=0},  0, 17, FLAGS },
     { "n",        "set number of decimals to show", OFFSET(nb_decimals), AV_OPT_TYPE_INT, {.i64=0},  0, 17, FLAGS },
+    { "digits_only","show only digits", OFFSET(digits_only), AV_OPT_TYPE_INT, {.i64=0},  0, 1, FLAGS },
     { NULL }
 };
 
@@ -545,6 +547,7 @@ static void test_fill_picture(AVFilterContext *ctx, AVFrame *frame)
     int width  = frame->width;
     int height = frame->height;
 
+    if(!test->digits_only){
     /* draw colored bars and circle */
     radius = (width + height) / 4;
     quad0 = width * width / 4 + height * height / 4 - radius * radius;
@@ -609,6 +612,7 @@ static void test_fill_picture(AVFilterContext *ctx, AVFrame *frame)
     for (y = height / 8; y > 0; y--) {
         memcpy(p+frame->linesize[0], p, 3 * width);
         p += frame->linesize[0];
+    }
     }
 
     /* draw digits */

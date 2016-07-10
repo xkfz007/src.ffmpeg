@@ -110,6 +110,9 @@ const char program_name[] = "ffmpeg";
 const int program_birth_year = 2000;
 
 static FILE *vstats_file;
+#if ENABLE_QUIT
+static int do_exit_all=0;
+#endif
 
 const char *const forced_keyframes_const_names[] = {
     "n",
@@ -579,8 +582,10 @@ static void ffmpeg_cleanup(int ret)
     } else if (ret && transcode_init_done) {
         av_log(NULL, AV_LOG_INFO, "Conversion failed!\n");
     }
+#if !WRAP_FFMPEG
     term_exit();
     ffmpeg_exited = 1;
+#endif
 }
 
 void remove_avoptions(AVDictionary **a, AVDictionary *b)
@@ -1667,6 +1672,24 @@ static void print_report(int is_last_report, int64_t timer_start, int64_t cur_ti
         snprintf(buf + strlen(buf), sizeof(buf) - strlen(buf)," speed=%4.3gx", speed);
         av_bprintf(&buf_script, "speed=%4.3gx\n", speed);
     }
+
+#if PRINT_PROCESSED
+    {
+    	AVFormatContext *ic;
+    	ic = input_files[0]->ctx;
+//    	av_log(NULL, AV_LOG_INFO, "%"PRId64" %"PRId64"\n", ic->duration,AV_NOPTS_VALUE);
+    	if (ic->duration != AV_NOPTS_VALUE) {
+    		int64_t duration = ic->duration + (ic->duration <= INT64_MAX - 5000 ? 5000 : 0);
+    		double processed=(double)pts/duration;
+    		snprintf(buf + strlen(buf), sizeof(buf) - strlen(buf)," processed=%.2f%%", processed*100);
+    		av_bprintf(&buf_script, "processed=%.2f%%\n",processed*100);
+    	} else {
+    		snprintf(buf + strlen(buf), sizeof(buf) - strlen(buf)," processed=N/A");
+    		av_bprintf(&buf_script, "processed=N/A\n");
+    	}
+    }
+
+#endif
 
     if (print_stats || is_last_report) {
         const char end = is_last_report ? '\n' : '\r';
@@ -3462,6 +3485,12 @@ static int check_keyboard_interaction(int64_t cur_time)
         key = -1;
     if (key == 'q')
         return AVERROR_EXIT;
+#if ENABLE_QUIT
+    if (key == 'Q'){
+    	do_exit_all=1;
+        return AVERROR_EXIT;
+    }
+#endif
     if (key == '+') av_log_set_level(av_log_get_level()+10);
     if (key == '-') av_log_set_level(av_log_get_level()-10);
     if (key == 's') qp_hist     ^= 1;
@@ -4297,8 +4326,11 @@ static int64_t getmaxrss(void)
 static void log_callback_null(void *ptr, int level, const char *fmt, va_list vl)
 {
 }
-
+#if WRAP_FFMPEG
+static int ffmain(int argc, char **argv)
+#else
 int main(int argc, char **argv)
+#endif
 {
     int ret;
     int64_t ti;
@@ -4363,6 +4395,715 @@ int main(int argc, char **argv)
     if ((decode_error_stat[0] + decode_error_stat[1]) * max_error_rate < decode_error_stat[1])
         exit_program(69);
 
+#if !WRAP_FFMPEG
     exit_program(received_nb_signals ? 255 : main_return_code);
+#else
+    ffmpeg_cleanup(received_nb_signals ? 255 : main_return_code);
+#endif
     return main_return_code;
 }
+
+#if WRAP_FFMPEG
+//extern char ** glob_filename (char* pathname, int flags);
+#include "glob.h"
+//#include <string.h>
+//#if !HAVE_GETOPT
+//#include "compat/getopt.c"
+//#endif
+#if 0
+static int word_count(const char *str){
+    int nw=0,nl=0,nc=0;
+    int in_word=0;//whether we are in a word now
+    char *p=str;
+    while(*p!='\0'){
+        if(*p==' '||*p=='\t'||*p=='\n')
+            in_word=0;
+        else if(!in_word){
+            in_word=1;
+            nw++;
+        }
+    }
+    return nw;
+}
+
+//int getwords(char* words[],char *line,const char* delim){
+//    int count;
+//    char* token;
+//    token=strtok(line,delim);
+//    if(token==NULL)
+//        return 0;
+//    count=0;
+//    words[count++]=token;
+//    while((token=strtok(NULL,delim))!=NULL)
+//        words[count++]=token;
+//    return count;
+//}
+
+//resolve words in the string
+static int getwords(char* words[],char* line,const char* delim){
+    char *pos,*pos2;
+    int count=0;
+    pos2=line;
+    while((pos=strpbrk(pos2,delim))!=NULL){
+        *pos='\0';
+        if(pos!=pos2)
+            words[count++]=pos2;
+        pos2=pos+1;
+    }
+    if(*pos2!='\0')
+        words[count++]=pos2;
+    return count;
+}
+static void usage(){
+	fprintf(stdout,"ffmpeg -i \"*\" \"-c copy\" a.ts ");
+	exit(1);
+}
+int main(int argc, char* argv[]){
+	int i,c;
+
+	const char *patterns;
+	const char *options;
+	const char *output_tag=NULL;
+	char **input_filelist;
+//	char **output_filelist;
+	int file_cnt;
+	int opt_cnt;
+	char internal_args[256];
+	char* argv_internal[200];
+	char outfilename[256];
+	int argc_internal=0;
+//	int input_ind;
+//
+//    for (;;) {
+//        c = getopt(argc, argv, "i:");
+//        if (c == -1)
+//            break;
+//        switch (c) {
+//        case 'i':
+//        	patterns=optarg;
+//        	input_ind=optind;
+//            break;
+//        }
+//    }
+	if(argc<4){
+		av_log(NULL,AV_LOG_ERROR,"Not enough parameters\n");
+		usage();
+	}
+
+	argv_internal[0]=argv[0];
+	argc_internal++;
+
+	assert(strcmp(argv[1],"-i")==0);
+	argv_internal[1]=argv[1];
+	argc_internal++;
+
+	patterns=argv[2];
+	argv_internal[2]=argv[2];
+	argc_internal++;
+
+	options=argv[3];
+	if(argc==5)
+		output_tag=argv[4];
+	else
+		output_tag="_out";
+
+//	argc_internal+=4;
+//	opt_cnt=word_count(options);
+//	argc_internal+=opt_cnt;
+	argc_internal+=getwords(argv_internal+3,options," \t");
+
+	argc_internal++;//for output
+
+    input_filelist= glob_filename (patterns, 0);
+	if(!input_filelist){
+		av_log(NULL,AV_LOG_ERROR,"Could not find files\n");
+		exit(1);
+	}
+//    file_cnt=0;
+//    for(i=0;input_filelist[i];i++){
+//    	file_cnt++;
+//    }
+//    output_filelist=malloc(file_cnt*sizeof(char*));
+
+
+    for(i=0;input_filelist[i];i++){
+    	int len,ext_len;
+    	char*infilename,*ext;
+    	infilename=input_filelist[i];
+    	len=strlen(infilename);
+//    	outfilename=malloc((len+20)*sizeof(char));
+    	ext=strrchr(infilename,'.');
+    	if(!ext)
+    	{
+    		av_log(NULL,AV_LOG_ERROR,"No extension in '%s'",infilename);
+    		exit(1);
+    	}
+    	ext_len=strlen(ext);
+
+    	strncpy(outfilename,infilename,len-ext_len);
+    	strcat(outfilename,output_tag);
+    	strncat(outfilename,ext,ext_len);
+//    	output_filelist[i]=outfilename;
+
+//    	strcpy(internal_args,"-y -i ");
+//    	strcat(internal_args," \"");
+//    	strncat(internal_args,infilename);
+//    	strcat(internal_args," \" ");
+//    	strcat(internal_args,options);
+//     	strcat(internal_args," \"");
+//    	strncat(internal_args,outfilename);
+//    	strcat(internal_args," \" ");
+    	argv_internal[2]=infilename;
+    	argv_internal[argc_internal-1]=outfilename;
+    	av_log(NULL,AV_LOG_INFO,"INPUT :%s\n",infilename);
+    	av_log(NULL,AV_LOG_INFO,"OUTPUT:%s\n",outfilename);
+    	av_log(NULL,AV_LOG_INFO,"Command line:");
+    	ffmain(argc_internal,argv_internal);
+    }
+
+//	for(i=0;value[i];i++)
+//		fprintf(stdout,"%s\n",value[i]);
+//    char**argv_new=malloc(argc*sizeof(char*));
+//    for(i=0;i<0;i++)
+//    	argv_new[i]=malloc((strlen(argv[1])+1)*sizeof(char));
+//
+//    for(i=0;input_filelist[i];i++){
+//    	strcpy(argv_new[optind],argv[optind]);
+//    	ffmain(argc,argv_new);
+//    }
+
+	//free the memory
+	for(i=0;input_filelist[i];i++)
+		free(input_filelist[i]);
+
+//	for(i=0;i<argc;i++)
+//		free(argv_new[i]);
+//	free(argv_new);
+
+}
+#endif
+
+#if 1
+static void usage(){
+	fprintf(stdout,"Usage:");
+	fprintf(stdout,"same with orignal ffmpeg except using -o to mark the output\n");
+	fprintf(stdout,"\tffconvert -i <pattern> -o <output_tag>\n");
+	fprintf(stdout,"Options:\n");
+	fprintf(stdout,"\t-o <string> :output filename or output tag\n");
+	fprintf(stdout,"\t-Y :do excute the command\n");
+	fprintf(stdout,"\t-H :show help\n");
+	fprintf(stdout,"\t-h :show original ffmpeg help\n");
+	fprintf(stdout,"Examples:\n");
+	fprintf(stdout,"\tffmpeg -i \"*\" -c copy -o a.ts\n");
+	exit(1);
+}
+static int isopt(const char* arg,char opt){
+	return (strlen(arg)==2)&&arg[0]=='-'&&arg[1]==opt&&arg[2]=='\0';
+}
+static int isopt_long(const char* arg,char* long_opt){
+	return (strlen(arg)==strlen(long_opt)+1)
+			&&arg[0]=='-'&&strcmp(&arg[1],long_opt);
+}
+static int isanopt(const char* arg){
+	return arg[0]=='-';
+}
+#define OUTPUT_NUM 20
+#define DEFAULT_OUTTAG "out"
+static const char* valid_extensions=".mp4,.mkv,.flv,.avi,.ts,.wmv,.f4v";
+
+typedef struct opt_def{
+	const char *name;
+	int flag;
+}opt_def;
+static const opt_def opt_list[]={
+	    { "L"          , OPT_EXIT  },
+	    { "h"          , OPT_EXIT  },
+	    { "?"          , OPT_EXIT  },
+	    { "help"       , OPT_EXIT  },
+	    { "-help"      , OPT_EXIT  },
+	    { "version"    , OPT_EXIT  },
+	    { "buildconf"  , OPT_EXIT  },
+	    { "formats"    , OPT_EXIT  },
+	    { "devices"    , OPT_EXIT  },
+	    { "codecs"     , OPT_EXIT  },
+	    { "decoders"   , OPT_EXIT  },
+	    { "encoders"   , OPT_EXIT  },
+	    { "bsfs"       , OPT_EXIT  },
+	    { "protocols"  , OPT_EXIT  },
+	    { "filters"    , OPT_EXIT  },
+	    { "pix_fmts"   , OPT_EXIT  },
+	    { "layouts"    , OPT_EXIT  },
+	    { "sample_fmts", OPT_EXIT  },
+	    { "colors"     , OPT_EXIT  },
+
+	    { "i"          , HAS_ARG  },
+	    { "loglevel"   , HAS_ARG  },
+	    { "v",           HAS_ARG  },
+	    { "report"     , OPT_BOOL },
+	    { "max_alloc"  , HAS_ARG  },
+	    { "cpuflags"   , HAS_ARG  },
+	    { "hide_banner", OPT_BOOL },
+	    { "f",              HAS_ARG },
+	    { "y",              OPT_BOOL},
+	    { "n",              OPT_BOOL},
+	    { "ignore_unknown", OPT_BOOL},
+	    { "copy_unknown",   OPT_BOOL},
+	    { "c",              HAS_ARG },
+	    { "codec",          HAS_ARG },
+	    { "pre",            HAS_ARG },
+	    { "map",            HAS_ARG },
+	    { "map_channel",    HAS_ARG },
+	    { "map_metadata",   HAS_ARG },
+	    { "map_chapters",   HAS_ARG },
+	    { "t",              HAS_ARG },
+	    { "to",             HAS_ARG },
+	    { "fs",             HAS_ARG },
+	    { "ss",             HAS_ARG },
+	    { "sseof",          HAS_ARG },
+	    { "seek_timestamp", HAS_ARG },
+	    { "accurate_seek",  OPT_BOOL},
+	    { "itsoffset",      HAS_ARG },
+	    { "itsscale",       HAS_ARG },
+	    { "timestamp",      HAS_ARG },
+	    { "metadata",       HAS_ARG },
+	    { "program",        HAS_ARG },
+	    { "dframes",        HAS_ARG },
+	    { "benchmark",      OPT_BOOL},
+	    { "benchmark_all",  OPT_BOOL},
+	    { "progress",       HAS_ARG },
+	    { "stdin",          OPT_BOOL},
+	    { "timelimit",      HAS_ARG },
+	    { "dump",           OPT_BOOL},
+	    { "hex",            OPT_BOOL},
+	    { "re",             OPT_BOOL},
+	    { "target",         HAS_ARG },
+	    { "vsync",          HAS_ARG },
+	    { "frame_drop_threshold", HAS_ARG },
+	    { "async",          HAS_ARG },
+	    { "adrift_threshold", HAS_ARG},
+	    { "copyts",         OPT_BOOL },
+	    { "start_at_zero",  OPT_BOOL },
+	    { "copytb",         HAS_ARG  },
+	    { "shortest",       OPT_BOOL },
+	    { "apad",            HAS_ARG },
+	    { "dts_delta_threshold", HAS_ARG },
+	    { "dts_error_threshold", HAS_ARG },
+	    { "xerror",         OPT_BOOL },
+#if USE_HEARTBEAT
+	    { "nhb",         OPT_BOOL },
+#endif
+	    { "abort_on",       HAS_ARG },
+	    { "copyinkf",       OPT_BOOL },
+	    { "copypriorss",    HAS_ARG },
+	    { "frames",         HAS_ARG },
+	    { "tag",            HAS_ARG },
+	    { "q",              HAS_ARG },
+	    { "qscale",         HAS_ARG },
+	    { "profile",        HAS_ARG },
+	    { "filter",         HAS_ARG },
+	    { "filter_script",  HAS_ARG },
+	    { "reinit_filter",  HAS_ARG },
+	    { "filter_complex", HAS_ARG },
+	    { "lavfi",          HAS_ARG },
+	    { "filter_complex_script", HAS_ARG },
+	    { "stats",          OPT_BOOL },
+	    { "attach",         HAS_ARG  },
+	    { "dump_attachment", HAS_ARG },
+	    { "stream_loop",     HAS_ARG },
+	    { "debug_ts",       OPT_BOOL },
+	    { "max_error_rate",  HAS_ARG },
+	    { "discard",         HAS_ARG },
+	    { "disposition",     HAS_ARG },
+	    { "thread_queue_size",HAS_ARG},
+
+	    /* video options */
+	    { "vframes",      HAS_ARG },
+	    { "r",            HAS_ARG },
+	    { "s",            HAS_ARG },
+	    { "aspect",       HAS_ARG },
+	    { "pix_fmt",      HAS_ARG },
+	    { "bits_per_raw_sample", HAS_ARG},
+	    { "intra",        OPT_BOOL},
+	    { "vn",           OPT_BOOL},
+	    { "rc_override",  HAS_ARG },
+	    { "vcodec",       HAS_ARG },
+	    { "timecode",     HAS_ARG },
+	    { "pass",         HAS_ARG },
+	    { "passlogfile",  HAS_ARG },
+	    { "deinterlace",  OPT_BOOL},
+	    { "psnr",         OPT_BOOL},
+	    { "vf",           HAS_ARG },
+	    { "intra_matrix", HAS_ARG },
+	    { "inter_matrix", HAS_ARG },
+	    { "top",          HAS_ARG },
+	    { "vtag",         HAS_ARG },
+	    { "qphist",       OPT_BOOL},
+	    { "force_fps",    OPT_BOOL},
+	    { "streamid",     HAS_ARG },
+	    { "force_key_frames", HAS_ARG },
+	    { "ab",           HAS_ARG },
+	    { "b",            HAS_ARG },
+	    { "autorotate",   HAS_ARG },
+
+	    /* audio options */
+	    { "aframes",        HAS_ARG  },
+	    { "aq",             HAS_ARG  },
+	    { "ar",             HAS_ARG  },
+	    { "ac",             HAS_ARG  },
+	    { "an",             OPT_BOOL },
+	    { "acodec",         HAS_ARG  },
+	    { "atag",           HAS_ARG  },
+	    { "vol",            HAS_ARG  },
+	    { "sample_fmt",     HAS_ARG  },
+	    { "channel_layout", HAS_ARG  },
+	    { "af",             HAS_ARG  },
+	    { "guess_layout_max", HAS_ARG },
+
+	    /* subtitle options */
+	    { "sn",     OPT_BOOL },
+	    { "scodec", HAS_ARG  },
+	    { "stag",   HAS_ARG  },
+	    { "fix_sub_duration", OPT_BOOL },
+	    { "canvas_size", HAS_ARG },
+
+	    /* grab options */
+	    { "vc", HAS_ARG },
+	    { "tvstd", HAS_ARG },
+	    { "isync", OPT_BOOL },
+
+	    /* muxer options */
+	    { "muxdelay",   HAS_ARG },
+	    { "muxpreload", HAS_ARG },
+	    { "override_ffserver", OPT_BOOL },
+	    { "sdp_file", HAS_ARG },
+
+	    { "bsf", HAS_ARG },
+	    { "absf", HAS_ARG },
+	    { "vbsf", HAS_ARG },
+
+	    { "apre", HAS_ARG },
+	    { "vpre", HAS_ARG },
+	    { "spre", HAS_ARG },
+	    { "fpre", HAS_ARG },
+	    { "dcodec", HAS_ARG },
+	    { "dn", OPT_BOOL },
+
+		{"Y",OPT_BOOL},
+		{"H",OPT_EXIT},
+		{"o",HAS_ARG},
+
+	    { NULL, },
+};
+static int opt_attr(const char* arg){
+	opt_def *p;
+	int flag=-1;
+	char* q;
+	int len;
+	if(arg[0]!='-')
+		return flag;
+	arg++;
+	q=strchr(arg,':');
+	if(q){
+		len=q-arg;
+	}
+	else{
+		len=strlen(arg);
+	}
+
+	p=opt_list;
+
+	while(p&&p->name){
+		if(strlen(p->name)==len&&!strncmp(p->name,arg,len)){
+			flag=p->flag;
+			av_log(NULL,AV_LOG_DEBUG,"FOUND OPT '%s' for '%s'\n",p->name,arg);
+			break;
+		}
+		p++;
+	}
+	return flag;
+}
+static void print_cmdline(int argc,char*argv[],int input_ind,int* otag_list,int output_cnt){
+	int j;
+	for(j=0;j<argc;j++){
+		int k;
+		int quotation_flag=0;
+		if(j==input_ind)
+			quotation_flag=1;
+		if(!quotation_flag)
+			for(k=0;k<output_cnt;k++)
+				if(j==otag_list[k]) {
+					quotation_flag=1;
+					break;
+				}
+		if(quotation_flag)
+			av_log(NULL,AV_LOG_INFO,"'");
+		av_log(NULL,AV_LOG_INFO,"%s",argv[j]);
+		if(quotation_flag)
+			av_log(NULL,AV_LOG_INFO,"'");
+		av_log(NULL,AV_LOG_INFO," ");
+	}
+	av_log(NULL,AV_LOG_INFO,"\n");
+}
+static void init_ff(){
+
+	run_as_daemon  = 0;
+	nb_frames_dup = 0;
+	nb_frames_drop = 0;
+	decode_error_stat[0]=0;
+	decode_error_stat[1]=0;
+
+	current_time=0;
+	progress_avio = NULL;
+
+	subtitle_out=NULL;
+
+	input_streams = NULL;
+	nb_input_streams = 0;
+	input_files   = NULL;
+	nb_input_files   = 0;
+
+	output_streams = NULL;
+	nb_output_streams = 0;
+	output_files   = NULL;
+	nb_output_files   = 0;
+
+	filtergraphs=NULL;
+	nb_filtergraphs=0;
+
+}
+static void exit_ff(){
+    ffmpeg_exited = 1;
+}
+static void execute_ff(int argc,char*argv[],int input_ind,int* otag_list,int output_cnt,int do_execute){
+	av_log(NULL,AV_LOG_INFO,"Command line:\n\t");
+	print_cmdline(argc,argv,input_ind,otag_list,output_cnt);
+
+	if(do_execute){
+		init_ff();
+		ffmain(argc,argv);
+	}
+
+}
+static int cmp(const void*a,const void*b){
+	return strcmp(a,b);
+}
+int main(int argc, char* argv[]){
+	int i;
+	const char *patterns;
+	const char *options;
+	const char *output_tag[OUTPUT_NUM];
+	int otag_list[OUTPUT_NUM];
+	int input_ind;
+	char outfilename[OUTPUT_NUM][256];
+	char **input_filelist=NULL;
+	char* argv_internal[200];
+	int argc_internal=0;
+	int output_cnt=0;
+	int do_execute=0;
+	struct stat sb;
+	int is_livestream=0;
+
+	if(argc<2) {
+		usage();
+		exit(1);
+	}
+
+	//set loglevel
+	for(i=0;i<argc;i++){
+		if(isopt(argv[i],'v')||isopt_long(argv[i],"loglevel")){
+			opt_loglevel(NULL,"loglevel",argv[i+1]);
+			break;
+		}
+	}
+
+	//copy first arg to internal arg;
+	argv_internal[argc_internal++]=argv[0];
+	//copy other options in argv
+	for(i=1;i<argc;){
+		char* arg=argv[i];
+		int opt_flag=opt_attr(arg);
+		av_log(NULL,AV_LOG_DEBUG,"OPT:i=%d arg='%s' opt_flag=%d\n",i,arg,opt_flag);
+		switch(opt_flag){
+		case OPT_EXIT:
+			if(isopt(arg,'H')){
+				usage();
+				exit(1);
+			}
+			else
+				ffmain(argc,argv);
+			break;
+		case OPT_BOOL:
+			if(isopt(arg,'Y')) {
+				do_execute=1;
+			}
+			else {
+				argv_internal[argc_internal++]=arg;
+			}
+			av_log(NULL,AV_LOG_DEBUG,"OPT_BOOL:i=%d arg='%s' argc_internal=%d\n",i,arg,argc_internal);
+			i++;
+			break;
+		case HAS_ARG:
+			if(isopt(arg,'o')){
+				output_tag[output_cnt]=argv[i+1];
+				otag_list[output_cnt]=argc_internal;
+				output_cnt++;
+				argv_internal[argc_internal++]=argv[i+1];
+			}
+			else{
+				if(isopt(arg,'i')){
+					patterns=argv[i+1];
+					input_ind=i+1;
+				}
+				argv_internal[argc_internal++]=arg;
+				argv_internal[argc_internal++]=argv[i+1];
+			}
+			av_log(NULL,AV_LOG_DEBUG,"HAS_ARG:i=%d arg='%s' value='%s' argc_internal=%d\n",i,arg,argv[i+1],argc_internal);
+			i+=2;
+			break;
+		default:
+			output_tag[output_cnt]=argv[i];
+			otag_list[output_cnt]=argc_internal;
+			output_cnt++;
+			argv_internal[argc_internal++]=arg;
+			av_log(NULL,AV_LOG_DEBUG,"ARGS:i=%d value='%s' argc_internal=%d\n",i,arg,argc_internal);
+			i++;
+		}
+	}
+
+	//check if this is a livestream
+	if(!strncmp(patterns,"udp:",4)||
+			!strncmp(patterns,"rtmp:",5)||
+			!strncmp(patterns,"http:",5)||
+			!strncmp(patterns,"rtsp:",5)){
+		av_log(NULL,AV_LOG_INFO,"Input is live stream.\n");
+		is_livestream=1;
+	}
+
+	if(!output_cnt){
+		if(is_livestream){
+			av_log(NULL,AV_LOG_ERROR,"Input is live stream, but output is not set.\n");
+			usage();
+			exit(1);
+		}
+		output_tag[output_cnt]=DEFAULT_OUTTAG;
+		otag_list[output_cnt]=argc_internal;
+		output_cnt++;
+		argv_internal[argc_internal++]=DEFAULT_OUTTAG;
+	}
+
+	//add -y option
+	argv_internal[argc_internal++]="-y";
+
+	//we will use the original ffmepg
+	if(is_livestream){
+//		input_filelist=malloc(2*sizeof(char*));
+//		input_filelist[0]=malloc(strlen(patterns)+1);
+//		strcpy(input_filelist[0],patterns);
+//		input_filelist[1]=NULL;//end flag
+    	execute_ff(argc_internal,argv_internal,input_ind,otag_list,output_cnt,do_execute);
+    	exit_ff();
+    	exit(-1);
+	}
+
+	//parse patterns to get all the files
+	input_filelist= glob_filename (patterns, 1);
+
+	if(!input_filelist){
+		av_log(NULL,AV_LOG_ERROR,"Could not find files\n");
+		usage();
+		exit(1);
+	}
+	av_log(NULL,AV_LOG_INFO,"File list:\n");
+#if 0
+	for(i=0;input_filelist[i];i++){
+		av_log(NULL,AV_LOG_DEBUG,"\t%s\n",input_filelist[i]);
+	}
+	av_log(NULL,AV_LOG_DEBUG,"listsize=%d\n",i);
+	qsort(input_filelist,i,sizeof(input_filelist[0]),cmp);
+#endif
+	for(i=0;input_filelist[i];i++){
+		av_log(NULL,AV_LOG_INFO,"\t%s\n",input_filelist[i]);
+	}
+
+    for(i=0;input_filelist[i];i++){
+    	size_t len,in_ext_len;
+    	char*infilename,*in_ext;
+    	int j;
+
+#if ENABLE_QUIT
+    	if(do_exit_all)
+    		break;
+#endif
+
+    	infilename=input_filelist[i];
+    	if(!is_livestream){
+    		//check if it is a directory or a file
+    		if (lstat(infilename, &sb) == -1) {
+    			av_log(NULL,AV_LOG_ERROR,"Could not stat file/directory %s\n",infilename);
+    			exit(1);
+    		}
+    		if(S_ISDIR(sb.st_mode)){
+    			av_log(NULL,AV_LOG_WARNING,"%s is a directory, pass\n",infilename);
+    			continue;
+    		}
+    	}
+
+    	len=strlen(infilename);
+    	in_ext=strrchr(infilename,'.');
+    	if(!in_ext) {
+    		av_log(NULL,AV_LOG_ERROR,"No extension in '%s'\n",infilename);
+    		exit(1);
+    	}
+
+    	in_ext_len=strlen(in_ext);
+    	av_log(NULL,AV_LOG_DEBUG,"len=%d in_ext=%s output_cnt=%d\n",len,in_ext,output_cnt);
+    	for(j=0;j<output_cnt;j++){
+    		char* outname=NULL;
+    		char* out_ext=NULL;
+    		int out_ext_len;
+    		memset(outfilename[j],0,256*sizeof(char));
+    		outname=outfilename[j];
+    		av_log(NULL,AV_LOG_DEBUG,"1:outname=%s out_ext=%s\n",outname,out_ext?out_ext:"NULL");
+    		out_ext=strrchr(output_tag[j],'.');//a.ts, .ts, out,
+    		av_log(NULL,AV_LOG_DEBUG,"2:outname=%s out_ext=%s\n",outname,out_ext?out_ext:"NULL");
+
+    		if(out_ext&&out_ext!=output_tag[j]){//Not .ts
+    			strcat(outname,output_tag[j]);
+    			av_log(NULL,AV_LOG_DEBUG,"3-1:outname=%s out_ext=%s\n",outname,out_ext?out_ext:"NULL");
+    		}
+    		else{//out_ext==outpu_tag[j]: .ts
+    			// or out_ext==NULL
+    			strncpy(outname,infilename,len-in_ext_len);
+    			av_log(NULL,AV_LOG_DEBUG,"3-2:outname=%s out_ext=%s\n",outname,out_ext?out_ext:"NULL");
+    			if(!out_ext){//no extension, regard as tag
+    				strcat(outname,"_");
+    				strcat(outname,output_tag[j]);
+    				out_ext=in_ext;
+    			}
+    			strcat(outname,out_ext);//,out_ext_len);
+    			av_log(NULL,AV_LOG_DEBUG,"4:outname=%s out_ext=%s\n",outname,out_ext?out_ext:"NULL");
+    		}
+    		av_log(NULL,AV_LOG_DEBUG,"5:outname=%s out_ext=%s\n",outname,out_ext?out_ext:"NULL");
+    		argv_internal[otag_list[j]]=outname;
+    	}
+
+    	//set the input filename to the proper position
+    	argv_internal[input_ind]=infilename;
+
+    	execute_ff(argc_internal,argv_internal,input_ind,otag_list,output_cnt,do_execute);
+    }
+
+fail:
+	//free the memory
+    if(input_filelist){
+    	for(i=0;input_filelist[i];i++)
+    		free((char*)input_filelist[i]);
+    	free((char*)input_filelist);
+    }
+    exit_ff();
+    return 0;
+}
+
+#endif
+
+#endif

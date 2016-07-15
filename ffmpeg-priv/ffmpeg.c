@@ -4689,9 +4689,6 @@ static const opt_def opt_list[]={
 	    { "dts_delta_threshold", HAS_ARG },
 	    { "dts_error_threshold", HAS_ARG },
 	    { "xerror",         OPT_BOOL },
-#if USE_HEARTBEAT
-	    { "nhb",         OPT_BOOL },
-#endif
 	    { "abort_on",       HAS_ARG },
 	    { "copyinkf",       OPT_BOOL },
 	    { "copypriorss",    HAS_ARG },

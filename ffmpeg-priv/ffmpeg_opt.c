@@ -727,6 +727,13 @@ static void add_input_streams(OptionsContext *o, AVFormatContext *ic)
             ist->resample_height  = ist->dec_ctx->height;
             ist->resample_width   = ist->dec_ctx->width;
             ist->resample_pix_fmt = ist->dec_ctx->pix_fmt;
+#if FIX_PIXEL_FORMAT
+			if(ist->resample_pix_fmt == AV_PIX_FMT_NONE){
+				av_log(NULL,AV_LOG_WARNING,"Invalid pixel format, use yuv420p as default\n");
+			    ist->resample_pix_fmt=AV_PIX_FMT_YUV420P;
+			}
+#endif
+			
 
             MATCH_PER_STREAM_OPT(frame_rates, str, framerate, ic, st);
             if (framerate && av_parse_video_rate(&ist->framerate,

@@ -8,10 +8,10 @@
 #ifndef DEFINES_H_
 #define DEFINES_H_
 
-#define USE_HEARTBEAT 0
 #define WRAP_FFMPEG 1
 #define PRINT_PROCESSED 1
 #define ENABLE_QUIT 1
+#define FIX_PIXEL_FORMAT 1
 
 #ifdef HAVE_ARC4RANDOM
 #undef HAVE_ARC4RANDOM

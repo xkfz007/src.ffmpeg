@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Intel C++ Project"
 	Version="11.1"
-	Name="ffmpeg_vc9"
+	Name="ffmpeg"
 	ProjectGUID="{75B3002C-962A-4C2D-9D4D-118D91B028DF}"
 	VCNestedProjectGUID="{DC895068-3077-4269-A30E-6EB01ACEE18C}"
 	VCNestedProjectFileName="ffmpeg_vc9.vcproj">

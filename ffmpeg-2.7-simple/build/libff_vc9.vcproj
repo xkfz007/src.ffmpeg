@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="libff_vc9"
+	Name="libff"
 	ProjectGUID="{4D52CB0E-B80F-4659-9220-AB8B5E4A27EF}"
 	RootNamespace="libff_vc9"
 	Keyword="Win32Proj"

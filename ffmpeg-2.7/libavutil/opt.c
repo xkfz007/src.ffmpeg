@@ -1504,9 +1504,11 @@ const AVOption *av_opt_find2(void *obj, const char *name, const char *unit,
     if (search_flags & AV_OPT_SEARCH_CHILDREN) {
         if (search_flags & AV_OPT_SEARCH_FAKE_OBJ) {
             const AVClass *child = NULL;
-            while (child = av_opt_child_class_next(c, child))
+			while (child = av_opt_child_class_next(c, child)){
+				av_log(NULL, AV_LOG_DEBUG, "child=%s\n",child->class_name);
                 if (o = av_opt_find2(&child, name, unit, opt_flags, search_flags, NULL))
                     return o;
+			}
         } else {
             void *child = NULL;
             while (child = av_opt_child_next(obj, child))

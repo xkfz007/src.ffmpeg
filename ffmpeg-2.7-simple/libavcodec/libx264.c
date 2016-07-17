@@ -270,6 +270,7 @@ static int X264_frame(AVCodecContext *ctx, AVPacket *pkt, const AVFrame *frame,
     do {
         if (x264_encoder_encode(x4->enc, &nal, &nnal, frame? &x4->pic: NULL, &pic_out) < 0)
             return AVERROR_EXTERNAL;
+		printf("Frame %d is done\n",frame->display_picture_number);
 
         ret = encode_nals(ctx, pkt, nal, nnal);
         if (ret < 0)

@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="ffmpeg_vc9"
+	Name="ffmpeg"
 	ProjectGUID="{DC895068-3077-4269-A30E-6EB01ACEE18C}"
 	RootNamespace="ffmpeg_vc9"
 	Keyword="Win32Proj"
@@ -62,7 +62,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="..\bin\vc9\$(ConfigurationName)\libff_vc9.lib"
+				AdditionalDependencies="..\bin\vc9\$(ConfigurationName)\libff.lib"
 				OutputFile="$(OutDir)\$(ProjectName).exe"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"

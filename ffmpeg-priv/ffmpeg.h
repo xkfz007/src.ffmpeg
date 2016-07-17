@@ -579,7 +579,7 @@ int init_complex_filtergraph(FilterGraph *fg);
 int ffmpeg_parse_options(int argc, char **argv);
 #if WRAP_FFMPEG
 int ffmpeg_parse_options_inadvance(int argc,char** argv,int *argc_internal,char**argv_internal
-		,const char **output_tag,int* otag_list,int *output_cnt,int* input_ind,char** patterns,int *do_execute);
+		,const char **output_tag,int* otag_list,int *output_cnt,int* input_ind,char** patterns,int *do_execute,int*);
 void show_ffconvert_usage();
 #endif
 

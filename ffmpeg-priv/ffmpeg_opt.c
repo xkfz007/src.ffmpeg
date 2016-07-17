@@ -3143,10 +3143,29 @@ void show_ffconvert_usage(){
 	fprintf(stdout,"\t-h :show original ffmpeg help\n");
 	fprintf(stdout,"Examples:\n");
 	fprintf(stdout,"\tffmpeg -i \"*\" -c copy -o a.ts\n");
-	exit(1);
+//	exit(1);
 }
+
+#define GET_ARG(arg)                                                                   \
+		do {                                                                           \
+			arg = argv[optindex++];                                                    \
+			if (!arg) {                                                                \
+				av_log(NULL, AV_LOG_ERROR, "Missing argument for option '%s'.\n", opt);\
+				return AVERROR(EINVAL);                                                \
+			}                                                                          \
+		} while (0)
+#define SET_OUTPUT(otag,opos)                                             \
+		do{                                                               \
+			output_tag[ocnt]=otag;                                        \
+			otag_list[ocnt]=opos;                                         \
+			ocnt++;                                                       \
+			argv_internal[ind++]=otag;                                    \
+		}while(0)
+
+#define DEFAULT_OUTTAG "out"
+
 int ffmpeg_parse_options_inadvance(int argc,char** argv,int *argc_internal,char**argv_internal,
-		const char **output_tag,int* otag_list,int *output_cnt,int* input_ind,char** patterns,int *do_execute){
+		const char **output_tag,int* otag_list,int *output_cnt,int* input_ind,char** patterns,int *do_execute,int *is_livestream){
 
 	int optindex = 1;
 	int dashdash = -2;
@@ -3183,23 +3202,11 @@ int ffmpeg_parse_options_inadvance(int argc,char** argv,int *argc_internal,char*
 		}
 		/* unnamed group separators, e.g. output filename */
 		if (opt[0] != '-' || !opt[1] || dashdash+1 == optindex) {
-			output_tag[ocnt]=opt;
-			otag_list[ocnt]=optindex-1;
-			ocnt++;
-			argv_internal[ind++]=opt;
-//			av_log(NULL,AV_LOG_DEBUG,"ARGS:i=%d value='%s' argc_internal=%d\n",optindex,arg,argc_internal);
-			av_log(NULL,AV_LOG_INFO,"output file found");
+			SET_OUTPUT(opt,optindex-1);
+			av_log(NULL, AV_LOG_DEBUG, " matched as output file.\n");
 			continue;
 		}
 
-#define GET_ARG(arg)                                                           \
-		do {                                                                           \
-			arg = argv[optindex++];                                                    \
-			if (!arg) {                                                                \
-				av_log(NULL, AV_LOG_ERROR, "Missing argument for option '%s'.\n", opt);\
-				return AVERROR(EINVAL);                                                \
-			}                                                                          \
-		} while (0)
 
 		/* named group separators, e.g. -i */
 		if(!strcmp(opt,"-i")){
@@ -3207,6 +3214,7 @@ int ffmpeg_parse_options_inadvance(int argc,char** argv,int *argc_internal,char*
 			GET_ARG(arg);
 			*patterns=arg;
 			av_log(NULL,AV_LOG_INFO,"input file found\n");
+            av_log(NULL, AV_LOG_DEBUG, " matched as input file with argument '%s'.\n", arg);
 
 			argv_internal[ind++]=opt;
 			argv_internal[ind++]=arg;
@@ -3222,8 +3230,6 @@ int ffmpeg_parse_options_inadvance(int argc,char** argv,int *argc_internal,char*
 			if (po->flags & OPT_EXIT) {
 				/* optional argument, e.g. -h */
 				arg = argv[optindex++];
-//				ffmain(argc,argv);
-//				exit(1);
 			} else if (po->flags & HAS_ARG) {
 				GET_ARG(arg);
 				argv_internal[ind++]=arg;
@@ -3231,7 +3237,6 @@ int ffmpeg_parse_options_inadvance(int argc,char** argv,int *argc_internal,char*
 				arg = "1";
 			}
 
-			//            add_opt(octx, po, opt, arg);
 			av_log(NULL, AV_LOG_DEBUG, " matched as option '%s' (%s) with "
 					"argument '%s'.\n", po->name, po->help, arg);
 			continue;
@@ -3268,11 +3273,35 @@ int ffmpeg_parse_options_inadvance(int argc,char** argv,int *argc_internal,char*
 		return AVERROR_OPTION_NOT_FOUND;
 	}
 
+	av_log(NULL, AV_LOG_DEBUG, "Finished splitting the commandline.\n");
+
+	//check if this is a livestream
+	if(!strncmp(patterns,"udp:",4)||
+			!strncmp(patterns,"rtmp:",5)||
+			!strncmp(patterns,"http:",5)||
+			!strncmp(patterns,"rtsp:",5)){
+		av_log(NULL,AV_LOG_INFO,"Input is live stream.\n");
+		*is_livestream=1;
+	}
+
+	if(!ocnt){
+		if(*is_livestream){
+			av_log(NULL,AV_LOG_ERROR,"Input is live stream, but output is not set.\n");
+			show_ffconvert_usage();
+			exit(1);
+		}
+		SET_OUTPUT(DEFAULT_OUTTAG,ind);
+//		output_tag[output_cnt]=DEFAULT_OUTTAG;
+//		otag_list[output_cnt]=argc_internal;
+//		output_cnt++;
+//		argv_internal[argc_internal++]=DEFAULT_OUTTAG;
+	}
+
+	//add -y option
+	argv_internal[ind++]="-y";
+
 	*argc_internal=ind;
 	*output_cnt=ocnt;
-
-
-	av_log(NULL, AV_LOG_DEBUG, "Finished splitting the commandline.\n");
 
 	return 0;
 }

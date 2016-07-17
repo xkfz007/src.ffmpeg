@@ -4327,7 +4327,7 @@ static void log_callback_null(void *ptr, int level, const char *fmt, va_list vl)
 {
 }
 #if WRAP_FFMPEG
-static int ffmain(int argc, char **argv)
+static int ff_main(int argc, char **argv)
 #else
 int main(int argc, char **argv)
 #endif
@@ -4411,229 +4411,9 @@ int main(int argc, char **argv)
 //#include "compat/getopt.c"
 //#endif
 
-#if 1
-static int isopt(const char* arg,char opt){
-	return (strlen(arg)==2)&&arg[0]=='-'&&arg[1]==opt&&arg[2]=='\0';
-}
-static int isopt_long(const char* arg,char* long_opt){
-	return (strlen(arg)==strlen(long_opt)+1)
-			&&arg[0]=='-'&&strcmp(&arg[1],long_opt);
-}
-static int isanopt(const char* arg){
-	return arg[0]=='-';
-}
 #define OUTPUT_NUM 20
-#define DEFAULT_OUTTAG "out"
 static const char* valid_extensions=".mp4,.mkv,.flv,.avi,.ts,.wmv,.f4v";
 
-typedef struct opt_def{
-	const char *name;
-	int flag;
-}opt_def;
-static const opt_def opt_list[]={
-	    { "L"          , OPT_EXIT  },
-	    { "h"          , OPT_EXIT  },
-	    { "?"          , OPT_EXIT  },
-	    { "help"       , OPT_EXIT  },
-	    { "-help"      , OPT_EXIT  },
-	    { "version"    , OPT_EXIT  },
-	    { "buildconf"  , OPT_EXIT  },
-	    { "formats"    , OPT_EXIT  },
-	    { "devices"    , OPT_EXIT  },
-	    { "codecs"     , OPT_EXIT  },
-	    { "decoders"   , OPT_EXIT  },
-	    { "encoders"   , OPT_EXIT  },
-	    { "bsfs"       , OPT_EXIT  },
-	    { "protocols"  , OPT_EXIT  },
-	    { "filters"    , OPT_EXIT  },
-	    { "pix_fmts"   , OPT_EXIT  },
-	    { "layouts"    , OPT_EXIT  },
-	    { "sample_fmts", OPT_EXIT  },
-	    { "colors"     , OPT_EXIT  },
-
-	    { "i"          , HAS_ARG  },
-	    { "loglevel"   , HAS_ARG  },
-	    { "v",           HAS_ARG  },
-	    { "report"     , OPT_BOOL },
-	    { "max_alloc"  , HAS_ARG  },
-	    { "cpuflags"   , HAS_ARG  },
-	    { "hide_banner", OPT_BOOL },
-	    { "f",              HAS_ARG },
-	    { "y",              OPT_BOOL},
-	    { "n",              OPT_BOOL},
-	    { "ignore_unknown", OPT_BOOL},
-	    { "copy_unknown",   OPT_BOOL},
-	    { "c",              HAS_ARG },
-	    { "codec",          HAS_ARG },
-	    { "pre",            HAS_ARG },
-	    { "map",            HAS_ARG },
-	    { "map_channel",    HAS_ARG },
-	    { "map_metadata",   HAS_ARG },
-	    { "map_chapters",   HAS_ARG },
-	    { "t",              HAS_ARG },
-	    { "to",             HAS_ARG },
-	    { "fs",             HAS_ARG },
-	    { "ss",             HAS_ARG },
-	    { "sseof",          HAS_ARG },
-	    { "seek_timestamp", HAS_ARG },
-	    { "accurate_seek",  OPT_BOOL},
-	    { "itsoffset",      HAS_ARG },
-	    { "itsscale",       HAS_ARG },
-	    { "timestamp",      HAS_ARG },
-	    { "metadata",       HAS_ARG },
-	    { "program",        HAS_ARG },
-	    { "dframes",        HAS_ARG },
-	    { "benchmark",      OPT_BOOL},
-	    { "benchmark_all",  OPT_BOOL},
-	    { "progress",       HAS_ARG },
-	    { "stdin",          OPT_BOOL},
-	    { "timelimit",      HAS_ARG },
-	    { "dump",           OPT_BOOL},
-	    { "hex",            OPT_BOOL},
-	    { "re",             OPT_BOOL},
-	    { "target",         HAS_ARG },
-	    { "vsync",          HAS_ARG },
-	    { "frame_drop_threshold", HAS_ARG },
-	    { "async",          HAS_ARG },
-	    { "adrift_threshold", HAS_ARG},
-	    { "copyts",         OPT_BOOL },
-	    { "start_at_zero",  OPT_BOOL },
-	    { "copytb",         HAS_ARG  },
-	    { "shortest",       OPT_BOOL },
-	    { "apad",            HAS_ARG },
-	    { "dts_delta_threshold", HAS_ARG },
-	    { "dts_error_threshold", HAS_ARG },
-	    { "xerror",         OPT_BOOL },
-	    { "abort_on",       HAS_ARG },
-	    { "copyinkf",       OPT_BOOL },
-	    { "copypriorss",    HAS_ARG },
-	    { "frames",         HAS_ARG },
-	    { "tag",            HAS_ARG },
-	    { "q",              HAS_ARG },
-	    { "qscale",         HAS_ARG },
-	    { "profile",        HAS_ARG },
-	    { "filter",         HAS_ARG },
-	    { "filter_script",  HAS_ARG },
-	    { "reinit_filter",  HAS_ARG },
-	    { "filter_complex", HAS_ARG },
-	    { "lavfi",          HAS_ARG },
-	    { "filter_complex_script", HAS_ARG },
-	    { "stats",          OPT_BOOL },
-	    { "attach",         HAS_ARG  },
-	    { "dump_attachment", HAS_ARG },
-	    { "stream_loop",     HAS_ARG },
-	    { "debug_ts",       OPT_BOOL },
-	    { "max_error_rate",  HAS_ARG },
-	    { "discard",         HAS_ARG },
-	    { "disposition",     HAS_ARG },
-	    { "thread_queue_size",HAS_ARG},
-
-	    /* video options */
-	    { "vframes",      HAS_ARG },
-	    { "r",            HAS_ARG },
-	    { "s",            HAS_ARG },
-	    { "aspect",       HAS_ARG },
-	    { "pix_fmt",      HAS_ARG },
-	    { "bits_per_raw_sample", HAS_ARG},
-	    { "intra",        OPT_BOOL},
-	    { "vn",           OPT_BOOL},
-	    { "rc_override",  HAS_ARG },
-	    { "vcodec",       HAS_ARG },
-	    { "timecode",     HAS_ARG },
-	    { "pass",         HAS_ARG },
-	    { "passlogfile",  HAS_ARG },
-	    { "deinterlace",  OPT_BOOL},
-	    { "psnr",         OPT_BOOL},
-	    { "vf",           HAS_ARG },
-	    { "intra_matrix", HAS_ARG },
-	    { "inter_matrix", HAS_ARG },
-	    { "top",          HAS_ARG },
-	    { "vtag",         HAS_ARG },
-	    { "qphist",       OPT_BOOL},
-	    { "force_fps",    OPT_BOOL},
-	    { "streamid",     HAS_ARG },
-	    { "force_key_frames", HAS_ARG },
-	    { "ab",           HAS_ARG },
-	    { "b",            HAS_ARG },
-	    { "autorotate",   HAS_ARG },
-
-	    /* audio options */
-	    { "aframes",        HAS_ARG  },
-	    { "aq",             HAS_ARG  },
-	    { "ar",             HAS_ARG  },
-	    { "ac",             HAS_ARG  },
-	    { "an",             OPT_BOOL },
-	    { "acodec",         HAS_ARG  },
-	    { "atag",           HAS_ARG  },
-	    { "vol",            HAS_ARG  },
-	    { "sample_fmt",     HAS_ARG  },
-	    { "channel_layout", HAS_ARG  },
-	    { "af",             HAS_ARG  },
-	    { "guess_layout_max", HAS_ARG },
-
-	    /* subtitle options */
-	    { "sn",     OPT_BOOL },
-	    { "scodec", HAS_ARG  },
-	    { "stag",   HAS_ARG  },
-	    { "fix_sub_duration", OPT_BOOL },
-	    { "canvas_size", HAS_ARG },
-
-	    /* grab options */
-	    { "vc", HAS_ARG },
-	    { "tvstd", HAS_ARG },
-	    { "isync", OPT_BOOL },
-
-	    /* muxer options */
-	    { "muxdelay",   HAS_ARG },
-	    { "muxpreload", HAS_ARG },
-	    { "override_ffserver", OPT_BOOL },
-	    { "sdp_file", HAS_ARG },
-
-	    { "bsf", HAS_ARG },
-	    { "absf", HAS_ARG },
-	    { "vbsf", HAS_ARG },
-
-	    { "apre", HAS_ARG },
-	    { "vpre", HAS_ARG },
-	    { "spre", HAS_ARG },
-	    { "fpre", HAS_ARG },
-	    { "dcodec", HAS_ARG },
-	    { "dn", OPT_BOOL },
-
-		{"Y",OPT_BOOL},
-		{"H",OPT_EXIT},
-		{"o",HAS_ARG},
-
-	    { NULL, },
-};
-static int opt_attr(const char* arg){
-	opt_def *p;
-	int flag=-1;
-	char* q;
-	int len;
-	if(arg[0]!='-')
-		return flag;
-	arg++;
-	q=strchr(arg,':');
-	if(q){
-		len=q-arg;
-	}
-	else{
-		len=strlen(arg);
-	}
-
-	p=opt_list;
-
-	while(p&&p->name){
-		if(strlen(p->name)==len&&!strncmp(p->name,arg,len)){
-			flag=p->flag;
-			av_log(NULL,AV_LOG_DEBUG,"FOUND OPT '%s' for '%s'\n",p->name,arg);
-			break;
-		}
-		p++;
-	}
-	return flag;
-}
 static void print_cmdline(int argc,char*argv[],int input_ind,int* otag_list,int output_cnt){
 	int j;
 	for(j=0;j<argc;j++){
@@ -4656,7 +4436,7 @@ static void print_cmdline(int argc,char*argv[],int input_ind,int* otag_list,int 
 	}
 	av_log(NULL,AV_LOG_INFO,"\n");
 }
-static void init_ff(){
+static void ff_init(){
 
 	run_as_daemon  = 0;
 	nb_frames_dup = 0;
@@ -4683,30 +4463,31 @@ static void init_ff(){
 	nb_filtergraphs=0;
 
 }
-static void exit_ff(){
+static void ff_exit(){
     ffmpeg_exited = 1;
 }
-static void execute_ff(int argc,char*argv[],int input_ind,int* otag_list,int output_cnt,int do_execute){
+static void ff_execute(int argc,char*argv[],int input_ind,int* otag_list,int output_cnt,int do_execute){
 	static int i=0;
 	av_log(NULL,AV_LOG_INFO,"Command line %2d:\n\t",i++);
 	print_cmdline(argc,argv,input_ind,otag_list,output_cnt);
 
 	if(do_execute){
-		init_ff();
-		ffmain(argc,argv);
+		ff_init();
+		ff_main(argc,argv);
 	}
 
 }
+
 static int cmp(const void*a,const void*b){
 	return strcmp(*(char**)a,*(char**)b);
 }
 int main(int argc, char* argv[]){
 	int i;
-	const char *patterns;
+	const char *patterns=NULL;
 //	const char *options;
 	const char *output_tag[OUTPUT_NUM];
 	int otag_list[OUTPUT_NUM];
-	int input_ind; //the index option '-i'
+	int input_ind=-1; //the index option '-i'
 	char outfilename[OUTPUT_NUM][256];
 	char **input_filelist=NULL;
 	char* argv_internal[200];
@@ -4723,8 +4504,6 @@ int main(int argc, char* argv[]){
 	}
 
 	//set loglevel
-//	parse_loglevel(argc, argv, options);
-
 	for(i=0;i<argc;i++){
 		if(!strcmp(argv[i],"-v")||!strcmp(argv[i],"-loglevel")){
 			opt_loglevel(NULL,"loglevel",argv[i+1]);
@@ -4740,39 +4519,23 @@ int main(int argc, char* argv[]){
     av_register_all();
 
 	if(ffmpeg_parse_options_inadvance(argc,argv,&argc_internal,argv_internal,
-			output_tag,otag_list,&output_cnt,&input_ind,&patterns,&do_execute)<0) {
+			output_tag,otag_list,&output_cnt,&input_ind,&patterns,&do_execute,&is_livestream)<0) {
 		show_ffconvert_usage();
 		exit(1);
 	}
 
-	//check if this is a livestream
-	if(!strncmp(patterns,"udp:",4)||
-			!strncmp(patterns,"rtmp:",5)||
-			!strncmp(patterns,"http:",5)||
-			!strncmp(patterns,"rtsp:",5)){
-		av_log(NULL,AV_LOG_INFO,"Input is live stream.\n");
-		is_livestream=1;
-	}
 
-	if(!output_cnt){
-		if(is_livestream){
-			av_log(NULL,AV_LOG_ERROR,"Input is live stream, but output is not set.\n");
-			show_ffconvert_usage();
-			exit(1);
-		}
-		output_tag[output_cnt]=DEFAULT_OUTTAG;
-		otag_list[output_cnt]=argc_internal;
-		output_cnt++;
-		argv_internal[argc_internal++]=DEFAULT_OUTTAG;
+	//if there is no input, use the original ffmpeg
+	if(!patterns||input_ind<=0){
+		ff_main(argc,argv);
+		ff_exit();
+		exit(1);
 	}
-
-	//add -y option
-	argv_internal[argc_internal++]="-y";
 
 	//we will use the original ffmepg
 	if(is_livestream){
-    	execute_ff(argc_internal,argv_internal,input_ind,otag_list,output_cnt,do_execute);
-    	exit_ff();
+    	ff_execute(argc_internal,argv_internal,input_ind,otag_list,output_cnt,do_execute);
+    	ff_exit();
     	exit(-1);
 	}
 
@@ -4863,7 +4626,7 @@ int main(int argc, char* argv[]){
     	//set the input filename to the proper position
     	argv_internal[input_ind]=infilename;
 
-    	execute_ff(argc_internal,argv_internal,input_ind,otag_list,output_cnt,do_execute);
+    	ff_execute(argc_internal,argv_internal,input_ind,otag_list,output_cnt,do_execute);
     }
 
 fail:
@@ -4873,10 +4636,9 @@ fail:
     		free((char*)input_filelist[i]);
     	free((char*)input_filelist);
     }
-    exit_ff();
+    ff_exit();
     return 0;
 }
 
-#endif
 
 #endif

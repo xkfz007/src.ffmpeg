@@ -4606,26 +4606,34 @@ int main(int argc, char* argv[]){
     		memset(outfilename[j],0,256*sizeof(char));
     		outname=outfilename[j];
     		av_log(NULL,AV_LOG_DEBUG,"1:outname=%s out_ext=%s\n",outname,out_ext?out_ext:"NULL");
-    		out_ext=strrchr(output_tag[j],'.');//a.ts, .ts, out,
-    		av_log(NULL,AV_LOG_DEBUG,"2:outname=%s out_ext=%s\n",outname,out_ext?out_ext:"NULL");
-
-    		if(out_ext&&out_ext!=output_tag[j]){//Not .ts
+    		if(!strncmp(output_tag[j],"udp:",4)||
+    				!strncmp(output_tag[j],"rtmp:",5)||
+					!strncmp(output_tag[j],"http:",5)||
+					!strncmp(output_tag[j],"rtsp:",5)){
+    			av_log(NULL,AV_LOG_INFO,"Output is live stream.\n");
     			strcat(outname,output_tag[j]);
-    			av_log(NULL,AV_LOG_DEBUG,"3-1:outname=%s out_ext=%s\n",outname,out_ext?out_ext:"NULL");
-    		}
-    		else{//out_ext==outpu_tag[j]: .ts
-    			// or out_ext==NULL
-    			strncpy(outname,infilename,len-in_ext_len);
-    			av_log(NULL,AV_LOG_DEBUG,"3-2:outname=%s out_ext=%s\n",outname,out_ext?out_ext:"NULL");
-    			if(!out_ext){//no extension, regard as tag
-    				strcat(outname,"_");
+    		}else{
+    			out_ext=strrchr(output_tag[j],'.');//a.ts, .ts, out,
+    			av_log(NULL,AV_LOG_DEBUG,"2:outname=%s out_ext=%s\n",outname,out_ext?out_ext:"NULL");
+
+    			if(out_ext&&out_ext!=output_tag[j]){//Not .ts
     				strcat(outname,output_tag[j]);
-    				out_ext=in_ext;
+    				av_log(NULL,AV_LOG_DEBUG,"3-1:outname=%s out_ext=%s\n",outname,out_ext?out_ext:"NULL");
     			}
-    			strcat(outname,out_ext);//,out_ext_len);
-    			av_log(NULL,AV_LOG_DEBUG,"4:outname=%s out_ext=%s\n",outname,out_ext?out_ext:"NULL");
+    			else{//out_ext==outpu_tag[j]: .ts
+    				// or out_ext==NULL
+    				strncpy(outname,infilename,len-in_ext_len);
+    				av_log(NULL,AV_LOG_DEBUG,"3-2:outname=%s out_ext=%s\n",outname,out_ext?out_ext:"NULL");
+    				if(!out_ext){//no extension, regard as tag
+    					strcat(outname,"_");
+    					strcat(outname,output_tag[j]);
+    					out_ext=in_ext;
+    				}
+    				strcat(outname,out_ext);//,out_ext_len);
+    				av_log(NULL,AV_LOG_DEBUG,"4:outname=%s out_ext=%s\n",outname,out_ext?out_ext:"NULL");
+    			}
+    			av_log(NULL,AV_LOG_DEBUG,"5:outname=%s out_ext=%s\n",outname,out_ext?out_ext:"NULL");
     		}
-    		av_log(NULL,AV_LOG_DEBUG,"5:outname=%s out_ext=%s\n",outname,out_ext?out_ext:"NULL");
     		argv_internal[otag_list[j]]=outname;
     	}
 

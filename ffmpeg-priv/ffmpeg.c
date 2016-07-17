@@ -4495,8 +4495,9 @@ int main(int argc, char* argv[]){
 	int output_cnt=0; //output files numbers
 	int do_execute=0;
 	struct stat sb;
-	int is_livestream=0;
+//	int is_livestream=0;
 	int inputfile_num=0;
+	int ret;
 
 	if(argc<2) {
 		show_ffconvert_usage();
@@ -4518,26 +4519,31 @@ int main(int argc, char* argv[]){
     avfilter_register_all();
     av_register_all();
 
-	if(ffmpeg_parse_options_inadvance(argc,argv,&argc_internal,argv_internal,
-			output_tag,otag_list,&output_cnt,&input_ind,&patterns,&do_execute,&is_livestream)<0) {
+    ret=ffmpeg_parse_options_inadvance(argc,argv,&argc_internal,argv_internal,
+    		output_tag,otag_list,&output_cnt,&input_ind,&patterns);
+
+	if(ret==FFERROR_OPTION_NOT_FOUND) {
+		av_log(NULL,AV_LOG_ERROR,"Could not find option\n");
 		show_ffconvert_usage();
 		exit(1);
-	}
-
-
-	//if there is no input, use the original ffmpeg
-	if(!patterns||input_ind<=0){
+	}else if(ret==FFERROR_NO_INPUT||ret==FFERROR_MULTI_INPUT){ //if there is no input, use the original ffmpeg
+		//	if(!patterns||input_ind<=0){
 		ff_main(argc,argv);
 		ff_exit();
 		exit(1);
+	}else{
+		do_execute=ret;
 	}
-
-	//we will use the original ffmepg
-	if(is_livestream){
-    	ff_execute(argc_internal,argv_internal,input_ind,otag_list,output_cnt,do_execute);
-    	ff_exit();
-    	exit(-1);
-	}
+//	else if(ret==FFERROR_INPUT_IS_LIVE){ //we will use the original ffmepg
+////	if(is_livestream){
+//    	ff_execute(argc_internal,argv_internal,input_ind,otag_list,output_cnt,do_execute);
+//    	ff_exit();
+//    	exit(-1);
+//	}
+//	else if(ret==FF_DO_EXECUTE){
+//		do_execute
+//
+//	}
 
 	//parse patterns to get all the files
 	input_filelist= glob_filename (patterns, 1);
@@ -4572,17 +4578,17 @@ int main(int argc, char* argv[]){
 #endif
 
     	infilename=input_filelist[i];
-    	if(!is_livestream){
-    		//check if it is a directory or a file
-    		if (lstat(infilename, &sb) == -1) {
-    			av_log(NULL,AV_LOG_ERROR,"Could not stat file/directory %s\n",infilename);
-    			exit(1);
-    		}
-    		if(S_ISDIR(sb.st_mode)){
-    			av_log(NULL,AV_LOG_WARNING,"%s is a directory, pass\n",infilename);
-    			continue;
-    		}
+    	//    	if(!is_livestream){
+    	//check if it is a directory or a file
+    	if (lstat(infilename, &sb) == -1) {
+    		av_log(NULL,AV_LOG_ERROR,"Could not stat file/directory %s\n",infilename);
+    		exit(1);
     	}
+    	if(S_ISDIR(sb.st_mode)){
+    		av_log(NULL,AV_LOG_WARNING,"%s is a directory, pass\n",infilename);
+    		continue;
+    	}
+    	//    	}
 
     	len=strlen(infilename);
     	in_ext=strrchr(infilename,'.');

@@ -3165,12 +3165,17 @@ void show_ffconvert_usage(){
 #define DEFAULT_OUTTAG "out"
 
 int ffmpeg_parse_options_inadvance(int argc,char** argv,int *argc_internal,char**argv_internal,
-		const char **output_tag,int* otag_list,int *output_cnt,int* input_ind,char** patterns,int *do_execute,int *is_livestream){
+		const char **output_tag,int* otag_list,int *output_cnt,int* iidx,char** pat){
 
 	int optindex = 1;
 	int dashdash = -2;
 	int ind=0;
 	int ocnt=0;
+	int input_cnt=0;
+	char* patterns[20];
+	int input_ind[20];
+	int do_execute=0;
+	int i;
 
 	//copy first arg to internal arg;
 	argv_internal[ind++]=argv[0];
@@ -3192,7 +3197,7 @@ int ffmpeg_parse_options_inadvance(int argc,char** argv,int *argc_internal,char*
 			exit(1);
 		}
 		if(!strcmp(opt,"-Y")){
-			*do_execute=1;
+			do_execute=1;
 			continue;
 		}
 
@@ -3210,9 +3215,11 @@ int ffmpeg_parse_options_inadvance(int argc,char** argv,int *argc_internal,char*
 
 		/* named group separators, e.g. -i */
 		if(!strcmp(opt,"-i")){
-			*input_ind=optindex;
+			input_ind[input_cnt]=optindex;
 			GET_ARG(arg);
-			*patterns=arg;
+			patterns[input_cnt]=arg;
+			input_cnt++;
+
 			av_log(NULL,AV_LOG_INFO,"input file found\n");
             av_log(NULL, AV_LOG_DEBUG, " matched as input file with argument '%s'.\n", arg);
 
@@ -3252,7 +3259,7 @@ int ffmpeg_parse_options_inadvance(int argc,char** argv,int *argc_internal,char*
 						"argument '%s'.\n", opt, argv[optindex]);
 				optindex++;
 				continue;
-			} else if (ret != AVERROR_OPTION_NOT_FOUND) {
+			} else if (ret != FFERROR_OPTION_NOT_FOUND) {
 				av_log(NULL, AV_LOG_ERROR, "Error parsing option '%s' "
 						"with argument '%s'.\n", opt, argv[optindex]);
 				return ret;
@@ -3270,31 +3277,38 @@ int ffmpeg_parse_options_inadvance(int argc,char** argv,int *argc_internal,char*
 		}
 
 		av_log(NULL, AV_LOG_ERROR, "Unrecognized option '%s'.\n", opt);
-		return AVERROR_OPTION_NOT_FOUND;
+		return FFERROR_OPTION_NOT_FOUND;
 	}
 
 	av_log(NULL, AV_LOG_DEBUG, "Finished splitting the commandline.\n");
 
-	//check if this is a livestream
-	if(!strncmp(patterns,"udp:",4)||
-			!strncmp(patterns,"rtmp:",5)||
-			!strncmp(patterns,"http:",5)||
-			!strncmp(patterns,"rtsp:",5)){
-		av_log(NULL,AV_LOG_INFO,"Input is live stream.\n");
-		*is_livestream=1;
+	if(!input_cnt){
+		return FFERROR_NO_INPUT;
+	}
+	else if (input_cnt>1){
+		return FFERROR_MULTI_INPUT;
+	}
+	else{
+		*iidx=input_ind[0];
+		*pat=patterns[0];
 	}
 
+	//check if this is a livestream
+//	if(!strncmp(patterns,"udp:",4)||
+//			!strncmp(patterns,"rtmp:",5)||
+//			!strncmp(patterns,"http:",5)||
+//			!strncmp(patterns,"rtsp:",5)){
+//		av_log(NULL,AV_LOG_INFO,"Input is live stream.\n");
+//		return FFERROR_INPUT_IS_LIVE;
+//	}
+
 	if(!ocnt){
-		if(*is_livestream){
-			av_log(NULL,AV_LOG_ERROR,"Input is live stream, but output is not set.\n");
-			show_ffconvert_usage();
-			exit(1);
-		}
+//		if(*is_livestream){
+//			av_log(NULL,AV_LOG_ERROR,"Input is live stream, but output is not set.\n");
+//			show_ffconvert_usage();
+//			exit(1);
+//		}
 		SET_OUTPUT(DEFAULT_OUTTAG,ind);
-//		output_tag[output_cnt]=DEFAULT_OUTTAG;
-//		otag_list[output_cnt]=argc_internal;
-//		output_cnt++;
-//		argv_internal[argc_internal++]=DEFAULT_OUTTAG;
 	}
 
 	//add -y option
@@ -3302,6 +3316,9 @@ int ffmpeg_parse_options_inadvance(int argc,char** argv,int *argc_internal,char*
 
 	*argc_internal=ind;
 	*output_cnt=ocnt;
+
+	if(do_execute)
+		return FF_DO_EXECUTE;
 
 	return 0;
 }

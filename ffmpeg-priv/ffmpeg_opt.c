@@ -3130,6 +3130,155 @@ static int opt_progress(void *optctx, const char *opt, const char *arg)
     return 0;
 }
 
+#if WRAP_FFMPEG
+
+void show_ffconvert_usage(){
+	fprintf(stdout,"Usage:");
+	fprintf(stdout,"same with orignal ffmpeg except using -o to mark the output\n");
+	fprintf(stdout,"\tffconvert -i <pattern> -o <output_tag>\n");
+	fprintf(stdout,"Options:\n");
+	fprintf(stdout,"\t-o <string> :output filename or output tag\n");
+	fprintf(stdout,"\t-Y :do excute the command\n");
+	fprintf(stdout,"\t-H :show help\n");
+	fprintf(stdout,"\t-h :show original ffmpeg help\n");
+	fprintf(stdout,"Examples:\n");
+	fprintf(stdout,"\tffmpeg -i \"*\" -c copy -o a.ts\n");
+	exit(1);
+}
+int ffmpeg_parse_options_inadvance(int argc,char** argv,int *argc_internal,char**argv_internal,
+		const char **output_tag,int* otag_list,int *output_cnt,int* input_ind,char** patterns,int *do_execute){
+
+	int optindex = 1;
+	int dashdash = -2;
+	int ind=0;
+	int ocnt=0;
+
+	//copy first arg to internal arg;
+	argv_internal[ind++]=argv[0];
+
+	//copy other options in argv
+	while (optindex < argc) {
+		const char *opt = argv[optindex++], *arg;
+		const OptionDef *po;
+		int ret;
+
+		av_log(NULL, AV_LOG_DEBUG, "Reading option '%s' ...", opt);
+
+		if (opt[0] == '-' && opt[1] == '-' && !opt[2]) {
+			dashdash = optindex;
+			continue;
+		}
+		if(!strcmp(opt,"-H")){
+			show_ffconvert_usage();
+			exit(1);
+		}
+		if(!strcmp(opt,"-Y")){
+			*do_execute=1;
+			continue;
+		}
+
+		//overlook option '-o'
+		if(!strcmp(opt,"-o")){
+			continue;
+		}
+		/* unnamed group separators, e.g. output filename */
+		if (opt[0] != '-' || !opt[1] || dashdash+1 == optindex) {
+			output_tag[ocnt]=opt;
+			otag_list[ocnt]=optindex-1;
+			ocnt++;
+			argv_internal[ind++]=opt;
+//			av_log(NULL,AV_LOG_DEBUG,"ARGS:i=%d value='%s' argc_internal=%d\n",optindex,arg,argc_internal);
+			av_log(NULL,AV_LOG_INFO,"output file found");
+			continue;
+		}
+
+#define GET_ARG(arg)                                                           \
+		do {                                                                           \
+			arg = argv[optindex++];                                                    \
+			if (!arg) {                                                                \
+				av_log(NULL, AV_LOG_ERROR, "Missing argument for option '%s'.\n", opt);\
+				return AVERROR(EINVAL);                                                \
+			}                                                                          \
+		} while (0)
+
+		/* named group separators, e.g. -i */
+		if(!strcmp(opt,"-i")){
+			*input_ind=optindex;
+			GET_ARG(arg);
+			*patterns=arg;
+			av_log(NULL,AV_LOG_INFO,"input file found\n");
+
+			argv_internal[ind++]=opt;
+			argv_internal[ind++]=arg;
+			continue;
+		}
+
+		//        opt++;
+
+		/* normal options */
+		po = find_option(options, opt+1);
+		if (po->name) {
+			argv_internal[ind++]=opt;
+			if (po->flags & OPT_EXIT) {
+				/* optional argument, e.g. -h */
+				arg = argv[optindex++];
+//				ffmain(argc,argv);
+//				exit(1);
+			} else if (po->flags & HAS_ARG) {
+				GET_ARG(arg);
+				argv_internal[ind++]=arg;
+			} else {
+				arg = "1";
+			}
+
+			//            add_opt(octx, po, opt, arg);
+			av_log(NULL, AV_LOG_DEBUG, " matched as option '%s' (%s) with "
+					"argument '%s'.\n", po->name, po->help, arg);
+			continue;
+		}
+
+		/* AVOptions */
+		if (argv[optindex]) {
+			ret = find_avoption(NULL, opt+1, argv[optindex]);
+			if (ret >= 0) {
+				argv_internal[ind++]=opt;
+				argv_internal[ind++]=argv[optindex];
+				av_log(NULL, AV_LOG_DEBUG, " matched as AVOption '%s' with "
+						"argument '%s'.\n", opt, argv[optindex]);
+				optindex++;
+				continue;
+			} else if (ret != AVERROR_OPTION_NOT_FOUND) {
+				av_log(NULL, AV_LOG_ERROR, "Error parsing option '%s' "
+						"with argument '%s'.\n", opt, argv[optindex]);
+				return ret;
+			}
+		}
+
+		/* boolean -nofoo options */
+		if (opt[1] == 'n' && opt[2] == 'o' &&
+				(po = find_option(options, opt + 3)) &&
+				po->name && po->flags & OPT_BOOL) {
+			argv_internal[ind++]=opt;
+			av_log(NULL, AV_LOG_DEBUG, " matched as option '%s' (%s) with "
+					"argument 0.\n", po->name, po->help);
+			continue;
+		}
+
+		av_log(NULL, AV_LOG_ERROR, "Unrecognized option '%s'.\n", opt);
+		return AVERROR_OPTION_NOT_FOUND;
+	}
+
+	*argc_internal=ind;
+	*output_cnt=ocnt;
+
+
+	av_log(NULL, AV_LOG_DEBUG, "Finished splitting the commandline.\n");
+
+	return 0;
+}
+#endif
+
+
 #define OFFSET(x) offsetof(OptionsContext, x)
 const OptionDef options[] = {
     /* main options */

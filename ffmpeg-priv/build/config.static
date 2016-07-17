@@ -1,4 +1,8 @@
 #!/bin/bash
+build="RELEASE"
+if [ $# -ge 1 ];then
+    build=$(echo $1|tr '[a-z]' '[A-Z]')
+fi
 current_dir=`pwd`
 build_dir="${current_dir}"
 if [ ! -e $build_dir ];then
@@ -8,11 +12,11 @@ root_dir=`realpath "${current_dir}/../"`
 
 
 export PKG_CONFIG_PATH="$PKG_GONFIG_PATH:${root_dir}/lib/pkgconfig"
-#echo $PKG_CONFIG_PATH
+echo $PKG_CONFIG_PATH
 
 cmd="${root_dir}/configure  \
     --prefix=$build_dir \
-    --disable-doc \
+    --disable-doc       \
     --disable-htmlpages \
     --disable-manpages  \
     --disable-podpages  \
@@ -33,10 +37,31 @@ cmd="${root_dir}/configure  \
     --extra-ldflags=\"-L${root_dir}/lib\" \
     --extra-cflags=\"-I${root_dir}/include\" \
 "
+if [ "$build" = "DEBUG"  ];then
+    cmd="$cmd \
+        --disable-optimizations \
+        --disable-stripping     \
+        --disable-asm           \
+        --disable-pthreads      \
+        "
+fi
 echo $cmd
 eval $cmd
 
 config_file="config.h"
 if [ -e $config_file  ];then
-    sed -i '$i#include "defines.h"' $config_file 
+    line='#include \"defines.h\"'
+    cnt=$(grep -n "$line" $config_file|wc -l)
+    #echo $cnt
+    #cmd1="grep -n \"$line\" $config_file|wc -l"
+    #echo $cmd1
+    #eval $cmd1
+    if [ $cnt -eq 0 ];then
+        #echo "defines.h will be included by config.h"
+        sed -i '$i'"$line" $config_file 
+    elif [ $cnt -eq 1 ];then
+        echo "defines.h has already been included by config.h"
+    else
+        echo "WARNING:Too many including of defines.h in config.h, please check"
+    fi
 fi

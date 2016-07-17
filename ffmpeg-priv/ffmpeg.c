@@ -4410,193 +4410,8 @@ int main(int argc, char **argv)
 //#if !HAVE_GETOPT
 //#include "compat/getopt.c"
 //#endif
-#if 0
-static int word_count(const char *str){
-    int nw=0,nl=0,nc=0;
-    int in_word=0;//whether we are in a word now
-    char *p=str;
-    while(*p!='\0'){
-        if(*p==' '||*p=='\t'||*p=='\n')
-            in_word=0;
-        else if(!in_word){
-            in_word=1;
-            nw++;
-        }
-    }
-    return nw;
-}
-
-//int getwords(char* words[],char *line,const char* delim){
-//    int count;
-//    char* token;
-//    token=strtok(line,delim);
-//    if(token==NULL)
-//        return 0;
-//    count=0;
-//    words[count++]=token;
-//    while((token=strtok(NULL,delim))!=NULL)
-//        words[count++]=token;
-//    return count;
-//}
-
-//resolve words in the string
-static int getwords(char* words[],char* line,const char* delim){
-    char *pos,*pos2;
-    int count=0;
-    pos2=line;
-    while((pos=strpbrk(pos2,delim))!=NULL){
-        *pos='\0';
-        if(pos!=pos2)
-            words[count++]=pos2;
-        pos2=pos+1;
-    }
-    if(*pos2!='\0')
-        words[count++]=pos2;
-    return count;
-}
-static void usage(){
-	fprintf(stdout,"ffmpeg -i \"*\" \"-c copy\" a.ts ");
-	exit(1);
-}
-int main(int argc, char* argv[]){
-	int i,c;
-
-	const char *patterns;
-	const char *options;
-	const char *output_tag=NULL;
-	char **input_filelist;
-//	char **output_filelist;
-	int file_cnt;
-	int opt_cnt;
-	char internal_args[256];
-	char* argv_internal[200];
-	char outfilename[256];
-	int argc_internal=0;
-//	int input_ind;
-//
-//    for (;;) {
-//        c = getopt(argc, argv, "i:");
-//        if (c == -1)
-//            break;
-//        switch (c) {
-//        case 'i':
-//        	patterns=optarg;
-//        	input_ind=optind;
-//            break;
-//        }
-//    }
-	if(argc<4){
-		av_log(NULL,AV_LOG_ERROR,"Not enough parameters\n");
-		usage();
-	}
-
-	argv_internal[0]=argv[0];
-	argc_internal++;
-
-	assert(strcmp(argv[1],"-i")==0);
-	argv_internal[1]=argv[1];
-	argc_internal++;
-
-	patterns=argv[2];
-	argv_internal[2]=argv[2];
-	argc_internal++;
-
-	options=argv[3];
-	if(argc==5)
-		output_tag=argv[4];
-	else
-		output_tag="_out";
-
-//	argc_internal+=4;
-//	opt_cnt=word_count(options);
-//	argc_internal+=opt_cnt;
-	argc_internal+=getwords(argv_internal+3,options," \t");
-
-	argc_internal++;//for output
-
-    input_filelist= glob_filename (patterns, 0);
-	if(!input_filelist){
-		av_log(NULL,AV_LOG_ERROR,"Could not find files\n");
-		exit(1);
-	}
-//    file_cnt=0;
-//    for(i=0;input_filelist[i];i++){
-//    	file_cnt++;
-//    }
-//    output_filelist=malloc(file_cnt*sizeof(char*));
-
-
-    for(i=0;input_filelist[i];i++){
-    	int len,ext_len;
-    	char*infilename,*ext;
-    	infilename=input_filelist[i];
-    	len=strlen(infilename);
-//    	outfilename=malloc((len+20)*sizeof(char));
-    	ext=strrchr(infilename,'.');
-    	if(!ext)
-    	{
-    		av_log(NULL,AV_LOG_ERROR,"No extension in '%s'",infilename);
-    		exit(1);
-    	}
-    	ext_len=strlen(ext);
-
-    	strncpy(outfilename,infilename,len-ext_len);
-    	strcat(outfilename,output_tag);
-    	strncat(outfilename,ext,ext_len);
-//    	output_filelist[i]=outfilename;
-
-//    	strcpy(internal_args,"-y -i ");
-//    	strcat(internal_args," \"");
-//    	strncat(internal_args,infilename);
-//    	strcat(internal_args," \" ");
-//    	strcat(internal_args,options);
-//     	strcat(internal_args," \"");
-//    	strncat(internal_args,outfilename);
-//    	strcat(internal_args," \" ");
-    	argv_internal[2]=infilename;
-    	argv_internal[argc_internal-1]=outfilename;
-    	av_log(NULL,AV_LOG_INFO,"INPUT :%s\n",infilename);
-    	av_log(NULL,AV_LOG_INFO,"OUTPUT:%s\n",outfilename);
-    	av_log(NULL,AV_LOG_INFO,"Command line:");
-    	ffmain(argc_internal,argv_internal);
-    }
-
-//	for(i=0;value[i];i++)
-//		fprintf(stdout,"%s\n",value[i]);
-//    char**argv_new=malloc(argc*sizeof(char*));
-//    for(i=0;i<0;i++)
-//    	argv_new[i]=malloc((strlen(argv[1])+1)*sizeof(char));
-//
-//    for(i=0;input_filelist[i];i++){
-//    	strcpy(argv_new[optind],argv[optind]);
-//    	ffmain(argc,argv_new);
-//    }
-
-	//free the memory
-	for(i=0;input_filelist[i];i++)
-		free(input_filelist[i]);
-
-//	for(i=0;i<argc;i++)
-//		free(argv_new[i]);
-//	free(argv_new);
-
-}
-#endif
 
 #if 1
-static void usage(){
-	fprintf(stdout,"Usage:");
-	fprintf(stdout,"same with orignal ffmpeg except using -o to mark the output\n");
-	fprintf(stdout,"\tffconvert -i <pattern> -o <output_tag>\n");
-	fprintf(stdout,"Options:\n");
-	fprintf(stdout,"\t-o <string> :output filename or output tag\n");
-	fprintf(stdout,"\t-Y :do excute the command\n");
-	fprintf(stdout,"\t-H :show help\n");
-	fprintf(stdout,"\t-h :show original ffmpeg help\n");
-	fprintf(stdout,"Examples:\n");
-	fprintf(stdout,"\tffmpeg -i \"*\" -c copy -o a.ts\n");
-	exit(1);
-}
 static int isopt(const char* arg,char opt){
 	return (strlen(arg)==2)&&arg[0]=='-'&&arg[1]==opt&&arg[2]=='\0';
 }
@@ -4888,7 +4703,7 @@ static int cmp(const void*a,const void*b){
 int main(int argc, char* argv[]){
 	int i;
 	const char *patterns;
-	const char *options;
+//	const char *options;
 	const char *output_tag[OUTPUT_NUM];
 	int otag_list[OUTPUT_NUM];
 	int input_ind; //the index option '-i'
@@ -4903,70 +4718,31 @@ int main(int argc, char* argv[]){
 	int inputfile_num=0;
 
 	if(argc<2) {
-		usage();
+		show_ffconvert_usage();
 		exit(1);
 	}
 
 	//set loglevel
+//	parse_loglevel(argc, argv, options);
+
 	for(i=0;i<argc;i++){
-		if(isopt(argv[i],'v')||isopt_long(argv[i],"loglevel")){
+		if(!strcmp(argv[i],"-v")||!strcmp(argv[i],"-loglevel")){
 			opt_loglevel(NULL,"loglevel",argv[i+1]);
 			break;
 		}
 	}
 
-	//copy first arg to internal arg;
-	argv_internal[argc_internal++]=argv[0];
-	//copy other options in argv
-	for(i=1;i<argc;){
-		char* arg=argv[i];
-		int opt_flag=opt_attr(arg);
-		av_log(NULL,AV_LOG_DEBUG,"OPT:i=%d arg='%s' opt_flag=%d\n",i,arg,opt_flag);
-		switch(opt_flag){
-		case OPT_EXIT:
-			if(isopt(arg,'H')){
-				usage();
-				exit(1);
-			}
-			else
-				ffmain(argc,argv);
-			break;
-		case OPT_BOOL:
-			if(isopt(arg,'Y')) {
-				do_execute=1;
-			}
-			else {
-				argv_internal[argc_internal++]=arg;
-			}
-			av_log(NULL,AV_LOG_DEBUG,"OPT_BOOL:i=%d arg='%s' argc_internal=%d\n",i,arg,argc_internal);
-			i++;
-			break;
-		case HAS_ARG:
-			if(isopt(arg,'o')){
-				output_tag[output_cnt]=argv[i+1];
-				otag_list[output_cnt]=argc_internal;
-				output_cnt++;
-				argv_internal[argc_internal++]=argv[i+1];
-			}
-			else{
-				if(isopt(arg,'i')){
-					patterns=argv[i+1];
-					input_ind=i+1;
-				}
-				argv_internal[argc_internal++]=arg;
-				argv_internal[argc_internal++]=argv[i+1];
-			}
-			av_log(NULL,AV_LOG_DEBUG,"HAS_ARG:i=%d arg='%s' value='%s' argc_internal=%d\n",i,arg,argv[i+1],argc_internal);
-			i+=2;
-			break;
-		default:
-			output_tag[output_cnt]=argv[i];
-			otag_list[output_cnt]=argc_internal;
-			output_cnt++;
-			argv_internal[argc_internal++]=arg;
-			av_log(NULL,AV_LOG_DEBUG,"ARGS:i=%d value='%s' argc_internal=%d\n",i,arg,argc_internal);
-			i++;
-		}
+    avcodec_register_all();
+#if CONFIG_AVDEVICE
+    avdevice_register_all();
+#endif
+    avfilter_register_all();
+    av_register_all();
+
+	if(ffmpeg_parse_options_inadvance(argc,argv,&argc_internal,argv_internal,
+			output_tag,otag_list,&output_cnt,&input_ind,&patterns,&do_execute)<0) {
+		show_ffconvert_usage();
+		exit(1);
 	}
 
 	//check if this is a livestream
@@ -4981,7 +4757,7 @@ int main(int argc, char* argv[]){
 	if(!output_cnt){
 		if(is_livestream){
 			av_log(NULL,AV_LOG_ERROR,"Input is live stream, but output is not set.\n");
-			usage();
+			show_ffconvert_usage();
 			exit(1);
 		}
 		output_tag[output_cnt]=DEFAULT_OUTTAG;
@@ -5005,7 +4781,7 @@ int main(int argc, char* argv[]){
 
 	if(!input_filelist){
 		av_log(NULL,AV_LOG_ERROR,"Could not find files\n");
-		usage();
+		show_ffconvert_usage();
 		exit(1);
 	}
 

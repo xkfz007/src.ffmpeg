@@ -33,5 +33,10 @@
 #define CONFIG_DOC 0
 #endif
 
+//fix the terminal problem: when error occurs the terminal will not display the command lines
+#ifdef HAVE_TERMIOS_H
+#undef HAVE_TERMIOS_H
+#define HAVE_TERMIOS_H 0
+#endif
 
 #endif /* DEFINES_H_ */

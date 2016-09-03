@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{31229090-E3D8-4E04-B5EB-24276AB04DAB}</ProjectGuid>
+    <ProjectGuid>{6AF756B8-58E2-4A0A-8CF7-BE6687770093}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>ffmpeg_api</RootNamespace>
   </PropertyGroup>
@@ -77,25 +77,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-      <ClCompile Include="ffmpeg_simple_player.cpp" />
-      <ClCompile Include="simplest_ffmpeg_avutil.cpp" />
-      <ClCompile Include="simplest_ffmpeg_decoder.cpp" />
-      <ClCompile Include="simplest_ffmpeg_demuxer.cpp" />
-      <ClCompile Include="simplest_ffmpeg_mem_player.cpp" />
-      <ClCompile Include="simplest_ffmpeg_mem_transcoder.cpp" />
-      <ClCompile Include="simplest_ffmpeg_muxer.cpp" />
-      <ClCompile Include="simplest_ffmpeg_remuxer.cpp" />
-      <ClCompile Include="simplest_ffmpeg_streamer.cpp" />
-      <ClCompile Include="simplest_ffmpeg_swscale.cpp" />
-      <ClCompile Include="simplest_ffmpeg_video_encoder.cpp" />
-      <ClCompile Include="simplest_ffmpeg_video_filter.cpp" />
-      <ClCompile Include="simplest_keyframe_extractor.cpp" />
-      <ClCompile Include="simplest_mediadata_aac.cpp" />
-      <ClCompile Include="simplest_mediadata_flv.cpp" />
-      <ClCompile Include="simplest_mediadata_h264.cpp" />
-      <ClCompile Include="simplest_mediadata_main.cpp" />
-      <ClCompile Include="simplest_mediadata_raw.cpp" />
-      <ClCompile Include="simplest_pic_generator.c" />
+    <ClCompile Include="ffmpeg_simple_player.cpp" />
+    <ClCompile Include="simplest_ffmpeg_avutil.cpp" />
+    <ClCompile Include="simplest_ffmpeg_decoder.cpp" />
+    <ClCompile Include="simplest_ffmpeg_demuxer.cpp" />
+    <ClCompile Include="simplest_ffmpeg_mem_player.cpp" />
+    <ClCompile Include="simplest_ffmpeg_mem_transcoder.cpp" />
+    <ClCompile Include="simplest_ffmpeg_muxer.cpp" />
+    <ClCompile Include="simplest_ffmpeg_remuxer.cpp" />
+    <ClCompile Include="simplest_ffmpeg_streamer.cpp" />
+    <ClCompile Include="simplest_ffmpeg_swscale.cpp" />
+    <ClCompile Include="simplest_ffmpeg_video_encoder.cpp" />
+    <ClCompile Include="simplest_ffmpeg_video_filter.cpp" />
+    <ClCompile Include="simplest_keyframe_extractor.cpp" />
+    <ClCompile Include="simplest_mediadata_aac.cpp" />
+    <ClCompile Include="simplest_mediadata_flv.cpp" />
+    <ClCompile Include="simplest_mediadata_h264.cpp" />
+    <ClCompile Include="simplest_mediadata_main.cpp" />
+    <ClCompile Include="simplest_mediadata_raw.cpp" />
+    <ClCompile Include="simplest_pic_generator.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

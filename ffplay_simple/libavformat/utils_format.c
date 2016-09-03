@@ -18,7 +18,7 @@ void av_register_input_format(AVInputFormat *format)
     *p = format;
     format->next = NULL;
 }
-
+//检查filename中的扩展名是否符合要求，extensions中是逗号分隔的合法扩展名
 int match_ext(const char *filename, const char *extensions)
 {
     const char *ext,  *p;
@@ -38,7 +38,7 @@ int match_ext(const char *filename, const char *extensions)
             while (*p != '\0' &&  *p != ',' && q - ext1 < sizeof(ext1) - 1)
                 *q++ =  *p++;
             *q = '\0';
-            if (!strcasecmp(ext1, ext))
+            if (!strcasecmp(ext1, ext))//在合法列表中找到了
                 return 1;
             if (*p == '\0')
                 break;

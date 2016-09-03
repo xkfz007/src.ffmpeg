@@ -13,7 +13,20 @@ int register_protocol(URLProtocol *protocol)
     protocol->next = NULL;
     return 0;
 }
-
+//new version,
+//遍历时不采用**p
+int register_protocol2(URLProtocol* protocol){
+    URLProtocol *p,**q;
+    p=first_protocol;
+    while(p!=NULL)
+        p=p->next;
+    
+    q=&p;
+    *q=protocol;
+    protocol->next=NULL;
+    return 0;
+}
+//open函数需要根据文件地址分析出协议类型，然后找到相应协议的urlprotocol，这样便于下面的read,write和seek函数直接调用对应协议的函数
 int url_open(URLContext **puc, const char *filename, int flags)
 {
     URLContext *uc;
@@ -24,7 +37,7 @@ int url_open(URLContext **puc, const char *filename, int flags)
 
     p = filename;
     q = proto_str;
-    while (*p != '\0' &&  *p != ':')
+    while (*p != '\0' &&  *p != ':')//寻找文件协议类型，并保存在proto_str中
     {
         if (!isalpha(*p))  // protocols can only contain alphabetic chars
             goto file_proto;
@@ -63,8 +76,8 @@ found:
     uc->prot = up;
     uc->flags = flags;
     uc->max_packet_size = 0; // default: stream file
-    err = up->url_open(uc, filename, flags);
-    if (err < 0)
+    err = up->url_open(uc, filename, flags);//根据相应协议的open函数打开该协议地址
+    if (err < 0)//如果打开错误，就需要将分配的内存释放
     {
         av_free(uc);
         *puc = NULL;

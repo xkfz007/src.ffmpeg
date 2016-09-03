@@ -4,7 +4,7 @@
 #include <stdarg.h>
 
 #define IO_BUFFER_SIZE 32768
-
+//初始化byteIOContext结构
 int init_put_byte(ByteIOContext *s, 
 				  unsigned char *buffer, 
 				  int buffer_size, 
@@ -34,7 +34,7 @@ int init_put_byte(ByteIOContext *s,
 
     return 0;
 }
-
+//基于ByteIocontext的seek操作
 offset_t url_fseek(ByteIOContext *s, offset_t offset, int whence)
 {
     offset_t offset1;
@@ -42,8 +42,8 @@ offset_t url_fseek(ByteIOContext *s, offset_t offset, int whence)
     if (whence != SEEK_CUR && whence != SEEK_SET)
         return  - EINVAL;
 
-    if (whence == SEEK_CUR)
-    {
+    if (whence == SEEK_CUR)//将SEEK_CUR统一成SEEK_SET方式
+    {//s->pos是已经读取的数据对应实际文件的偏移
         offset1 = s->pos - (s->buf_end - s->buffer) + (s->buf_ptr - s->buffer);
         if (offset == 0)
             return offset1;
@@ -244,18 +244,18 @@ int url_fclose(ByteIOContext *s)
     memset(s, 0, sizeof(ByteIOContext));
     return url_close(h);
 }
-
+//从缓存中读取数据到buf中
 int get_buffer(ByteIOContext *s, unsigned char *buf, int size) // get_buffer
 {
     int len, size1;
 
     size1 = size;
-    while (size > 0)
+    while (size > 0)//可能需要多次读取才能够读取到所需要size的数据
     {
-        len = s->buf_end - s->buf_ptr;
-        if (len > size)
+        len = s->buf_end - s->buf_ptr;//缓冲区中剩余数据数量
+        if (len > size)//如果剩余数据数目大于需要读取的数目
             len = size;
-        if (len == 0)
+        if (len == 0)//缓冲区中已经空，需要重新读取数据
         {
             if (size > s->buffer_size)
             {
@@ -284,7 +284,7 @@ int get_buffer(ByteIOContext *s, unsigned char *buf, int size) // get_buffer
                     break;
             }
         }
-        else
+        else//将相应数据复制出来，同时要调整缓冲区指针
         {
             memcpy(buf, s->buf_ptr, len);
             buf += len;

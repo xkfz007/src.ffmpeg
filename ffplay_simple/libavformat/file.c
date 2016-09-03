@@ -17,7 +17,7 @@ static int file_open(URLContext *h, const char *filename, int flags)
     int access;
     int fd;
 
-    strstart(filename, "file:", &filename);
+    strstart(filename, "file:", &filename);//从文件名中剔除协议类型字符串
 
     if (flags &URL_RDWR)
         access = O_CREAT | O_TRUNC | O_RDWR;
@@ -31,7 +31,7 @@ static int file_open(URLContext *h, const char *filename, int flags)
     fd = open(filename, access, 0666);
     if (fd < 0)
         return  - ENOENT;
-    h->priv_data = (void*)(size_t)fd;
+    h->priv_data = (void*)(size_t)fd;//使用priv_data保存文件描述符fd
     return 0;
 }
 

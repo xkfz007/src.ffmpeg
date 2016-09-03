@@ -49,19 +49,38 @@ echo $cmd
 eval $cmd
 
 config_file="config.h"
-if [ -e $config_file  ];then
-    line='#include \"defines.h\"'
-    cnt=$(grep -n "$line" $config_file|wc -l)
-    #echo $cnt
-    #cmd1="grep -n \"$line\" $config_file|wc -l"
-    #echo $cmd1
-    #eval $cmd1
-    if [ $cnt -eq 0 ];then
-        #echo "defines.h will be included by config.h"
-        sed -i '$i'"$line" $config_file 
-    elif [ $cnt -eq 1 ];then
-        echo "defines.h has already been included by config.h"
-    else
-        echo "WARNING:Too many including of defines.h in config.h, please check"
-    fi
+if [ ! -e $config_file  ];then
+    echo "ERROR: ${config_file} does not exist"
+    exit
+fi
+
+function replace_macro
+{
+    def=$1
+    f=$2
+    sed -i "s/.*$def.*/#define $def 0/g" $f
+}
+
+#sed -i "s/.*HAVE_ARC4RANDOM.*/#define HAVE_ARC4RANDOM 0/g" config.h
+
+replace_macro "HAVE_ARC4RANDOM"     "$config_file"
+replace_macro "HAVE_GETTIMEOFDAY"   "$config_file"
+replace_macro "HAVE_GLOB"           "$config_file"
+replace_macro "CONFIG_DOC"          "$config_file"
+replace_macro "HAVE_TERMIOS_H"      "$config_file"
+
+
+line='#include \"defines.h\"'
+cnt=$(grep -n "$line" $config_file|wc -l)
+#echo $cnt
+#cmd1="grep -n \"$line\" $config_file|wc -l"
+#echo $cmd1
+#eval $cmd1
+if [ $cnt -eq 0 ];then
+    #echo "defines.h will be included by config.h"
+    sed -i '$i'"$line" $config_file 
+elif [ $cnt -eq 1 ];then
+    echo "defines.h has already been included by config.h"
+else
+    echo "WARNING:Too many including of defines.h in config.h, please check"
 fi

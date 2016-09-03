@@ -729,7 +729,7 @@ static void add_input_streams(OptionsContext *o, AVFormatContext *ic)
             ist->resample_pix_fmt = ist->dec_ctx->pix_fmt;
 #if FIX_PIXEL_FORMAT
 			if(ist->resample_pix_fmt == AV_PIX_FMT_NONE){
-				av_log(NULL,AV_LOG_WARNING,"Invalid pixel format, use yuv420p as default\n");
+				av_log(NULL,AV_LOG_WARNING,"Invalid pixel format found, use yuv420p as default\n");
 			    ist->resample_pix_fmt=AV_PIX_FMT_YUV420P;
 			}
 #endif
@@ -3240,6 +3240,8 @@ int ffmpeg_parse_options_inadvance(int argc,char** argv,int *argc_internal,char*
 			} else if (po->flags & HAS_ARG) {
 				GET_ARG(arg);
 				argv_internal[ind++]=arg;
+				if(!strcmp(po->name,"f")&&!strcmp(arg,"tee"))
+					return FF_TEE_OUTPUT;
 			} else {
 				arg = "1";
 			}

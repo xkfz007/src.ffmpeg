@@ -587,6 +587,7 @@ void show_ffconvert_usage();
 #define FFERROR_NO_INPUT           2
 #define FFERROR_MULTI_INPUT        3
 #define FF_DO_EXECUTE              8
+#define FF_TEE_OUTPUT              9
 #endif
 
 int vdpau_init(AVCodecContext *s);

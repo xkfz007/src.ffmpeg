@@ -4526,8 +4526,10 @@ int main(int argc, char* argv[]){
 		av_log(NULL,AV_LOG_ERROR,"Could not find option\n");
 		show_ffconvert_usage();
 		exit(1);
-	}else if(ret==FFERROR_NO_INPUT||ret==FFERROR_MULTI_INPUT){ //if there is no input, use the original ffmpeg
+	}else if(ret==FFERROR_NO_INPUT||ret==FFERROR_MULTI_INPUT||ret==FF_TEE_OUTPUT){ //if there is no input, use the original ffmpeg
 		//	if(!patterns||input_ind<=0){
+//		av_log(NULL,AV_LOG_INFO,"There are multi inputs, use the original ffmpeg\n");
+		av_log(NULL,AV_LOG_INFO,"Using the original ffmpeg\n");
 		ff_main(argc,argv);
 		ff_exit();
 		exit(1);

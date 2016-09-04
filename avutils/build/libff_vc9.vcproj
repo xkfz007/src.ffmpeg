@@ -417,6 +417,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\libavutil\utf8.c"
+				>
+			</File>
+			<File
 				RelativePath="..\libavutil\utils.c"
 				>
 			</File>

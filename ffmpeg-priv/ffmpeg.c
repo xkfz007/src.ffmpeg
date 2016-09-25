@@ -4164,7 +4164,7 @@ static int transcode(void)
         goto fail;
 
     if (stdin_interaction) {
-        av_log(NULL, AV_LOG_INFO, "Press [q] to stop, [?] for help\n");
+        av_log(NULL, AV_LOG_INFO, "Press [qQ] to stop, [?] for help\n");
     }
 
     timer_start = av_gettime_relative();

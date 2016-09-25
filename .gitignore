@@ -42,3 +42,7 @@
 Debug/
 Release/
 x64/
+
+*.pc
+*.rc
+*.manifest

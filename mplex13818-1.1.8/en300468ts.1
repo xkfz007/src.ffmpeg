@@ -1,0 +1,455 @@
+.\" Man page for en300468ts
+.\"
+.\" Copyright (C) GPL 2004..2008, Oskar Schirmer
+.\"
+.TH en300468ts 1 "2013-06-08" "1.1.8" "Multiplexer"
+.SH NAME
+en300468ts \- SI table generator (EN 300468) for transport streams
+.SH SYNOPSIS
+en300468ts [CONFIGURATION...]
+.SH DESCRIPTION
+Generates SI tables according to EN 300468 from a set of given tables.
+The result is sent to \fIstdout\fR.
+All arguments are treated as filenames,
+which are supposed to denote configuration files.
+The special filename \fI-\fR stands for \fIstdin\fR.
+Each of these files is read line by line, each line refers
+to one table and must have one of the following two forms:
+.TP
+.BI S\  pid\ tableid\ frequency\ file
+The \fIfile\fR is opened and read, it shall contain the table
+contents in simple ascii.
+This table shall be reproduced every \fIfrequency\fR msecs,
+the tableid is \fItableid\fR, the pid is \fIpid\fR.
+If a table with this \fItableid\fR and \fIpid\fR and,
+if applicable, the same \fItableid_extension\fR,
+existed before,
+it is purged first.
+If \fIfrequency\fR is \fB0\fR,
+the table is output only once and not repeated
+.TP
+.BI -\  pid\ tableid
+All corresponding tables will be deleted from the list
+of tables to generate
+.P
+While the primary configuration files are line oriented,
+the table description files are not. They are composed of
+a sequence of tokens, which directly depends on the type
+of the table. See the sections \fBTOKENS\fR and \fBTABLES\fR
+for details.
+.SH EXAMPLE
+The output of \fIen300468ts\fR shall be piped to
+\fIiso13818ts\fR:
+.IP
+$ mkfifo table_pipe
+.br
+$ en300468ts en.conf > table-pipe &
+.br
+$ iso13818ts -B --ts table-pipe --si = 0x10 0x1F > /dev/xvdb1
+.br
+\&...
+.PP
+The example refers to the configuration file \fBen.conf\fR:
+.IP
+S 0x10 0x40 1000 /tmp/nit
+.br
+S 0x13 0x71 1500 /tmp/rst
+.PP
+This in turn refers to two table description files (the
+examples do not show useful values),
+one is \fBnit\fR:
+.IP
+4711
+.br
+1
+.br
+  0x40 "Glotz-NET"
+.br
+1
+.br
+  0x0815
+.br
+  4710
+.br
+  0
+.PP
+The other table description file is \fBrst\fR:
+.IP
+2
+.br
+  2342 991 1 42 1
+.br
+  4711 992 3 56 1
+.PP
+The example will produce a \fBnit\fR table once a second
+and an \fBrst\fR table once in one and a half second.
+.SH TOKENS
+The table descriptor files are made up of the following tokens:
+.TP
+.B number
+Whereever numerical values are needed, these are given as numbers,
+decimal or hexadecimal or octal according to the preference of the
+user.
+.TP
+\fB"string"\fR
+Whereever character strings are needed, these are given in
+double quotes, with double quotes escaped by double quotes, so:
+\fI"this "" is my quote"\fR.
+.TP
+.B DESCRIPTORS
+When a list of descriptors is expected, first the number of
+descriptors to follow is to be given (not the number of bytes!).
+Then the descriptors follow one by one, see section \fIDESCRIPTORS\fR
+for details.
+.TP
+.BR LOOP( ... )
+Parts of a table may be repeated. The number of repeatitions
+is given first, then the contents of the loop is given as often
+as it was denoted first.
+.TP
+.B DATE-AND-TIME
+When date and time information is needed, this is given
+in exactly the following form: \fIYYYY/MM/DD\~HH:MM:SS\fR,
+19 characters, the slashes, colons and one blank exactly as given here,
+e.g.: \fI2006/01/31\~20:54:56\fR.
+.SH TABLES
+The syntax of the single table types is given next, with
+valid pid and tableid given in parantheses:
+.TP
+.\" INCLUDE-TABLE
+.BR nit \ (pid=0x10,\ tableid=0x40..0x41)
+  network_id
+  DESCRIPTORS
+  LOOP(
+    transport_stream_id
+    original_network_id
+    DESCRIPTORS
+  )
+.TP
+.BR sdt \ (pid=0x11,\ tableid=0x42;0x46)
+  transport_stream_id
+  original_network_id
+  LOOP(
+    service_id
+    eit_schedule_flag
+    eit_present_following_flag
+    running_status
+    DESCRIPTORS
+  )
+.TP
+.BR bat \ (pid=0x11,\ tableid=0x4a)
+  bouquet_id
+  DESCRIPTORS
+  LOOP(
+    transport_stream_id
+    original_network_id
+    DESCRIPTORS
+  )
+.TP
+.BR eit \ (pid=0x12,\ tableid=0x4e..0x6f)
+  service_id
+  transport_stream_id
+  original_network_id
+  LOOP(
+    event_id
+    DATE-AND-TIME
+    duration
+    running_status
+    DESCRIPTORS
+  )
+.TP
+.BR rst \ (pid=0x13,\ tableid=0x71)
+  LOOP(
+    transport_stream_id
+    original_network_id
+    service_id
+    event_id
+    running_status
+  )
+.TP
+.BR tdt \ (pid=0x14,\ tableid=0x70)
+.TP
+.BR tot \ (pid=0x14,\ tableid=0x73)
+  DESCRIPTORS
+.TP
+.BR sit \ (pid=0x1f,\ tableid=0x7f)
+  DESCRIPTORS
+  LOOP(
+    service_id
+    running_status
+    DESCRIPTORS
+  )
+.TP
+.BR dit \ (pid=0x1e,\ tableid=0x7e)
+  transition_flag
+.TP
+.BR
+.P
+Note, that the \fBTDT\fR table is empty and thus may
+be represented by the empty file \fB/dev/null\fR.
+.SH DESCRIPTORS
+Descriptors are made up of tokens like tables are, where an
+additional descriptor tag is preceeding.
+.TP
+.\" INCLUDE-DESCR
+.BR network_name \ (tag=0x40)
+  \N'34'network_name\N'34'
+.TP
+.BR service_list \ (tag=0x41)
+  LOOP(
+    service_id
+    service_type
+  )
+.TP
+.BR satellite_delivery_system \ (tag=0x43)
+  frequency
+  orbital_position
+  west_east_flag
+  polarization
+  modulation
+  symbol_rate
+  fec_inner
+.TP
+.BR cable_delivery_system \ (tag=0x44)
+  frequency
+  fec_outer
+  modulation
+  symbol_rate
+  fec_inner
+.TP
+.BR bouquet_name \ (tag=0x47)
+  \N'34'bouquet_name\N'34'
+.TP
+.BR service \ (tag=0x48)
+  service_type
+  \N'34'service_provider_name\N'34'
+  \N'34'service_name\N'34'
+.TP
+.BR country_availability \ (tag=0x49)
+  country_availability_flag
+  LOOP(
+    \N'34'country_code\N'34' (string length = 3)
+  )
+.TP
+.BR linkage \ (tag=0x4A)
+  transport_stream_id
+  original_network_id
+  service_id
+  linkage_type
+  hand_over_type
+  origin_type
+  network_id
+  initial_service_id
+  LOOP(
+    private_data_byte
+  )
+.TP
+.BR nvod_reference \ (tag=0x4B)
+  LOOP(
+    transport_stream_id
+    original_network_id
+    service_id
+  )
+.TP
+.BR time_shifted_service \ (tag=0x4C)
+  reference_service_id
+.TP
+.BR short_event \ (tag=0x4D)
+  \N'34'ISO_639_2_3_language_code\N'34' (string length = 3)
+  \N'34'event_name\N'34'
+  \N'34'text\N'34'
+.TP
+.BR extended_event \ (tag=0x4E)
+  \N'34'ISO_639_2_3_language_code\N'34' (string length = 3)
+  LOOP(
+    \N'34'item_description\N'34'
+    \N'34'item\N'34'
+  )
+  \N'34'text\N'34'
+.TP
+.BR time_shifted_event \ (tag=0x4F)
+  reference_service_id
+  reference_event_id
+.TP
+.BR component \ (tag=0x50)
+  stream_content
+  component_type
+  component_tag
+  \N'34'ISO_639_2_3_language_code\N'34' (string length = 3)
+  \N'34'text\N'34'
+.TP
+.BR mosaic \ (tag=0x51)
+  mosaic_entry_point
+  number_of_horizontal_elementary_cells
+  number_of_vertical_elementary_cells
+  LOOP(
+    logical_cell_id
+    logical_cell_presentation_info
+    LOOP(
+      elementary_cell_id
+    )
+    cell_linkage_info
+    bouquet_id
+    original_network_id
+    transport_stream_id
+    service_id
+    event_id
+  )
+.TP
+.BR ca_identifier \ (tag=0x53)
+  LOOP(
+    ca_system_id
+  )
+.TP
+.BR content \ (tag=0x54)
+  LOOP(
+    content_nibbles
+    user_nibbles
+  )
+.TP
+.BR parental_rating \ (tag=0x55)
+  \N'34'country_code\N'34' (string length = 3)
+  rating
+.TP
+.BR telephone \ (tag=0x57)
+  foreign_availability
+  connection_type
+  \N'34'country_prefix\N'34'
+  \N'34'international_area_code\N'34'
+  \N'34'operator_code\N'34'
+  \N'34'national_area_code\N'34'
+  \N'34'core_number\N'34'
+.TP
+.BR local_time_offset \ (tag=0x58)
+  LOOP(
+    \N'34'country_code\N'34' (string length = 3)
+    country_region
+    local_time_offset_polarity
+    local_time_offset
+    DATE-AND-TIME
+    next_time_offset
+  )
+.TP
+.BR terrestrial_delivery_system \ (tag=0x5A)
+  centre_frequency
+  bandwidth
+  constellation
+  hierarchy_information
+  code_rate_hp_stream
+  code_rate_lp_stream
+  guard_interval
+  transmission_mode
+  other_frequency_flag
+.TP
+.BR multilingual_network_name \ (tag=0x5B)
+  LOOP(
+    \N'34'ISO_639_2_3_language_code\N'34' (string length = 3)
+    \N'34'network_name\N'34'
+  )
+.TP
+.BR multilingual_bouquet_name \ (tag=0x5C)
+  LOOP(
+    \N'34'ISO_639_2_3_language_code\N'34' (string length = 3)
+    \N'34'bouquet_name\N'34'
+  )
+.TP
+.BR multilingual_service_name \ (tag=0x5D)
+  LOOP(
+    \N'34'ISO_639_2_3_language_code\N'34' (string length = 3)
+    \N'34'service_provider_name\N'34'
+    \N'34'service_name\N'34'
+  )
+.TP
+.BR multilingual_component \ (tag=0x5E)
+  component_tag
+  LOOP(
+    \N'34'ISO_639_2_3_language_code\N'34' (string length = 3)
+    \N'34'text\N'34'
+  )
+.TP
+.BR private_data_specifier \ (tag=0x5F)
+  private_data_specifier
+.TP
+.BR short_smoothing_buffer \ (tag=0x61)
+  sb_size
+  sb_leak_rate
+.TP
+.BR frequency_list \ (tag=0x62)
+  coding_type
+  LOOP(
+    centre_frequency
+  )
+.TP
+.BR partial_transport_stream \ (tag=0x63)
+  peak_rate
+  minimum_overall_smoothing_rate
+  maximum_overall_smoothing_buffer
+.TP
+.BR data_broadcast \ (tag=0x64)
+  data_broadcast_id
+  component_tag
+  LOOP(
+    selector_byte
+  )
+  \N'34'ISO_639_2_3_language_code\N'34' (string length = 3)
+  \N'34'text\N'34'
+.TP
+.BR pdc \ (tag=0x69)
+  program_identification_label
+.TP
+.BR cell_list \ (tag=0x6C)
+  LOOP(
+    cell_id
+    cell_latitude
+    cell_longitude
+    cell_extend_of_latitude
+    cell_extend_of_longitude
+    LOOP(
+      cell_id_extension
+      subcell_latitude
+      subcell_longitude
+      subcell_extend_of_latitude
+      subcell_extend_of_longitude
+    )
+  )
+.TP
+.BR cell_frequency_link \ (tag=0x6D)
+  LOOP(
+    cell_id
+    frequency
+    LOOP(
+      cell_id_extension
+      transposer_frequency
+    )
+  )
+.TP
+.BR announcement_support \ (tag=0x6E)
+  announcement_support_indicator
+  LOOP(
+    announcement_type
+    reference_type
+    original_network_id
+    transport_stream_id
+    service_id
+    component_tag
+  )
+.TP
+.BR
+.P
+.SH NOTES
+Someone said, the option \fI--nit\fR might be useful at \fBiso13818ts\fR,
+when it is about DVB-T.
+.SH "SEE ALSO"
+.BR iso13818ts (1),
+.BR ISO\ 13818-1 ,
+.BR ETSI\ EN\ 300\ 468 ,
+.BR ISO\ 639-2 ,
+.BR ISO\ 3166 .
+.SH AUTHOR
+Oskar Schirmer (schirmer@scara.com).
+.br
+Thanks a lot for specific bug fixes and testing to:
+Michal Benes,
+Jaroslav Pech,
+Alexander Sergin,
+Michael Chernyakhovsky.

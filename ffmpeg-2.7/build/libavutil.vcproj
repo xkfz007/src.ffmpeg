@@ -3,8 +3,8 @@
 	ProjectType="Visual C++"
 	Version="9.00"
 	Name="libavutil"
-	ProjectGUID="{4D52CB0E-B80F-4659-9220-AB8B5E4A27EF}"
-	RootNamespace="libff_vc9"
+    ProjectGUID="{4D52CB0E-B80F-4659-9220-AB8B5E4A27EF}"
+    RootNamespace="libavutil"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>

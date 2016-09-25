@@ -5,7 +5,7 @@
 	Name="libavutil"
 	ProjectGUID="{2408C387-A3DC-4694-BA8B-C301D07B86E1}"
 	VCNestedProjectGUID="{4D52CB0E-B80F-4659-9220-AB8B5E4A27EF}"
-	VCNestedProjectFileName="libff_vc9.vcproj">
+	VCNestedProjectFileName="libavutil.vcproj">
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32">
